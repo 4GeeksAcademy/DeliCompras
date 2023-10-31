@@ -64,3 +64,52 @@ def delete_product(id):
     db.session.commit()
     
     return jsonify({"message": "Marca eliminada con éxito"}), 200
+
+
+@api.route('/admin', methods=['GET'])
+def get_admins():
+
+    all_admin = Admin.query.all()
+    admin_serialize = [Admin.serialize() for Admin in all_admin]
+
+    return jsonify(admin_serialize), 200
+
+@api.route('/admin', methods=['POST'])
+def post_admins():
+
+    body = request.json
+    new_admin = Orders(id=body['id'],name=body['name'],description=body['description'],price=body['price'],amount=body['amount'])
+    db.session.add(new_admin)
+    db.session.commit()
+    
+    return jsonify({"message": "Admin creado con éxito"}), 200
+
+@api.route('/admin/<id>', methods=['PUT'])
+def put_admin(id):
+    admin = Admin.query.get(id)
+    body = request.json
+
+    if not admin:
+        return jsonify({"message": "Marca no encontrado"}), 404
+    
+    admin.name = body['name']
+    admin.description = body['description']
+    admin.category = body['category']
+    admin.products = body['products']
+
+    db.session.commit()
+    
+    return jsonify({"message": "Marca modificada con éxito"}), 200
+
+@api.route('/admin/<id>', methods=['DELETE'])
+def delete_admin(id):
+
+    admin = Admin.query.get(id)
+
+    if not admin:
+        return jsonify({"message": "Admin no encontrado"}), 404
+
+    db.session.delete(admin)
+    db.session.commit()
+    
+    return jsonify({"message": "Admin eliminada con éxito"}), 200
