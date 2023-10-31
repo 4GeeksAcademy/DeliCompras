@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Categorias
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -16,3 +16,48 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/categorias', methods=['GET'])
+def get_categorias():
+
+    all_categorias = Categorias.query.all()
+    categorias_seriallize = [categorias.serialize() for categorias in all_categorias]
+
+    return jsonify(categorias_seriallize), 200
+
+@api.route('/categorias', methods=['POST'])
+def post_categorias():
+
+    body = request.json
+    new_categorias = Categorias(id=body['id'],name=body['name'],logo=body["logo"])
+    db.session.add(new_categorias)
+    db.session.commit()
+
+    return jsonify({"message": "Categorias creado con éxito"}), 200
+
+@api.route('/categorias/<id>', methods=['PUT'])
+def put_categorias(id):
+    categorias = Categorias.query.get(id)
+    body = request.json
+
+    if not categorias:
+        return jsonify({"message": "Categorias no encontradas"}), 404
+    
+    categorias.name = body['name']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Categoria modificada con éxito"}), 200
+
+@api.route('/categorias/<id>', methods=['DELETE'])
+def delete_categorias(id):
+
+    categorias = Categorias.query.get(id)
+
+    if not categorias:
+        return jsonify({"message": "Categoria no encontrada"}), 404
+
+    db.session.delete(product)
+    db.session.commit()
+    
+    return jsonify({"message": "Categoria eliminada con éxito"}), 200

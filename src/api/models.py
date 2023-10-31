@@ -17,3 +17,20 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+class Categorias(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    logo = db.Column(db.String)
+    image = db.Column(db.String)
+    
+    def __repr__(self):
+        return f'<User {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "image": self.image,
+            # do not serialize the password, its a security breach
+        }
