@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			categorias: [],
 			message: null,
 			demo: [
 				{
@@ -43,10 +44,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (i === index) elm.background = color;
 					return elm;
 				});
+				
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+
+			getCategorias: async() => {
+				
+				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
+				const body = await response.json();
+				setStore({categorias: body})
+				//console.log(categorias)
 			}
+
 		}
 	};
 };
