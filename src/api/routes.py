@@ -29,13 +29,13 @@ def get_categorias():
 def post_categorias():
 
     body = request.json
-    new_categorias = Categorias(id=body['id'],name=body['name'],logo=body["logo"])
+    new_categorias = Categorias(name=body['name'],image=body["image"])
     db.session.add(new_categorias)
     db.session.commit()
 
     return jsonify({"message": "Categorias creado con éxito"}), 200
 
-@api.route('/categorias/<id>', methods=['PUT'])
+@api.route('/categorias/<int:id>', methods=['PUT'])
 def put_categorias(id):
     categorias = Categorias.query.get(id)
     body = request.json
@@ -43,13 +43,16 @@ def put_categorias(id):
     if not categorias:
         return jsonify({"message": "Categorias no encontradas"}), 404
     
-    categorias.name = body['name']
+    if "name" in body:
+        categorias.name = body['name']
+    if "image" in body:
+        categorias.image = body['image']
     
     db.session.commit()
 
     return jsonify({"message": "Categoria modificada con éxito"}), 200
 
-@api.route('/categorias/<id>', methods=['DELETE'])
+@api.route('/categorias/<int:id>', methods=['DELETE'])
 def delete_categorias(id):
 
     categorias = Categorias.query.get(id)
@@ -57,7 +60,7 @@ def delete_categorias(id):
     if not categorias:
         return jsonify({"message": "Categoria no encontrada"}), 404
 
-    db.session.delete(product)
+    db.session.delete(categorias)
     db.session.commit()
     
     return jsonify({"message": "Categoria eliminada con éxito"}), 200

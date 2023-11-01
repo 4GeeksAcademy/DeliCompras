@@ -21,7 +21,6 @@ class User(db.Model):
 class Categorias(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    logo = db.Column(db.String)
     image = db.Column(db.String)
     
     def __repr__(self):
