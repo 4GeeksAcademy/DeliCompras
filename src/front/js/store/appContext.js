@@ -29,6 +29,13 @@ const injectContext = PassedComponent => {
 			 * store, instead use actions, like this:
 			 **/
 			state.actions.getMessage(); // <---- calling this function from the flux.js actions
+			fetch("https://vigilant-carnival-wjprpwg79p7h54g-3001.app.github.dev/api/products",
+				{
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				}).then((response)=>response.json())
+				.then((data)=> state.actions.setProducts(data));
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,
