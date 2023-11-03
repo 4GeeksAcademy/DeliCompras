@@ -1,22 +1,20 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-export const Create = () => {
+export const Modificar = () => {
+    const { id } = useParams();
     const { store, actions } = useContext(Context);
 
-    const [id, setId] = useState("");
-    const [name, setName] = useState("");
-    const [desc, setDesc] = useState("");
-    const [price, setPrice] = useState("");
-    const [amount, setAmount] = useState("");
+    const product = store.products.find(product => product.id == id);
+    const [name, setName] = useState(product.name || "");
+    const [desc, setDesc] = useState(product.description || "");
+    const [price, setPrice] = useState(product.price || "");
+    const [amount, setAmount] = useState(product.amount || "");
 
-    const isIdUnique = !(store.products.some(product => product.id == id))
-    const isFormValid = name && desc && price && amount && isIdUnique && id;
-    
+    const isFormValid = name && desc && price && amount;
 
     const objeto = {
-        id : id,
         name: name,
         description: desc,
         price: price,
@@ -26,11 +24,6 @@ export const Create = () => {
     return (
         <div>
             <form>
-                <div className="mb-3">
-                    <label htmlFor="id" className="form-label">Id</label>
-                    <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
-                </div>
-                {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -48,7 +41,10 @@ export const Create = () => {
                     <input type="text" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
                 <Link to="/products">
-                    <button disabled={!isFormValid} onClick={() => actions.created(objeto)}>Guardar Cambios</button>
+                    <button disabled={!isFormValid} onClick={() => actions.change(id, objeto)}>Guardar Cambios</button>
+                </Link>
+                <Link to="/products">
+                    <button onClick={() => actions.delete(id)}>Delete </button>
                 </Link>
             </form>
         </div>
