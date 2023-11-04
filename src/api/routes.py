@@ -33,7 +33,7 @@ def post_categorias():
     db.session.add(new_categorias)
     db.session.commit()
 
-    return jsonify({"message": "Categorias creado con éxito"}), 200
+    return jsonify({"message": "Categorias creadas con éxito"}), 200
 
 @api.route('/categorias/<int:id>', methods=['PUT'])
 def put_categorias(id):

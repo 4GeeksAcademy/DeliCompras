@@ -24,12 +24,13 @@ class Categorias(db.Model):
     image = db.Column(db.String)
     
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<Categorias {self.name}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "image": self.image,
+            "image": self.image
             # do not serialize the password, its a security breach
         }
+    
