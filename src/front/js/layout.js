@@ -5,6 +5,7 @@ import { BackendURL } from "./component/backendURL";
 
 import { Categorias } from "./pages/categorias.jsx";
 import { Crear } from "./pages/crear.jsx";
+import { Modificar } from "./pages/modificar.jsx";
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
@@ -30,6 +31,7 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Categorias />} path="/categorias" />
                         <Route element={<Crear />} path="/crear" />
+                        <Route element={<Modificar />} path="/modificar" />
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />

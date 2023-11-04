@@ -22,7 +22,10 @@ export const Crear = () => {
 
     return (
         <div>
-            <form>
+            <div className="card" style={{width: "18rem"}}>
+            <img src="..." className="card-img-top" alt="..."/>
+                <div className="card-body">
+                <form>
                 <div className="mb-3">
                     <label htmlFor="id" className="form-label">Id</label>
                     <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
@@ -40,7 +43,29 @@ export const Crear = () => {
                 <Link to="/categorias">
                     <button disabled={!isFormValid} onClick={() => actions.crear(objeto)}>Guardar Cambios</button>
                 </Link>
-            </form>
+                </form>
+                </div>
+            </div>
+            
+            {/* <form>
+                <div className="mb-3">
+                    <label htmlFor="id" className="form-label">Id</label>
+                    <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
+                </div>
+                {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Image</label>
+                    <input type="text" className="form-control" id="image" value={image} onChange={(e) => setImage(e.target.value)} />
+                </div>
+                
+                <Link to="/categorias">
+                    <button disabled={!isFormValid} onClick={() => actions.crear(objeto)}>Guardar Cambios</button>
+                </Link>
+            </form> */}
         </div>
     );
 };

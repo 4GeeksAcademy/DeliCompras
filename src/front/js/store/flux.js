@@ -56,7 +56,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const body = await response.json();
 				setStore({categorias: body})
 				//console.log(categorias)
-			}
+
+			},
+
+			crear : (obj) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=> response.json())
+				.then((data)=> console.log(data))
+			},
+
+			modificar : (id,obj) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias"+id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=>response.json())
+				.then((data)=> console.log(data));
+			},
+
+			delete : (id) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias"+id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				}).then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+			
 
 		}
 	};
