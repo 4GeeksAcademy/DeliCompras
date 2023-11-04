@@ -19,7 +19,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			// Use getActions to call a function within a fuction
 			actualizarlist : () => {
-				fetch("https://vigilant-carnival-wjprpwg79p7h54g-3001.app.github.dev/api/products",
+				fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
 				{
 					headers: {
 						'Content-Type': 'application/json'
@@ -28,7 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> setStore({ products : data }));
 			},
 			change : (id,obj) => {
-				fetch("https://vigilant-carnival-wjprpwg79p7h54g-3001.app.github.dev/api/product/"+id, {
+				fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/"+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> console.log(data));
 			},
 			created : (obj) => {
-				fetch("https://vigilant-carnival-wjprpwg79p7h54g-3001.app.github.dev/api/product", {
+				fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> console.log(data))
 			},
 			delete : (id) => {
-				fetch("https://vigilant-carnival-wjprpwg79p7h54g-3001.app.github.dev/api/product/"+id, {
+				fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/"+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'

@@ -3,7 +3,17 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product
-from api.utils import generate_sitemap, APIException
+from api.utils import generate_sitemap
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name="dbtfhtgqt",
+    api_key="724494682646786",
+    api_secret="YESRD7tWuW6WOQHRg-495L_1s7w",
+    secure=True,
+)
 
 api = Blueprint('api', __name__)
 
@@ -32,6 +42,7 @@ def post_product():
     new_product = Product(id=body['id'],name=body['name'],description=body['description'],price=body['price'],amount=body['amount'])
     db.session.add(new_product)
     db.session.commit()
+    cloudinary.uploader.upload( body['img'], folder="", resource_type="raw")
     
     return jsonify({"message": "Producto creado con éxito"}), 200
 

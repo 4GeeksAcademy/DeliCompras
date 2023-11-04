@@ -10,9 +10,10 @@ export const Create = () => {
     const [desc, setDesc] = useState("");
     const [price, setPrice] = useState("");
     const [amount, setAmount] = useState("");
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const isIdUnique = !(store.products.some(product => product.id == id))
-    const isFormValid = name && desc && price && amount && isIdUnique && id;
+    const isFormValid = name && desc && price && amount && isIdUnique && id && selectedImage;
     
 
     const objeto = {
@@ -20,12 +21,22 @@ export const Create = () => {
         name: name,
         description: desc,
         price: price,
-        amount: amount
+        amount: amount,
+        img : selectedImage
     };
 
     return (
         <div>
             <form>
+                <div className="mb-3">
+                    <label htmlFor="img" className="form-label">Img</label>
+                    <input
+                        id="img"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setSelectedImage(e.target.files[0])}
+                    />
+                </div>
                 <div className="mb-3">
                     <label htmlFor="id" className="form-label">Id</label>
                     <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
