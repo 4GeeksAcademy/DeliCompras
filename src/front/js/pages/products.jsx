@@ -17,6 +17,7 @@ export const Products = () => {
             <b>
               {item.id} {item.name} {item.description} {item.price} {item.amount}
             </b>
+            <img width="50" src={item.img} alt="Imagen Seleccionada" />
             <Link to={`/modificar/${item.id}`}>
               <button>Modificar</button>
             </Link>

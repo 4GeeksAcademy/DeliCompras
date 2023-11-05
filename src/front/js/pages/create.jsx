@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-import { connectStorageEmulator } from "firebase/storage";
+import { Link , Redirect } from "react-router-dom";
 
 export const Create = () => {
     const { store, actions } = useContext(Context);
@@ -12,24 +11,30 @@ export const Create = () => {
     const [price, setPrice] = useState("");
     const [amount, setAmount] = useState("");
     const [file, setFile] = useState(null);
+    let idu;
 
     const isIdUnique = !(store.products.some(product => product.id == id));
     const isFormValid = name && desc && price && amount && isIdUnique && id;
 
-    const product = {
-        id: id,
-        name: name,
-        description: desc,
-        price: price,
-        amount: amount
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
+            const temp = await actions.upload_img(file);
+            const url = temp[0];
+            idu = temp[1]
+
+            const product = {
+                id: id,
+                name: name,
+                description: desc,
+                price: price,
+                amount: amount,
+                url: url,
+                idu: idu
+            };
+
             await actions.createdProduct(product);
-            const uploadImg = await actions.upload_img(file);
-            console.log(uploadImg);
         } catch (error) {
             console.error(error)
         }
@@ -51,7 +56,7 @@ export const Create = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="id" className="form-label">Id</label>
-                    <input type="text" className="form-control" id="id" value={id} onChange={(e) => setId(e.target.value)} />
+                    <input type="number" className="form-control" id="id" value={id} onChange={(e) => setId(e.target.value)} />
                 </div>
                 {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
                 <div className="mb-3">
@@ -64,15 +69,14 @@ export const Create = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="price" className="form-label">Price</label>
-                    <input type="text" className="form-control" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <input type="number" className="form-control" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="amount" className="form-label">Amount</label>
-                    <input type="text" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                    <input type="number" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
-                <Link to="/products">
-                    <button disabled={ !isFormValid } onClick={handleSubmit}>Crear Producto</button>
-                </Link>
+                
+                <button disabled={ !isFormValid } onClick={handleSubmit}>Crear Producto</button>
             </form>
         </div>
     );

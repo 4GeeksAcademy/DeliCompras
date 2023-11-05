@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getStorage , ref , uploadBytes , getDownloadURL } from "firebase/storage";
+import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
 
 const firebaseConfig = {
@@ -39,6 +39,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         })
           .then(response => response.json())
           .then(data => console.log(data));
+        
+        const product = getStore().products.find(product => product.id == id) 
+        if (product.url != obj.url){
+          const storageRef = ref( storage , `products/${obj.idu}`);
+          deleteObject(storageRef);
+        }
       },      
       createdProduct: (obj) => {
         fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
@@ -51,20 +57,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then( response => response.json())
           .then( data => console.log(data))
       },
-      deleteProduct: (id) => {
+      deleteProduct: (id,idu) => {
         fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/" + id, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
         }).then( response => response.json())
-          .then( data => console.log(data))
+          .then( data => console.log(data));
+
+        const storageRef = ref( storage , `products/${idu}`);
+        deleteObject(storageRef);
       },
       upload_img : async (file) => {
-        const storageRef = ref( storage , v4())
+        const idu =v4()
+        const storageRef = ref( storage , `products/${idu}`)
         await uploadBytes( storageRef,file )
         const url = await getDownloadURL(storageRef)
-        return url
+        return [url,idu]
       }
     }
   };
