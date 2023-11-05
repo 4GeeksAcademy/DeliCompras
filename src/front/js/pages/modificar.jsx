@@ -41,10 +41,10 @@ export const Modificar = () => {
                     <input type="text" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
                 <Link to="/products">
-                    <button disabled={!isFormValid} onClick={() => actions.change(id, objeto)}>Guardar Cambios</button>
+                    <button disabled={!isFormValid} onClick={() => actions.updateProduct(id, objeto)}>Guardar Cambios</button>
                 </Link>
                 <Link to="/products">
-                    <button onClick={() => actions.delete(id)}>Delete </button>
+                    <button onClick={() => actions.deleteProduct(id)}>Delete </button>
                 </Link>
             </form>
         </div>

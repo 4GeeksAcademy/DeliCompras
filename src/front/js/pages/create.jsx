@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import { connectStorageEmulator } from "firebase/storage";
 
 export const Create = () => {
     const { store, actions } = useContext(Context);
@@ -10,36 +11,47 @@ export const Create = () => {
     const [desc, setDesc] = useState("");
     const [price, setPrice] = useState("");
     const [amount, setAmount] = useState("");
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [file, setFile] = useState(null);
 
-    const isIdUnique = !(store.products.some(product => product.id == id))
-    const isFormValid = name && desc && price && amount && isIdUnique && id && selectedImage;
-    
+    const isIdUnique = !(store.products.some(product => product.id == id));
+    const isFormValid = name && desc && price && amount && isIdUnique && id;
 
-    const objeto = {
-        id : id,
+    const product = {
+        id: id,
         name: name,
         description: desc,
         price: price,
-        amount: amount,
-        img : selectedImage
+        amount: amount
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await actions.createdProduct(product);
+            const uploadImg = await actions.upload_img(file);
+            console.log(uploadImg);
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div>
             <form>
+                <img width="100" src={file ? URL.createObjectURL(file) : null } alt="Imagen Seleccionada" />
+
                 <div className="mb-3">
-                    <label htmlFor="img" className="form-label">Img</label>
+                    <label htmlFor="img" className="form-label">Imagen</label>
                     <input
                         id="img"
                         type="file"
                         accept="image/*"
-                        onChange={(e) => setSelectedImage(e.target.files[0])}
+                        onChange={(e)=> {setFile(e.target.files[0])}}
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="id" className="form-label">Id</label>
-                    <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
+                    <input type="text" className="form-control" id="id" value={id} onChange={(e) => setId(e.target.value)} />
                 </div>
                 {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
                 <div className="mb-3">
@@ -59,7 +71,7 @@ export const Create = () => {
                     <input type="text" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
                 <Link to="/products">
-                    <button disabled={!isFormValid} onClick={() => actions.created(objeto)}>Guardar Cambios</button>
+                    <button disabled={ !isFormValid } onClick={handleSubmit}>Crear Producto</button>
                 </Link>
             </form>
         </div>

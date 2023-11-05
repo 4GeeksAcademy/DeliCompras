@@ -6,7 +6,7 @@ export const Products = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.actualizarlist();
+    actions.updateList();
   }, []);
 
   return (
