@@ -17,7 +17,7 @@ export const Categorias = () => {
             <b>
               {item.id} {item.name} {item.image}
             </b>
-            <Link to={`/modificar/${item.id}`}>
+            <Link to={`/modificar_categorias/${item.id}`}>
               <button>Modificar</button>
             </Link>
           </li>

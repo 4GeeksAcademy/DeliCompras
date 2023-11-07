@@ -71,7 +71,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> console.log(data))
 			},
 
-			modificar : (id,obj) => {
+			modificar_categorias : (id,obj) => {
 				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
 					method: 'PUT',
 					headers: {

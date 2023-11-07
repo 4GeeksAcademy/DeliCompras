@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useParams } from "react-router-dom";
 
-export const Modificar = () => {
+export const Modificar_categorias = () => {
     const { theid } = useParams();
     const { store, actions } = useContext(Context);
 
@@ -32,7 +32,7 @@ export const Modificar = () => {
                 </div>
                 
                 <Link to="/categorias">
-                    <button disabled={!isFormValid} onClick={() => actions.modificar(theid, objeto)}>Guardar Cambios</button>
+                    <button disabled={!isFormValid} onClick={() => actions.modificar_categorias(theid, objeto)}>Guardar Cambios</button>
                 </Link>
                 <Link to="/categorias">
                     <button onClick={() => actions.delete(theid)}>Delete </button>
