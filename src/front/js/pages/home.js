@@ -6,9 +6,14 @@ import { Link } from "react-router-dom";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
+	
 
 	return (
 		<div className="text-center mt-5">
+			<Link to="/categorias">
+				<button>categorias</button>
+      </Link>
+    
 			<Link to="/products">
 				<button>products</button>
 			</Link>

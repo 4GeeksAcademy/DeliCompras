@@ -1,3 +1,4 @@
+const getState = ({ getStore, getActions, setStore }) => {
 import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
@@ -10,16 +11,59 @@ const firebaseConfig = {
   messagingSenderId: process.env.MESSAGINGSENDERID,
   appId: process.env.APPID
 };
-
+  
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
-
-const getState = ({ getStore, getActions, setStore }) => {
-  return {
-    store: {
+  
+	return {
+		store: {
+			categorias: [],
       products: []
-    },
-    actions: {
+		},
+		actions: {
+        getCategorias: async() => {
+				
+				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
+				const body = await response.json();
+				setStore({categorias: body})
+				//console.log(categorias)
+
+			},
+
+			crear : (obj) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=> response.json())
+				.then((data)=> console.log(data))
+			},
+
+			modificar_categorias : (id,obj) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=>response.json())
+				.then((data)=> console.log(data));
+			},
+
+			delete : (id) => {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				}).then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+			
       updateList: () => {
         fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
           {
@@ -76,8 +120,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         const url = await getDownloadURL(storageRef)
         return [url,idu]
       }
-    }
-  };
+		}
+	};
 };
 
 export default getState;
