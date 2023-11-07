@@ -3,10 +3,10 @@ import { Context } from "../store/appContext";
 import { Link, useParams } from "react-router-dom";
 
 export const Modificar = () => {
-    const { id } = useParams();
+    const { theid } = useParams();
     const { store, actions } = useContext(Context);
 
-    const categorias = store.categorias.find(categorias => categorias.id == id);
+    const categorias = store.categorias.find(categorias => categorias.id == theid);
     const [name, setName] = useState(categorias.name || "");
     const [image, setImage] = useState(categorias.image || "");
     
@@ -32,10 +32,10 @@ export const Modificar = () => {
                 </div>
                 
                 <Link to="/categorias">
-                    <button disabled={!isFormValid} onClick={() => actions.modificar(id, objeto)}>Guardar Cambios</button>
+                    <button disabled={!isFormValid} onClick={() => actions.modificar(theid, objeto)}>Guardar Cambios</button>
                 </Link>
                 <Link to="/categorias">
-                    <button onClick={() => actions.delete(id)}>Delete </button>
+                    <button onClick={() => actions.delete(theid)}>Delete </button>
                 </Link>
             </form>
         </div>

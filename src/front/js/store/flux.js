@@ -72,7 +72,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			modificar : (id,obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias"+id, {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			delete : (id) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias"+id, {
+				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
