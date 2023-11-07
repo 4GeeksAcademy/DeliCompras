@@ -1,56 +1,27 @@
 const getState = ({ getStore, getActions, setStore }) => {
+import { initializeApp } from "firebase/app";
+import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
+import { v4 } from 'uuid';
+
+const firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID
+};
+  
+export const app = initializeApp(firebaseConfig);
+export const storage = getStorage(app);
+  
 	return {
 		store: {
 			categorias: [],
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+      products: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-				
-
-				//reset the global store
-				setStore({ demo: demo });
-			},
-
-			getCategorias: async() => {
+        getCategorias: async() => {
 				
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
@@ -93,7 +64,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => console.log(data))
 			},
 			
+      updateList: () => {
+        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          }).then( response => response.json())
+          .then( data => setStore({ products: data }));
+      },
+      updateProduct: (id, obj) => {
+        fetch(`https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+          .then(response => response.json())
+          .then(data => console.log(data));
+        
+        const product = getStore().products.find(product => product.id == id) 
+        if (product.url != obj.url){
+          const storageRef = ref( storage , `products/${obj.idu}`);
+          deleteObject(storageRef);
+        }
+      },      
+      createdProduct: (obj) => {
+        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+          .then( response => response.json())
+          .then( data => console.log(data))
+      },
+      deleteProduct: (id,idu) => {
+        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/" + id, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }).then( response => response.json())
+          .then( data => console.log(data));
 
+        const storageRef = ref( storage , `products/${idu}`);
+        deleteObject(storageRef);
+      },
+      upload_img : async (file) => {
+        const idu =v4()
+        const storageRef = ref( storage , `products/${idu}`)
+        await uploadBytes( storageRef,file )
+        const url = await getDownloadURL(storageRef)
+        return [url,idu]
+      }
 		}
 	};
 };
