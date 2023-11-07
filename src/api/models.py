@@ -17,3 +17,27 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    description = db.Column(db.String(500), unique=False, nullable=False)
+    price = db.Column(db.Integer, unique=False, nullable=False)
+    amount = db.Column(db.Integer, unique=False, nullable=False)
+    img = db.Column(db.String(250), unique=False, nullable=True)
+    idu = db.Column(db.String(250), unique=False, nullable=True)
+
+
+    def __repr__(self):
+        return f'<User {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+            "amount": self.amount,
+            "img": self.img,
+            "idu": self.idu
+        }
