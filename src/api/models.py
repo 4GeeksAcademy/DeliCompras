@@ -17,3 +17,25 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+class Restaurantes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    tipo = db.Column(db.String(250), unique=False, nullable=False)
+    description = db.Column(db.String(500), unique=False, nullable=False)
+    img = db.Column(db.String(250), unique=False, nullable=True)
+    contacto = db.Column(db.String(250), unique=False, nullable=True)
+
+
+    def __repr__(self):
+        return f'<Restaurantes {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "tipo": self.tipo,
+            "img": self.img,
+            "contacto": self.contacto
+        }
