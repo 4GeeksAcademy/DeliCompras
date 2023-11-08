@@ -21,7 +21,8 @@ class User(db.Model):
 class Categorias(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    image = db.Column(db.String)
+    url = db.Column(db.String(320))
+    idu = db.Column(db.String(320))
     
     def __repr__(self):
         return f'<Categorias {self.name}>'
@@ -29,7 +30,9 @@ class Categorias(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "image": self.image
+            "name": self.name,
+            "url": self.url,
+            "idu": self.idu
         }
     
 class Product(db.Model):
@@ -43,7 +46,7 @@ class Product(db.Model):
 
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<Product {self.name}>'
 
     def serialize(self):
         return {

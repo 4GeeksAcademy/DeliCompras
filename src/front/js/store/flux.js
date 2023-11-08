@@ -22,7 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       products: []
 		},
 		actions: {
-        getCategorias: async() => {
+      getCategorias: async() => {
 				
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
@@ -32,12 +32,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			crear : (obj) => {
+        console.log(obj)
 				fetch(process.env.BACKEND_URL + 'api/categorias', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(obj)
+       
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
@@ -51,7 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					body: JSON.stringify(obj)
 				})
-				.then((response)=>response.json())
+				.then((response)=> response.json())
 				.then((data)=> console.log(data));
 			},
 

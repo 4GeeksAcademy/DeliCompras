@@ -24,7 +24,8 @@ def get_categorias():
 def post_categorias():
 
     body = request.json
-    new_categorias = Categorias(name=body['name'],image=body["image"])
+    new_categorias = Categorias(id=body['id'],name=body["name"],idu=body["idu"],url=body["url"])
+    print(new_categorias)
     db.session.add(new_categorias)
     db.session.commit()
 
@@ -36,13 +37,12 @@ def put_categorias(id):
     body = request.json
 
     if not categorias:
-        return jsonify({"message": "Categorias no encontradas"}), 404
+        return jsonify({"message": "Categoria no encontrada"}), 404
     
-    if "name" in body:
-        categorias.name = body['name']
-    if "image" in body:
-        categorias.image = body['image']
-    
+    categorias.name = body['name']
+    categorias.url=body['url']
+    categorias.idu=body['idu']
+
     db.session.commit()
 
     return jsonify({"message": "Categoria modificada con éxito"}), 200
