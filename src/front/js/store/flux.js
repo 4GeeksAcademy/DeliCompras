@@ -22,7 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		  
 			},
 			actions: {
-			getCategorias: async() => {
+			getRestaurantes: async() => {
 					
 					const response = await fetch(process.env.BACKEND_URL + 'api/restaurantes')
 					const body = await response.json();
