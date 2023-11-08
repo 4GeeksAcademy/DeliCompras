@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, Categorias
-from api.utils import generate_sitemap, APIExceptio
+from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
 

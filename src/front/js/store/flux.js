@@ -1,19 +1,20 @@
-const getState = ({ getStore, getActions, setStore }) => {
 import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTHDOMAIN,
-  projectId: process.env.PROJECTID,
-  storageBucket: process.env.STORAGEBUCKET,
-  messagingSenderId: process.env.MESSAGINGSENDERID,
-  appId: process.env.APPID
+  apiKey: "AIzaSyCTl4wrYj2POTt1u8QvB-quHKaqBnLeck4",
+  authDomain: "proyect-6a0a9.firebaseapp.com",
+  projectId: "proyect-6a0a9",
+  storageBucket: "proyect-6a0a9.appspot.com",
+  messagingSenderId: "179931426073",
+  appId: "1:179931426073:web:5da5559c9594898541e988"
 };
   
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
+
+const getState = ({ getStore, getActions, setStore }) => {
   
 	return {
 		store: {
@@ -31,7 +32,7 @@ export const storage = getStorage(app);
 			},
 
 			crear : (obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias", {
+				fetch(process.env.BACKEND_URL + 'api/categorias', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ export const storage = getStorage(app);
 			},
 
 			modificar_categorias : (id,obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -55,7 +56,7 @@ export const storage = getStorage(app);
 			},
 
 			delete : (id) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ export const storage = getStorage(app);
 			},
 			
       updateList: () => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
+        fetch(process.env.BACKEND_URL + 'api/products',
           {
             headers: {
               'Content-Type': 'application/json'
@@ -74,7 +75,7 @@ export const storage = getStorage(app);
           .then( data => setStore({ products: data }));
       },
       updateProduct: (id, obj) => {
-        fetch(`https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/${id}`, {
+        fetch(process.env.BACKEND_URL + `api/product/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -91,7 +92,7 @@ export const storage = getStorage(app);
         }
       },      
       createdProduct: (obj) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
+        fetch(process.env.BACKEND_URL + 'api/product', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -102,7 +103,7 @@ export const storage = getStorage(app);
           .then( data => console.log(data))
       },
       deleteProduct: (id,idu) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/" + id, {
+        fetch(process.env.BACKEND_URL + 'api/product/' + id, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
