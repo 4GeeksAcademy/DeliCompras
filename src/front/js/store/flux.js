@@ -19,7 +19,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			categorias: [],
-      products: []
+      products: [],
+      carrito: [
+        {name:"hola"}
+      ]
 		},
 		actions: {
       getCategorias: async() => {

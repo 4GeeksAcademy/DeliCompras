@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
@@ -19,6 +20,7 @@ class User(db.Model):
         }
 
 class Categorias(db.Model):
+    __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     url = db.Column(db.String(320))
@@ -36,6 +38,7 @@ class Categorias(db.Model):
         }
     
 class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
@@ -57,4 +60,25 @@ class Product(db.Model):
             "amount": self.amount,
             "img": self.img,
             "idu": self.idu
+        }
+
+class Carrito(db.Model):
+    __tablename__ = 'carrito'
+    id = db.Column(db.Integer, primary_key=True)
+    cantidad = db.Column(db.Integer, unique=False, nullable=False)
+    id_Producto = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    producto = db.relationship('Product')
+    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User')
+    #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    #orden = db.relationship('Orden')
+
+    def __repr__(self):
+        return f'<User {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            # do not serialize the password, its a security breach
         }
