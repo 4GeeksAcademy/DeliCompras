@@ -20,8 +20,11 @@ def handle_hello():
 @api.route('/restaurantes', methods=['GET'])
 def get_restaurantes():
 
-    all_restaurants = Restaurantes.query.all()
-    Restaurantes_seriallize = [Restaurantes.serialize() for restaurantes in all_restaurants]
+    #all_restaurants = Restaurantes.query.all()
+    #Restaurantes_seriallize = [Restaurantes.serialize() for restaurantes in all_restaurants]
+
+    all_restaurantes = Restaurantes.query.all()
+    Restaurantes_seriallize = list (map(lambda restaurante: restaurante.serialize(),all_restaurantes))
 
     return jsonify(Restaurantes_seriallize), 200
 
