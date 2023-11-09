@@ -79,6 +79,8 @@ class Carrito(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
-            # do not serialize the password, its a security breach
+            "cantidad": self.cantidad,
+            "id_Producto": self.id_Producto,
+            "id_User": self.id_User,
+            #"id_Orden": self.id_Orden
         }
