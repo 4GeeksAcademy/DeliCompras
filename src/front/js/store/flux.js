@@ -1,4 +1,3 @@
-const getState = ({ getStore, getActions, setStore }) => {
 import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
@@ -14,14 +13,17 @@ const firebaseConfig = {
   
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
+
+const getState = ({ getStore, getActions, setStore }) => {
   
 	return {
 		store: {
 			categorias: [],
-      products: []
+      			products: [],
+			restaurantes: [],
 		},
 		actions: {
-        getCategorias: async() => {
+        	getCategorias: async() => {
 				
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
@@ -63,6 +65,49 @@ export const storage = getStorage(app);
 				}).then((response) => response.json())
 				.then((data) => console.log(data))
 			},
+
+			getRestaurantes: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/restaurantes')
+					const body = await response.json();
+					setStore({restaurantes: body})
+					//console.log(categorias)
+	
+				},
+	
+				crear_restaurantes : (obj) => {
+					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_restaurantes : (id,obj) => {
+					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes/"+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes/"+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
 			
       updateList: () => {
         fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
@@ -119,7 +164,8 @@ export const storage = getStorage(app);
         await uploadBytes( storageRef,file )
         const url = await getDownloadURL(storageRef)
         return [url,idu]
-      }
+      }	
+			
 		}
 	};
 };
