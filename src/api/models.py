@@ -19,6 +19,28 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
+class Restaurantes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    tipo = db.Column(db.String(250), unique=False, nullable=False)
+    description = db.Column(db.String(500), unique=False, nullable=False)
+    img = db.Column(db.String(250), unique=False, nullable=True)
+    contacto = db.Column(db.String(250), unique=False, nullable=True)
+
+
+    def __repr__(self):
+        return f'<Restaurantes {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "tipo": self.tipo,
+            "img": self.img,
+            "contacto": self.contacto
+        }
+
 class Categorias(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
@@ -75,7 +97,7 @@ class Carrito(db.Model):
 
     def __repr__(self):
         return f'<User {self.email}>'
-
+      
     def serialize(self):
         return {
             "id": self.id,
@@ -83,4 +105,24 @@ class Carrito(db.Model):
             "id_Producto": self.id_Producto,
             "id_User": self.id_User,
             #"id_Orden": self.id_Orden
+        }
+    
+class Sucursales(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    tipo = db.Column(db.String(250), unique=False, nullable=False)
+    direccion = db.Column(db.String(250), unique=False, nullable=False)
+    contacto = db.Column(db.String(250), unique=False, nullable=True)
+
+
+    def __repr__(self):
+        return f'<Sucursales {self.name}>'
+          
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "direccion": self.direccion,
+            "tipo": self.tipo,
+            "contacto": self.contacto
         }

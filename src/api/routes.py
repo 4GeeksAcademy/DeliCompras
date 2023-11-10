@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify, Blueprint
-from api.models import db, User, Product, Categorias, Carrito
+from flask import Flask, request, jsonify, url_for, Blueprint
+from api.models import db, User, Product, Categorias, Restaurantes, Sucursales, Carrito
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -141,3 +141,104 @@ def delete_carrito(id):
     db.session.delete(carrito)
     db.session.commit()
     return jsonify({"message": "Carrito eliminado con éxito"}), 200
+
+@api.route('/restaurantes', methods=['GET'])
+def get_restaurantes():
+
+    
+    all_restaurantes = Restaurantes.query.all()
+    Restaurantes_seriallize = list (map(lambda restaurante: restaurante.serialize(),all_restaurantes))
+
+    return jsonify(Restaurantes_seriallize), 200
+
+@api.route('/restaurantes', methods=['POST'])
+def post_restaurantes():
+
+    body = request.json
+    new_restaurantes = Restaurantes(name=body['name'],tipo=body["tipo"],contacto=body["contacto"],description=body["description"],img=body["img"])
+    db.session.add(new_restaurantes)
+    db.session.commit()
+
+    return jsonify({"message": "Restaurante creado con éxito"}), 200
+
+@api.route('/restaurantes/<int:id>', methods=['PUT'])
+def put_restaurantes(id):
+    restaurantes = Restaurantes.query.get(id)
+    body = request.json
+
+    if not Restaurantes:
+        return jsonify({"message": "Restaurantes no encontrados"}), 404
+    
+    if "name" in body:
+        restaurantes.name = body['name']
+    if "image" in body:
+        restaurantes.image = body['image']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Restaurante modificado con éxito"}), 200
+
+@api.route('/restaurantes/<int:id>', methods=['DELETE'])
+def delete_restaurantes(id):
+
+    restaurantes = Restaurantes.query.get(id)
+
+    if not restaurantes:
+        return jsonify({"message": "Restaurante no encontrado"}), 404
+
+    db.session.delete(restaurantes)
+    db.session.commit()
+    
+    return jsonify({"message": "Restaurante eliminado con éxito"}), 200
+
+@api.route('/sucursales', methods=['GET'])
+def get_sucursales():
+
+    all_sucursales = Sucursales.query.all()
+    Sucursales_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursales))
+
+    return jsonify(Sucursales_seriallize), 200
+
+@api.route('/sucursales', methods=['POST'])
+def post_sucursales():
+
+    body = request.json
+    new_sucursales = Sucursales(name=body['name'],tipo=body["tipo"],contacto=body["contacto"])
+    db.session.add(new_sucursales)
+    db.session.commit()
+
+    return jsonify({"message": "Sucursal creada con éxito"}), 200
+
+@api.route('/sucursales/<int:id>', methods=['PUT'])
+def put_sucursales(id):
+    sucursales = Sucursales.query.get(id)
+    body = request.json
+
+    if not Sucursales:
+        return jsonify({"message": "Sucursal no encontrado"}), 404
+    
+    if "name" in body:
+        sucursales.name = body['name']
+    if "direccion" in body:
+        sucursales.direccion = body['direccion']
+    if "tipo" in body:
+        sucursales.tipo = body['tipo']
+    if "contacto" in body:
+        sucursales.contacto = body['contacto']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Sucursal modificada con éxito"}), 200
+
+@api.route('/sucursales/<int:id>', methods=['DELETE'])
+def delete_sucursales(id):
+
+    sucursales = Sucursales.query.get(id)
+
+    if not sucursales:
+        return jsonify({"message": "Sucursal no encontrada"}), 404
+
+    db.session.delete(sucursales)
+    db.session.commit()
+    
+    return jsonify({"message": "Sucursal eliminada con éxito"}), 200

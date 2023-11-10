@@ -21,10 +21,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			categorias: [],
       products: [],
       carrito: [],
+      restaurantes: [],
+			sucursales: [],
 		},
 		actions: {
       getCategorias: async() => {
-				
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
 				setStore({categorias: body})
@@ -34,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			crear : (obj) => {
         console.log(obj)
-				fetch(process.env.BACKEND_URL + 'api/categorias', {
+				fetch(process.env.BACKEND_URL + "api/categorias", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -67,6 +68,92 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}).then((response) => response.json())
 				.then((data) => console.log(data))
 			},
+
+			getRestaurantes: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/restaurantes')
+					const body = await response.json();
+					setStore({restaurantes: body})
+					//console.log(categorias)
+	
+				},
+	
+				crear_restaurantes : (obj) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_restaurantes : (id,obj) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
+
+				getSucursales: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/sucursales')
+					const body = await response.json();
+					setStore({sucursales: body})
+					
+	
+				},
+	
+				crear_sucursales : (obj) => {
+					fetch(process.env.BACKEND_URL + "api/sucursales", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_sucursales : (id,obj) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales/"+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales"+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
 			
       updateList: () => {
         fetch(process.env.BACKEND_URL + 'api/products',
