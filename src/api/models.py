@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
@@ -41,9 +42,11 @@ class Restaurantes(db.Model):
         }
 
 class Categorias(db.Model):
+    __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    image = db.Column(db.String)
+    url = db.Column(db.String(320))
+    idu = db.Column(db.String(320))
     
     def __repr__(self):
         return f'<Categorias {self.name}>'
@@ -51,10 +54,13 @@ class Categorias(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "image": self.image
+            "name": self.name,
+            "url": self.url,
+            "idu": self.idu
         }
     
 class Product(db.Model):
+    __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
@@ -65,7 +71,7 @@ class Product(db.Model):
 
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<Product {self.name}>'
 
     def serialize(self):
         return {
@@ -76,6 +82,29 @@ class Product(db.Model):
             "amount": self.amount,
             "img": self.img,
             "idu": self.idu
+        }
+
+class Carrito(db.Model):
+    __tablename__ = 'carrito'
+    id = db.Column(db.Integer, primary_key=True)
+    cantidad = db.Column(db.Integer, unique=False, nullable=False)
+    id_Producto = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    producto = db.relationship('Product')
+    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User')
+    #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    #orden = db.relationship('Orden')
+
+    def __repr__(self):
+        return f'<User {self.email}>'
+      
+    def serialize(self):
+        return {
+            "id": self.id,
+            "cantidad": self.cantidad,
+            "id_Producto": self.id_Producto,
+            "id_User": self.id_User,
+            #"id_Orden": self.id_Orden
         }
     
 class Sucursales(db.Model):
@@ -88,7 +117,7 @@ class Sucursales(db.Model):
 
     def __repr__(self):
         return f'<Sucursales {self.name}>'
-
+          
     def serialize(self):
         return {
             "id": self.id,

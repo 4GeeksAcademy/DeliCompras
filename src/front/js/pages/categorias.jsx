@@ -15,8 +15,9 @@ export const Categorias = () => {
         {store.categorias.map((item) => (
           <li key={item.id}>
             <b>
-              {item.id} {item.name} {item.image}
+              {item.id} {item.name}
             </b>
+            <img width="50" src={item.url} alt="Imagen Seleccionada" />
             <Link to={`/modificar_categorias/${item.id}`}>
               <button>Modificar</button>
             </Link>

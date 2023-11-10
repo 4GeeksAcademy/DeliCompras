@@ -3,12 +3,12 @@ import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "
 import { v4 } from 'uuid';
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTHDOMAIN,
-  projectId: process.env.PROJECTID,
-  storageBucket: process.env.STORAGEBUCKET,
-  messagingSenderId: process.env.MESSAGINGSENDERID,
-  appId: process.env.APPID
+  apiKey: "AIzaSyCTl4wrYj2POTt1u8QvB-quHKaqBnLeck4",
+  authDomain: "proyect-6a0a9.firebaseapp.com",
+  projectId: "proyect-6a0a9",
+  storageBucket: "proyect-6a0a9.appspot.com",
+  messagingSenderId: "179931426073",
+  appId: "1:179931426073:web:5da5559c9594898541e988"
 };
   
 export const app = initializeApp(firebaseConfig);
@@ -19,13 +19,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			categorias: [],
-      		products: [],
-			restaurantes: [],
+      products: [],
+      carrito: [],
+      restaurantes: [],
 			sucursales: [],
 		},
 		actions: {
-        	getCategorias: async() => {
-				
+      getCategorias: async() => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
 				setStore({categorias: body})
@@ -34,31 +34,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			crear : (obj) => {
+        console.log(obj)
 				fetch(process.env.BACKEND_URL + "api/categorias", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(obj)
+       
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
 			},
 
 			modificar_categorias : (id,obj) => {
-				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(obj)
 				})
-				.then((response)=>response.json())
+				.then((response)=> response.json())
 				.then((data)=> console.log(data));
 			},
 
 			delete : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -154,7 +156,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 			
       updateList: () => {
-        fetch(process.env.BACKEND_URL + 'api/products', {
+        fetch(process.env.BACKEND_URL + 'api/products',
+          {
             headers: {
               'Content-Type': 'application/json'
             },
@@ -162,7 +165,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then( data => setStore({ products: data }));
       },
       updateProduct: (id, obj) => {
-        fetch(process.env.BACKEND_URL + "api/product/" + id, {
+        fetch(process.env.BACKEND_URL + `api/product/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -190,7 +193,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then( data => console.log(data))
       },
       deleteProduct: (id,idu) => {
-        fetch(process.env.BACKEND_URL + 'api/product' + id, {
+        fetch(process.env.BACKEND_URL + 'api/product/' + id, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -207,8 +210,34 @@ const getState = ({ getStore, getActions, setStore }) => {
         await uploadBytes( storageRef,file )
         const url = await getDownloadURL(storageRef)
         return [url,idu]
-      }	
-			
+      },
+      get_carrito :  () => {
+        fetch(process.env.BACKEND_URL + 'api/carrito', {
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				}).then((response) => response.json())
+				.then((data) => setStore({ carrito: data }))
+      },
+      set_carrito : (updatedCart , id) => {
+        fetch(process.env.BACKEND_URL + 'api/carrito/'+ id, {
+          method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+          body: JSON.stringify(updatedCart)
+				}).then((response) => response.json())
+				.then((data) => console.log(data))
+      },
+      delete_carrito : (id) => {
+        fetch(process.env.BACKEND_URL + 'api/carrito/' + id, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }).then( response => response.json())
+          .then( data => console.log(data));
+      }
 		}
 	};
 };
