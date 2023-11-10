@@ -1,4 +1,3 @@
-const getState = ({ getStore, getActions, setStore }) => {
 import { initializeApp } from "firebase/app";
 import { getStorage , ref , uploadBytes , getDownloadURL , deleteObject } from "firebase/storage";
 import { v4 } from 'uuid';
@@ -14,14 +13,18 @@ const firebaseConfig = {
   
 export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
+
+const getState = ({ getStore, getActions, setStore }) => {
   
 	return {
 		store: {
 			categorias: [],
-      products: []
+      		products: [],
+			restaurantes: [],
+			sucursales: [],
 		},
 		actions: {
-        getCategorias: async() => {
+        	getCategorias: async() => {
 				
 				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
 				const body = await response.json();
@@ -31,7 +34,7 @@ export const storage = getStorage(app);
 			},
 
 			crear : (obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias", {
+				fetch(process.env.BACKEND_URL + "api/categorias", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -43,7 +46,7 @@ export const storage = getStorage(app);
 			},
 
 			modificar_categorias : (id,obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -55,7 +58,7 @@ export const storage = getStorage(app);
 			},
 
 			delete : (id) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -63,10 +66,95 @@ export const storage = getStorage(app);
 				}).then((response) => response.json())
 				.then((data) => console.log(data))
 			},
+
+			getRestaurantes: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/restaurantes')
+					const body = await response.json();
+					setStore({restaurantes: body})
+					//console.log(categorias)
+	
+				},
+	
+				crear_restaurantes : (obj) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_restaurantes : (id,obj) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
+
+				getSucursales: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/sucursales')
+					const body = await response.json();
+					setStore({sucursales: body})
+					
+	
+				},
+	
+				crear_sucursales : (obj) => {
+					fetch(process.env.BACKEND_URL + "api/sucursales", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_sucursales : (id,obj) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales/"+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales"+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
 			
       updateList: () => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
-          {
+        fetch(process.env.BACKEND_URL + 'api/products', {
             headers: {
               'Content-Type': 'application/json'
             },
@@ -74,7 +162,7 @@ export const storage = getStorage(app);
           .then( data => setStore({ products: data }));
       },
       updateProduct: (id, obj) => {
-        fetch(`https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/${id}`, {
+        fetch(process.env.BACKEND_URL + "api/product/" + id, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -91,7 +179,7 @@ export const storage = getStorage(app);
         }
       },      
       createdProduct: (obj) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
+        fetch(process.env.BACKEND_URL + 'api/product', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -102,7 +190,7 @@ export const storage = getStorage(app);
           .then( data => console.log(data))
       },
       deleteProduct: (id,idu) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/" + id, {
+        fetch(process.env.BACKEND_URL + 'api/product' + id, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -119,7 +207,8 @@ export const storage = getStorage(app);
         await uploadBytes( storageRef,file )
         const url = await getDownloadURL(storageRef)
         return [url,idu]
-      }
+      }	
+			
 		}
 	};
 };

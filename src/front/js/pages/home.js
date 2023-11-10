@@ -12,10 +12,14 @@ export const Home = () => {
 		<div className="text-center mt-5">
 			<Link to="/categorias">
 				<button>categorias</button>
-      </Link>
+      			</Link>
     
 			<Link to="/products">
 				<button>products</button>
+			</Link>
+		
+			<Link to="/restaurantes">
+				<button>restaurantes</button>
 			</Link>
 		</div>
 	);
