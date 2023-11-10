@@ -28,7 +28,7 @@ class Restaurantes(db.Model):
 
 
     def __repr__(self):
-        return f'<Restaurantes {self.name}>'
+        return f'<Restaurantes {self.id}>'
 
     def serialize(self):
         return {
@@ -76,4 +76,24 @@ class Product(db.Model):
             "amount": self.amount,
             "img": self.img,
             "idu": self.idu
+        }
+    
+class Sucursales(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
+    tipo = db.Column(db.String(250), unique=False, nullable=False)
+    direccion = db.Column(db.String(250), unique=False, nullable=False)
+    contacto = db.Column(db.String(250), unique=False, nullable=True)
+
+
+    def __repr__(self):
+        return f'<Sucursales {self.name}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "direccion": self.direccion,
+            "tipo": self.tipo,
+            "contacto": self.contacto
         }

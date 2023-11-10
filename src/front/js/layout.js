@@ -11,6 +11,10 @@ import { Restaurantes } from "./pages/restaurantes.jsx";
 import { Crear_restaurantes } from "./pages/crear_restaurantes.jsx";
 import { Modificar_restaurantes } from "./pages/modificar_restaurantes.jsx";
 
+import { Sucursales } from "./pages/sucursales.jsx";
+import { Crear_sucursales } from "./pages/crear_sucursales.jsx";
+import { Modificar_sucursales } from "./pages/modificar_sucursales.jsx";
+
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -36,6 +40,9 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
+                        <Route element={<Sucursales />} path="/sucursales" />
+                        <Route element={<Crear_sucursales />} path="/crear_sucursales" />
+                        <Route element={<Modificar_sucursales />} path="/modificar_sucursales/:theid" />
                         <Route element={<Restaurantes />} path="/restaurantes" />
                         <Route element={<Crear_restaurantes />} path="/crear_restaurantes" />
                         <Route element={<Modificar_restaurantes />} path="/modificar_restaurantes/:theid" />

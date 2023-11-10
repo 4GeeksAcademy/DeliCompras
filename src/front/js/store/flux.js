@@ -19,8 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			categorias: [],
-      			products: [],
+      		products: [],
 			restaurantes: [],
+			sucursales: [],
 		},
 		actions: {
         	getCategorias: async() => {
@@ -33,7 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			crear : (obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias", {
+				fetch(process.env.BACKEND_URL + "api/categorias", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -45,7 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			modificar_categorias : (id,obj) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -57,7 +58,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			delete : (id) => {
-				fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/categorias/"+id, {
+				fetch(process.env.BACKEND_URL + 'api/categorias'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -76,7 +77,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 	
 				crear_restaurantes : (obj) => {
-					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes", {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json'
@@ -88,7 +89,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 	
 				modificar_restaurantes : (id,obj) => {
-					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes/"+id, {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json'
@@ -100,7 +101,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 	
 				delete : (id) => {
-					fetch("https://effective-carnival-xj7v9v7449g3664q-3001.app.github.dev/api/restaurantes/"+id, {
+					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then((response) => response.json())
+					.then((data) => console.log(data))
+				},
+
+				getSucursales: async() => {
+					
+					const response = await fetch(process.env.BACKEND_URL + 'api/sucursales')
+					const body = await response.json();
+					setStore({sucursales: body})
+					
+	
+				},
+	
+				crear_sucursales : (obj) => {
+					fetch(process.env.BACKEND_URL + "api/sucursales", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=> response.json())
+					.then((data)=> console.log(data))
+				},
+	
+				modificar_sucursales : (id,obj) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales/"+id, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(obj)
+					})
+					.then((response)=>response.json())
+					.then((data)=> console.log(data));
+				},
+	
+				delete : (id) => {
+					fetch(process.env.BACKEND_URL + "/api/sucursales"+id, {
 						method: 'DELETE',
 						headers: {
 							'Content-Type': 'application/json'
@@ -110,8 +154,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 			
       updateList: () => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/products",
-          {
+        fetch(process.env.BACKEND_URL + 'api/products', {
             headers: {
               'Content-Type': 'application/json'
             },
@@ -119,7 +162,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then( data => setStore({ products: data }));
       },
       updateProduct: (id, obj) => {
-        fetch(`https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/${id}`, {
+        fetch(process.env.BACKEND_URL + "api/product/" + id, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -136,7 +179,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },      
       createdProduct: (obj) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product", {
+        fetch(process.env.BACKEND_URL + 'api/product', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -147,7 +190,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           .then( data => console.log(data))
       },
       deleteProduct: (id,idu) => {
-        fetch("https://cuddly-system-qgj7jwpqpvj3r57-3001.app.github.dev/api/product/" + id, {
+        fetch(process.env.BACKEND_URL + 'api/product' + id, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'

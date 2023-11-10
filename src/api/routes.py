@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Product, Categorias, Restaurantes
-from api.utils import generate_sitemap, APIExceptio
+from api.models import db, User, Product, Categorias, Restaurantes, Sucursales
+from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
 
@@ -118,9 +118,7 @@ def delete_product(id):
 @api.route('/restaurantes', methods=['GET'])
 def get_restaurantes():
 
-    #all_restaurants = Restaurantes.query.all()
-    #Restaurantes_seriallize = [Restaurantes.serialize() for restaurantes in all_restaurants]
-
+    
     all_restaurantes = Restaurantes.query.all()
     Restaurantes_seriallize = list (map(lambda restaurante: restaurante.serialize(),all_restaurantes))
 
@@ -130,7 +128,7 @@ def get_restaurantes():
 def post_restaurantes():
 
     body = request.json
-    new_restaurantes = Restaurantes(name=body['name'],tipo=body["tipo"],contacto=body["contacto"])
+    new_restaurantes = Restaurantes(name=body['name'],tipo=body["tipo"],contacto=body["contacto"],description=body["description"],img=body["img"])
     db.session.add(new_restaurantes)
     db.session.commit()
 
@@ -165,3 +163,55 @@ def delete_restaurantes(id):
     db.session.commit()
     
     return jsonify({"message": "Restaurante eliminado con éxito"}), 200
+
+@api.route('/sucursales', methods=['GET'])
+def get_sucursales():
+
+    all_sucursales = Sucursales.query.all()
+    Sucursales_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursales))
+
+    return jsonify(Sucursales_seriallize), 200
+
+@api.route('/sucursales', methods=['POST'])
+def post_sucursales():
+
+    body = request.json
+    new_sucursales = Sucursales(name=body['name'],tipo=body["tipo"],contacto=body["contacto"])
+    db.session.add(new_sucursales)
+    db.session.commit()
+
+    return jsonify({"message": "Sucursal creada con éxito"}), 200
+
+@api.route('/sucursales/<int:id>', methods=['PUT'])
+def put_sucursales(id):
+    sucursales = Sucursales.query.get(id)
+    body = request.json
+
+    if not Sucursales:
+        return jsonify({"message": "Sucursal no encontrado"}), 404
+    
+    if "name" in body:
+        sucursales.name = body['name']
+    if "direccion" in body:
+        sucursales.direccion = body['direccion']
+    if "tipo" in body:
+        sucursales.tipo = body['tipo']
+    if "contacto" in body:
+        sucursales.contacto = body['contacto']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Sucursal modificada con éxito"}), 200
+
+@api.route('/sucursales/<int:id>', methods=['DELETE'])
+def delete_sucursales(id):
+
+    sucursales = Sucursales.query.get(id)
+
+    if not sucursales:
+        return jsonify({"message": "Sucursal no encontrada"}), 404
+
+    db.session.delete(sucursales)
+    db.session.commit()
+    
+    return jsonify({"message": "Sucursal eliminada con éxito"}), 200
