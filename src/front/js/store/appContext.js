@@ -21,11 +21,11 @@ const injectContext = PassedComponent => {
 			})
 		);
 
-		useEffect(() => {			
-			state.actions.getCategorias();
-			state.actions.updateList();
-      state.actions.get_carrito();
-   		state.actions.getRestaurantes();
+		useEffect(() => {		
+			state.actions.getList();	
+			state.actions.getCategories();
+      		state.actions.getCart();
+   			state.actions.getRestaurants();
 			state.actions.getSucursales();
 		}, []);
 

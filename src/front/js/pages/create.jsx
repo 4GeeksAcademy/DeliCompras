@@ -11,7 +11,7 @@ export const Create = () => {
     const [price, setPrice] = useState("");
     const [amount, setAmount] = useState("");
     const [file, setFile] = useState(null);
-    let idu;
+    let idu_img;
 
     const isIdUnique = !(store.products.some(product => product.id == id));
     const isFormValid = name && desc && price && amount && isIdUnique && id;
@@ -21,8 +21,9 @@ export const Create = () => {
 
         try {
             const temp = await actions.upload_img(file);
-            const url = temp[0];
-            idu = temp[1]
+            console.log(temp)
+            const url_img = temp[0];
+            idu_img = temp[1]
 
             const product = {
                 id: id,
@@ -30,11 +31,11 @@ export const Create = () => {
                 description: desc,
                 price: price,
                 amount: amount,
-                url: url,
-                idu: idu
+                url_img: url_img,
+                idu_img: idu_img
             };
 
-            await actions.createdProduct(product);
+            await actions.postProduct(product);
         } catch (error) {
             console.error(error)
         }

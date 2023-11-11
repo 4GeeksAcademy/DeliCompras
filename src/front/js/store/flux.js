@@ -18,37 +18,33 @@ const getState = ({ getStore, getActions, setStore }) => {
   
 	return {
 		store: {
-			categorias: [],
-      products: [],
-      carrito: [],
-      restaurantes: [],
+			categories: [],
+			products: [],
+			carrito: [],
+			restaurants: [],
 			sucursales: [],
 		},
 		actions: {
-      getCategorias: async() => {
-				const response = await fetch(process.env.BACKEND_URL + 'api/categorias')
+      		getCategories: async() => {
+				const response = await fetch(process.env.BACKEND_URL + 'api/category')
 				const body = await response.json();
-				setStore({categorias: body})
-				//console.log(categorias)
-
+				setStore({categories: body})
 			},
 
-			crear : (obj) => {
-        console.log(obj)
-				fetch(process.env.BACKEND_URL + "api/categorias", {
+			postCategories : (obj) => {
+				fetch(process.env.BACKEND_URL + "api/category", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(obj)
-       
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
 			},
 
-			modificar_categorias : (id,obj) => {
-				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
+			putCategories : (id,obj) => {
+				fetch(process.env.BACKEND_URL + 'api/category/'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -59,185 +55,211 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> console.log(data));
 			},
 
-			delete : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/categorias/'+id, {
+			deleteCategories : (id) => {
+				fetch(process.env.BACKEND_URL + 'api/category/'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
 					},
-				}).then((response) => response.json())
+				})
+				.then((response) => response.json())
 				.then((data) => console.log(data))
 			},
 
-			getRestaurantes: async() => {
-					
-					const response = await fetch(process.env.BACKEND_URL + 'api/restaurantes')
+			getRestaurants: async() => {
+					const response = await fetch(process.env.BACKEND_URL + 'api/restaurant')
 					const body = await response.json();
-					setStore({restaurantes: body})
-					//console.log(categorias)
-	
-				},
-	
-				crear_restaurantes : (obj) => {
-					fetch(process.env.BACKEND_URL + 'api/restaurantes', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(obj)
-					})
-					.then((response)=> response.json())
-					.then((data)=> console.log(data))
-				},
-	
-				modificar_restaurantes : (id,obj) => {
-					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
-						method: 'PUT',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(obj)
-					})
-					.then((response)=>response.json())
-					.then((data)=> console.log(data));
-				},
-	
-				delete : (id) => {
-					fetch(process.env.BACKEND_URL + 'api/restaurantes'+id, {
-						method: 'DELETE',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-					}).then((response) => response.json())
-					.then((data) => console.log(data))
+					setStore({restaurants: body})
 				},
 
-				getSucursales: async() => {
-					
-					const response = await fetch(process.env.BACKEND_URL + 'api/sucursales')
-					const body = await response.json();
-					setStore({sucursales: body})
-					
-	
-				},
-	
-				crear_sucursales : (obj) => {
-					fetch(process.env.BACKEND_URL + "api/sucursales", {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(obj)
-					})
-					.then((response)=> response.json())
-					.then((data)=> console.log(data))
-				},
-	
-				modificar_sucursales : (id,obj) => {
-					fetch(process.env.BACKEND_URL + "/api/sucursales/"+id, {
-						method: 'PUT',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(obj)
-					})
-					.then((response)=>response.json())
-					.then((data)=> console.log(data));
-				},
-	
-				delete : (id) => {
-					fetch(process.env.BACKEND_URL + "/api/sucursales"+id, {
-						method: 'DELETE',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-					}).then((response) => response.json())
-					.then((data) => console.log(data))
-				},
-			
-      updateList: () => {
-        fetch(process.env.BACKEND_URL + 'api/products',
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          }).then( response => response.json())
-          .then( data => setStore({ products: data }));
-      },
-      updateProduct: (id, obj) => {
-        fetch(process.env.BACKEND_URL + `api/product/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        })
-          .then(response => response.json())
-          .then(data => console.log(data));
-        
-        const product = getStore().products.find(product => product.id == id) 
-        if (product.url != obj.url){
-          const storageRef = ref( storage , `products/${obj.idu}`);
-          deleteObject(storageRef);
-        }
-      },      
-      createdProduct: (obj) => {
-        fetch(process.env.BACKEND_URL + 'api/product', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        })
-          .then( response => response.json())
-          .then( data => console.log(data))
-      },
-      deleteProduct: (id,idu) => {
-        fetch(process.env.BACKEND_URL + 'api/product/' + id, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        }).then( response => response.json())
-          .then( data => console.log(data));
-
-        const storageRef = ref( storage , `products/${idu}`);
-        deleteObject(storageRef);
-      },
-      upload_img : async (file) => {
-        const idu =v4()
-        const storageRef = ref( storage , `products/${idu}`)
-        await uploadBytes( storageRef,file )
-        const url = await getDownloadURL(storageRef)
-        return [url,idu]
-      },
-      get_carrito :  () => {
-        fetch(process.env.BACKEND_URL + 'api/carrito', {
+			postRestaurants : (obj) => {
+				fetch(process.env.BACKEND_URL + 'api/restaurant', {
+					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
-				}).then((response) => response.json())
-				.then((data) => setStore({ carrito: data }))
-      },
-      set_carrito : (updatedCart , id) => {
-        fetch(process.env.BACKEND_URL + 'api/carrito/'+ id, {
-          method: 'PUT',
+					body: JSON.stringify(obj)
+				})
+				.then((response)=> response.json())
+				.then((data)=> console.log(data))
+			},
+	
+			putRestaurants : (id,obj) => {
+				fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
+					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
 					},
-          body: JSON.stringify(updatedCart)
-				}).then((response) => response.json())
+					body: JSON.stringify(obj)
+				})
+				.then((response)=>response.json())
+				.then((data)=> console.log(data));
+			},
+	
+			deleteRestaurants : (id) => {
+				fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				})
+				.then((response) => response.json())
 				.then((data) => console.log(data))
-      },
-      delete_carrito : (id) => {
-        fetch(process.env.BACKEND_URL + 'api/carrito/' + id, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        }).then( response => response.json())
-          .then( data => console.log(data));
-      }
+			},
+
+			getSucursales: async() => {
+				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale')
+				const body = await response.json();
+				setStore({sucursales: body})
+			},
+	
+			postSucursales : (obj) => {
+				fetch(process.env.BACKEND_URL + "api/sucursale", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=> response.json())
+				.then((data)=> console.log(data))
+			},
+	
+			putSucursales : (id,obj) => {
+				fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then((response)=>response.json())
+				.then((data)=> console.log(data));
+			},
+	
+			deleteSucursales : (id) => {
+				fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				})
+				.then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+			
+			getList: () => {
+				fetch(process.env.BACKEND_URL + 'api/products', 
+				{
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				})
+				.then( response => response.json())
+				.then( data => setStore({ products: data }));
+			},
+
+			putProduct: (id, obj) => {
+				fetch(process.env.BACKEND_URL + `api/products/${id}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then(response => response.json())
+				.then(data => console.log(data));
+				
+				const product = getStore().products.find(product => product.id == id) 
+
+				if (product.url != obj.url){
+					storageRef = ref( storage , `products/${obj.idu}`);
+					deleteObject(storageRef);
+				}
+			},      
+
+			postProduct: (obj) => {
+				fetch(process.env.BACKEND_URL + 'api/products', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				.then( response => response.json())
+				.then( data => console.log(data))
+			},
+
+			deleteProduct: (id,idu) => {
+				fetch(process.env.BACKEND_URL + 'api/products/' + id, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				}).then( response => response.json())
+				.then( data => console.log(data));
+
+				const storageRef = ref( storage , `products/${idu}`);
+				deleteObject(storageRef);
+			},
+
+			upload_img : async (file) => {
+				const idu =v4()
+				const storageRef = ref( storage , `products/${idu}`)
+				await uploadBytes( storageRef,file )
+				const url = await getDownloadURL(storageRef)
+				return [url,idu]
+			},
+
+			getCart :  () => {
+				fetch(process.env.BACKEND_URL + 'api/cart', {
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				})
+				.then((response) => response.json())
+				.then((data) => setStore({ carrito: data }))
+			},
+
+			putCart : (updatedCart , id) => {
+				fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(updatedCart)
+				})
+				.then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+
+			postCart: (amount,id_product,id_user) => {
+				fetch(process.env.BACKEND_URL + 'api/cart', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						id : parseInt(v4()),
+						amount : amount,
+						id_Product : id_product,
+						id_User : id_user
+					})
+				})
+				.then( response => response.json())
+				.then( data => console.log(data))
+			},
+
+			deleteCart : (id) => {
+				fetch(process.env.BACKEND_URL + 'api/cart/' + id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				.then( response => response.json())
+				.then( data => console.log(data));
+			}
 		}
 	};
 };

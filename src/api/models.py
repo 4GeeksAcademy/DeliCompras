@@ -5,8 +5,8 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(20), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
@@ -16,47 +16,51 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
 
-class Restaurantes(db.Model):
+class Restaurant(db.Model):
+    __tablename__ = 'restaurant'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    tipo = db.Column(db.String(250), unique=False, nullable=False)
+    type = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
-    img = db.Column(db.String(250), unique=False, nullable=True)
-    contacto = db.Column(db.String(250), unique=False, nullable=True)
+    url_img = db.Column(db.String(250), unique=False, nullable=False)
+    idu_img = db.Column(db.String(250), unique=False, nullable=False)
+    name_contact = db.Column(db.String(250), unique=False, nullable=False)
+    num_contact = db.Column(db.String(250), unique=False, nullable=False)
 
 
     def __repr__(self):
-        return f'<Restaurantes {self.id}>'
+        return f'<Restaurant {self.name}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "tipo": self.tipo,
-            "img": self.img,
-            "contacto": self.contacto
+            "type": self.type,
+            "url_img": self.url_img,
+            "idu_img": self.idu_img,
+            "name_contact": self.name_contact,
+            "num_contact": self.num_contact
         }
 
-class Categorias(db.Model):
-    __tablename__ = 'categorias'
+class Category(db.Model):
+    __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    url = db.Column(db.String(320))
-    idu = db.Column(db.String(320))
+    url_img = db.Column(db.String(320), unique=False, nullable=False)
+    idu_img = db.Column(db.String(320), unique=False, nullable=False)
     
     def __repr__(self):
-        return f'<Categorias {self.name}>'
+        return f'<Category {self.name}>'
       
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "url": self.url,
-            "idu": self.idu
+            "url_img": self.url_img,
+            "idu_img": self.idu_img
         }
     
 class Product(db.Model):
@@ -66,9 +70,8 @@ class Product(db.Model):
     description = db.Column(db.String(500), unique=False, nullable=False)
     price = db.Column(db.Integer, unique=False, nullable=False)
     amount = db.Column(db.Integer, unique=False, nullable=False)
-    img = db.Column(db.String(250), unique=False, nullable=True)
-    idu = db.Column(db.String(250), unique=False, nullable=True)
-
+    url_img = db.Column(db.String(250), unique=False, nullable=True)
+    idu_img = db.Column(db.String(250), unique=False, nullable=True)
 
     def __repr__(self):
         return f'<Product {self.name}>'
@@ -80,49 +83,56 @@ class Product(db.Model):
             "description": self.description,
             "price": self.price,
             "amount": self.amount,
-            "img": self.img,
-            "idu": self.idu
+            "url_img": self.url_img,
+            "idu_img": self.idu_img
         }
 
-class Carrito(db.Model):
-    __tablename__ = 'carrito'
+class Cart (db.Model):
+    __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
-    cantidad = db.Column(db.Integer, unique=False, nullable=False)
-    id_Producto = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    producto = db.relationship('Product')
+    amount = db.Column(db.Integer, unique=False, nullable=False)
+    id_Product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    product = db.relationship('Product')
     id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User')
     #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     #orden = db.relationship('Orden')
 
     def __repr__(self):
-        return f'<User {self.email}>'
+        return f'<Cart {self.id}>'
       
     def serialize(self):
         return {
             "id": self.id,
-            "cantidad": self.cantidad,
-            "id_Producto": self.id_Producto,
+            "amount": self.amount,
+            "id_Product": self.id_Product,
             "id_User": self.id_User,
             #"id_Orden": self.id_Orden
         }
     
-class Sucursales(db.Model):
+class Sucursale (db.Model):
+    __tablename__ = 'sucursale'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
-    tipo = db.Column(db.String(250), unique=False, nullable=False)
-    direccion = db.Column(db.String(250), unique=False, nullable=False)
-    contacto = db.Column(db.String(250), unique=False, nullable=True)
+    type = db.Column(db.String(250), unique=False, nullable=False)
+    address = db.Column(db.String(250), unique=False, nullable=False)
+    name_contact = db.Column(db.String(250), unique=False, nullable=False)
+    num_contact = db.Column(db.String(250), unique=False, nullable=False)
+    url_img = db.Column(db.String(250), unique=False, nullable=True)
+    idu_img = db.Column(db.String(250), unique=False, nullable=True)
 
 
     def __repr__(self):
-        return f'<Sucursales {self.name}>'
+        return f'<Sucursale {self.name}>'
           
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "direccion": self.direccion,
-            "tipo": self.tipo,
-            "contacto": self.contacto
+            "address": self.address,
+            "type": self.type,
+            "name_contact": self.name_contact,
+            "num_contact": self.num_contact,
+            "url_img": self.url_img,
+            "idu_img": self.idu_img
         }

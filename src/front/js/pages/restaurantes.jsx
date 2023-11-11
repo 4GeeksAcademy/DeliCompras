@@ -6,13 +6,13 @@ export const Restaurantes = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        actions.getRestaurantes();
+        actions.getRestaurants();
       }, []);
 
       return (
         <div className="container">
               <ul>
-        {store.restaurantes.map((item) => (
+        {store.restaurants.map((item) => (
           <li key={item.id}>
             <b>
               {item.id} {item.name} {item.image}

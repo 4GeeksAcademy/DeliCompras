@@ -8,8 +8,8 @@ export const Modificar = () => {
 
     const product = store.products.find(product => product.id == id);
     const [file, setFile] = useState(null);
-    const [img, setImg] = useState(product.img || "");
-    const [idu, setIdu] = useState(product.idu || "");
+    const [img, setImg] = useState(product.url_img || "");
+    const [idu, setIdu] = useState(product.idu_img || "");
     const [name, setName] = useState(product.name || "");
     const [desc, setDesc] = useState(product.description || "");
     const [price, setPrice] = useState(product.price || "");
@@ -36,7 +36,7 @@ export const Modificar = () => {
                 url: url,
                 idu : idu
             }
-            await actions.updateProduct(id, product);
+            await actions.putProduct(id, product);
         } catch (error) {
             console.error(error)
         }

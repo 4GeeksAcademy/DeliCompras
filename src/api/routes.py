@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Product, Categorias, Restaurantes, Sucursales, Carrito
+from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -10,235 +10,287 @@ def get_products():
     products_serialize = [product.serialize() for product in all_products]
     return jsonify(products_serialize), 200
 
-@api.route('/categorias', methods=['GET'])
-def get_categorias():
-    all_categorias = Categorias.query.all()
-    categorias_serialize = [categorias.serialize() for categorias in all_categorias]
-    return jsonify(categorias_serialize), 200
-
-@api.route('/categorias', methods=['POST'])
-def post_categorias():
-    body = request.json
-    new_categorias = Categorias(
-        name=body['name'],
-        idu=body['idu'],
-        url=body['url']
-    )
-    db.session.add(new_categorias)
-    db.session.commit()
-    return jsonify({"message": "Categorías creadas con éxito"}), 200
-
-@api.route('/categorias/<int:id>', methods=['PUT'])
-def put_categorias(id):
-    categorias = Categorias.query.get(id)
-    if not categorias:
-        return jsonify({"message": "Categoría no encontrada"}), 404
-    body = request.json
-    categorias.name = body['name']
-    categorias.url = body['url']
-    categorias.idu = body['idu']
-    db.session.commit()
-    return jsonify({"message": "Categoría modificada con éxito"}), 200
-
-@api.route('/categorias/<int:id>', methods=['DELETE'])
-def delete_categorias(id):
-    categorias = Categorias.query.get(id)
-    if not categorias:
-        return jsonify({"message": "Categoría no encontrada"}), 404
-    db.session.delete(categorias)
-    db.session.commit()
-    return jsonify({"message": "Categoría eliminada con éxito"}), 200
-
 @api.route('/products', methods=['POST'])
 def post_product():
     body = request.json
     product = Product.query.filter_by(id=body['id']).first()
+
     if product:
         return jsonify({"message": "Producto no creado, el ID ya existe"}), 400
+    
     new_product = Product(
         id=body['id'],
         name=body['name'],
         description=body['description'],
         price=body['price'],
         amount=body['amount'],
-        img=body['url'],
-        idu=body['idu']
+        url_img=body['url_img'],
+        idu_img=body['idu_img']
     )
+
     db.session.add(new_product)
     db.session.commit()
-    return jsonify({"message": "Producto creado con éxito"}), 200
 
+    return jsonify({"message": "Producto creado con éxito"}), 200
+    
 @api.route('/products/<int:id>', methods=['PUT'])
 def put_product(id):
     product = Product.query.get(id)
+
     if not product:
         return jsonify({"message": "Producto no encontrado"}), 404
+    
     body = request.json
     product.name = body['name']
     product.description = body['description']
     product.price = body['price']
     product.amount = body['amount']
-    product.img = body['url']
-    product.idu = body['idu']
+    product.url_img = body['url']
+    product.idu_img = body['idu']
     db.session.commit()
+
     return jsonify({"message": "Producto modificado con éxito"}), 200
 
 @api.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
     product = Product.query.get(id)
+
     if not product:
         return jsonify({"message": "Producto no encontrado"}), 404
+    
     db.session.delete(product)
     db.session.commit()
+
     return jsonify({"message": "Producto eliminado con éxito"}), 200
 
-@api.route('/carrito', methods=['GET'])
-def get_carrito():
-    all_items = Carrito.query.all()
+@api.route('/category', methods=['GET'])
+def get_categories():
+    all_categories = Category.query.all()
+    categories_serialize = [Categories.serialize() for Categories in all_categories]
+
+    return jsonify(categories_serialize), 200
+
+@api.route('/category', methods=['POST'])
+def post_categories():
+    body = request.json
+    new_categories = Category(
+        id=body['id'],
+        name=body['name'],
+        url_img=body['url_img'],
+        idu_img=body['idu_img']
+    )
+    db.session.add(new_categories)
+    db.session.commit()
+
+    return jsonify({"message": "Categoría creada con éxito"}), 200
+
+@api.route('/category/<int:id>', methods=['PUT'])
+def put_categories(id):
+    categories = Category.query.get(id)
+
+    if not categories:
+        return jsonify({"message": "Categoría no encontrada"}), 404
+    body = request.json
+
+    categories.name = body['name']
+    categories.url_img = body['url_img']
+    categories.idu_img = body['idu_img']
+
+    db.session.commit()
+
+    return jsonify({"message": "Categoría modificada con éxito"}), 200
+
+@api.route('/category/<int:id>', methods=['DELETE'])
+def delete_categories(id):
+    categories = Category.query.get(id)
+
+    if not categories:
+        return jsonify({"message": "Categoría no encontrada"}), 404
+    
+    db.session.delete(categories)
+    db.session.commit()
+
+    return jsonify({"message": "Categoría eliminada con éxito"}), 200
+
+@api.route('/cart', methods=['GET'])
+def get_carts():
+    all_items = Cart.query.all()
     items_serialize = [item.serialize() for item in all_items]
-    carrito_with_product_info = []
+    cart_with_product_info = []
+
     for item in items_serialize:
-        product_id = item["id_Producto"]
+        product_id = item["id_Product"]
         product = Product.query.get(product_id)
         if product:
             item['product_info'] = product.serialize()
-        carrito_with_product_info.append(item)
-    return jsonify(carrito_with_product_info), 200
+        cart_with_product_info.append(item)
 
-@api.route('/carrito/<int:id>', methods=['PUT'])
-def put_carrito(id):
-    carrito = Carrito.query.get(id)
-    if not carrito:
+    return jsonify(cart_with_product_info), 200
+
+@api.route('/cart/<int:id>', methods=['PUT'])
+def put_cart(id):
+    cart = Cart.query.get(id)
+
+    if not cart:
         return jsonify({"message": "Carrito no encontrado"}), 404
+    
     body = request.json
-    carrito.cantidad = body['cantidad']
-    carrito.id_Producto = body['id_Producto']
-    carrito.id_User = body['id_User']
+
+    cart.amount = body['amount']
+    cart.id_Producto = body['id_Product']
+    cart.id_User = body['id_User']
+
     db.session.commit()
+
     return jsonify({"message": "Carrito modificado con éxito"}), 200
 
-@api.route('/carrito', methods=['POST'])
-def post_carrito():
+@api.route('/cart', methods=['POST'])
+def post_cart():
     body = request.json
-    carrito = Carrito.query.filter_by(id=body['id']).first()
-    if carrito:
+    cart = Cart.query.filter_by(id=body['id']).first()
+
+    if cart:
         return jsonify({"message": "Carrito no creado, el ID ya existe"}), 400
-    new_carrito = Carrito(
+    
+    new_cart = Cart(
         id=body['id'],
-        cantidad=body['cantidad'],
-        id_Producto=body['id_Producto'],
+        amount=body['amount'],
+        id_Product=body['id_Product'],
         id_User=body['id_User']
     )
-    db.session.add(new_carrito)
+
+    db.session.add(new_cart)
     db.session.commit()
+
     return jsonify({"message": "Carrito creado con éxito"}), 200
 
-@api.route('/carrito/<int:id>', methods=['DELETE'])
-def delete_carrito(id):
-    carrito = Carrito.query.get(id)
-    if not carrito:
+@api.route('/cart/<int:id>', methods=['DELETE'])
+def delete_cart(id):
+    cart = Cart.query.get(id)
+
+    if not cart:
         return jsonify({"message": "Carrito no encontrado"}), 404
-    db.session.delete(carrito)
+    
+    db.session.delete(cart)
     db.session.commit()
+
     return jsonify({"message": "Carrito eliminado con éxito"}), 200
 
-@api.route('/restaurantes', methods=['GET'])
-def get_restaurantes():
+@api.route('/restaurant', methods=['GET'])
+def get_restaurant():
+    all_restaurant = Restaurant.query.all()
+    Restaurant_seriallize = list (map(lambda restaurant: restaurant.serialize(),all_restaurant))
 
-    
-    all_restaurantes = Restaurantes.query.all()
-    Restaurantes_seriallize = list (map(lambda restaurante: restaurante.serialize(),all_restaurantes))
+    return jsonify(Restaurant_seriallize), 200
 
-    return jsonify(Restaurantes_seriallize), 200
-
-@api.route('/restaurantes', methods=['POST'])
-def post_restaurantes():
-
-    body = request.json
-    new_restaurantes = Restaurantes(name=body['name'],tipo=body["tipo"],contacto=body["contacto"],description=body["description"],img=body["img"])
-    db.session.add(new_restaurantes)
-    db.session.commit()
-
-    return jsonify({"message": "Restaurante creado con éxito"}), 200
-
-@api.route('/restaurantes/<int:id>', methods=['PUT'])
-def put_restaurantes(id):
-    restaurantes = Restaurantes.query.get(id)
+@api.route('/restaurant/<int:id>', methods=['PUT'])
+def put_restaurant(id):
+    restaurant = Restaurant.query.get(id)
     body = request.json
 
-    if not Restaurantes:
-        return jsonify({"message": "Restaurantes no encontrados"}), 404
+    if not restaurant:
+        return jsonify({"message": "Restaurante no encontrado"}), 404
     
-    if "name" in body:
-        restaurantes.name = body['name']
-    if "image" in body:
-        restaurantes.image = body['image']
+    restaurant.name = body["name"]
+    restaurant.type = body["type"]
+    restaurant.description = body["description"]
+    restaurant.url_img = body["url_img"]
+    restaurant.idu_img = body["idu_img"]
+    restaurant.name_contact = body["name_contact"]
+    restaurant.num_contact = body["num_contact"]
     
     db.session.commit()
 
     return jsonify({"message": "Restaurante modificado con éxito"}), 200
 
-@api.route('/restaurantes/<int:id>', methods=['DELETE'])
-def delete_restaurantes(id):
+@api.route('/restaurant', methods=['POST'])
+def post_restaurant():
 
-    restaurantes = Restaurantes.query.get(id)
+    body = request.json
+    new_restaurant = Restaurant(
+        id=body["id"],
+        name=body["name"],
+        type=body["type"],
+        description=body["description"],
+        url_img=body["url_img"],
+        idu_img=body["idu_img"],
+        name_contact=body["name_contact"],
+        num_contact=body["num_contact"],
+    )
+    db.session.add(new_restaurant)
+    db.session.commit()
 
-    if not restaurantes:
+    return jsonify({"message": "Restaurante creado con éxito"}), 200
+
+@api.route('/restaurant/<int:id>', methods=['DELETE'])
+def delete_restaurant(id):
+
+    restaurant = Restaurant.query.get(id)
+
+    if not restaurant:
         return jsonify({"message": "Restaurante no encontrado"}), 404
 
-    db.session.delete(restaurantes)
+    db.session.delete(restaurant)
     db.session.commit()
     
     return jsonify({"message": "Restaurante eliminado con éxito"}), 200
 
-@api.route('/sucursales', methods=['GET'])
-def get_sucursales():
+@api.route('/sucursale', methods=['GET'])
+def get_sucursale():
 
-    all_sucursales = Sucursales.query.all()
-    Sucursales_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursales))
+    all_sucursale = Sucursale.query.all()
+    Sucursale_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursale))
 
-    return jsonify(Sucursales_seriallize), 200
+    return jsonify(Sucursale_seriallize), 200
 
-@api.route('/sucursales', methods=['POST'])
-def post_sucursales():
-
-    body = request.json
-    new_sucursales = Sucursales(name=body['name'],tipo=body["tipo"],contacto=body["contacto"])
-    db.session.add(new_sucursales)
-    db.session.commit()
-
-    return jsonify({"message": "Sucursal creada con éxito"}), 200
-
-@api.route('/sucursales/<int:id>', methods=['PUT'])
-def put_sucursales(id):
-    sucursales = Sucursales.query.get(id)
+@api.route('/sucursale/<int:id>', methods=['PUT'])
+def put_sucursale(id):
+    sucursale = Sucursale.query.get(id)
     body = request.json
 
-    if not Sucursales:
+    if not Sucursale:
         return jsonify({"message": "Sucursal no encontrado"}), 404
     
-    if "name" in body:
-        sucursales.name = body['name']
-    if "direccion" in body:
-        sucursales.direccion = body['direccion']
-    if "tipo" in body:
-        sucursales.tipo = body['tipo']
-    if "contacto" in body:
-        sucursales.contacto = body['contacto']
+    sucursale.name = body['name']
+    sucursale.address = body['address']
+    sucursale.type = body['type']
+    sucursale.url_img = body["url_img"]
+    sucursale.idu_img = body["idu_img"]
+    sucursale.name_contact = body['name_contact']
+    sucursale.num_contact = body['num_contact']
     
     db.session.commit()
 
     return jsonify({"message": "Sucursal modificada con éxito"}), 200
 
-@api.route('/sucursales/<int:id>', methods=['DELETE'])
-def delete_sucursales(id):
+@api.route('/sucursale', methods=['POST'])
+def post_sucursale():
+    body = request.json
+    new_sucursale = Sucursale(
+        id=body["id"],
+        name=body['name'],
+        type=body["type"],
+        address=body["address"],
+        name_contact=body["name_contact"],
+        num_contact=body["num_contact"],
+        url_img = body["url_img"],
+        idu_img = body["idu_img"]
+    )
 
-    sucursales = Sucursales.query.get(id)
+    db.session.add(new_sucursale)
+    db.session.commit()
 
-    if not sucursales:
+    return jsonify({"message": "Sucursal creada con éxito"}), 200
+
+@api.route('/sucursale/<int:id>', methods=['DELETE'])
+def delete_sucursale(id):
+
+    sucursale = Sucursale.query.get(id)
+
+    if not sucursale:
         return jsonify({"message": "Sucursal no encontrada"}), 404
 
-    db.session.delete(sucursales)
+    db.session.delete(sucursale)
     db.session.commit()
     
     return jsonify({"message": "Sucursal eliminada con éxito"}), 200
