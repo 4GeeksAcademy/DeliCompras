@@ -16,8 +16,8 @@ export const Navbar = () => {
     if (item.cantidad > 0) {
       const updatedCart = item;
       updatedCart.cantidad--;
-      await actions.set_carrito(updatedCart, item.id);
-	  await actions.get_carrito();
+      await actions.setCarrito(updatedCart, item.id);
+	  await actions.getCarrito();
     }
   };
 
@@ -45,10 +45,10 @@ export const Navbar = () => {
                   {item.product_info.price}
                   <div>
                     <button onClick={() => aumentar(item)}>+</button>
-                    {item.cantidad}
+                    {item.amount}
                     <button onClick={() => disminuir(item)}>-</button>
                   </div>
-				  <button onClick={() => actions.delete_carrito(item.id)}>eliminar</button>
+				          <button onClick={async () => {await actions.deleteCart(item.id);await actions.getCart}}>eliminar</button>
                 </a>
               </li>
             ))}

@@ -6,11 +6,11 @@ export const Modificar_categorias = () => {
     const { theid } = useParams();
     const { store, actions } = useContext(Context);
 
-    const categorias = store.categorias.find(categorias => categorias.id == theid);
+    const categorias = store.categories.find(categorias => categorias.id == theid);
     const [name, setName] = useState(categorias.name || "");
-    const [img, setUrl] = useState(categorias.url || "");
+    const [img, setUrl] = useState(categorias.url_img || "");
     const [file, setFile] = useState(null);
-    const [idu, setIdu] = useState(categorias.idu || "");
+    const [idu_img, setIdu] = useState(categorias.idu_img || "");
     
 
     const isFormValid = name && img;
@@ -18,19 +18,19 @@ export const Modificar_categorias = () => {
     const guardar = async (e) => {
         e.preventDefault();
         try {
-            let url;
+            let url_img;
             if (file) {
                 const temp = await actions.upload_img(file);
-                url = temp[0];
+                url_img = temp[0];
                 setIdu(temp[1])
-            }else url = img
+            }else url_img = img
 
             const objeto = {
                 name: name,
-                url: url,
-                idu: idu
+                url_img: url_img,
+                idu_img: idu_img
             };
-            await actions.modificar_categorias(theid, objeto);
+            await actions.putCategories(theid, objeto);
         } catch (error) {
             console.error(error)
         }
@@ -59,7 +59,7 @@ export const Modificar_categorias = () => {
                     <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
                 </Link>
                 <Link to="/categorias">
-                    <button onClick={() => actions.delete(theid)}>Delete </button>
+                    <button onClick={() => actions.deleteCategories(theid)}>Delete </button>
                 </Link>
             </form>
         </div>

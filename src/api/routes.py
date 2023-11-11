@@ -8,7 +8,7 @@ api = Blueprint('api', __name__)
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
-    return jsonify(products_serialize), 
+    return jsonify(products_serialize), 200
 
 @api.route('/products', methods=['POST'])
 def post_product():
@@ -119,7 +119,7 @@ def get_carts():
     cart_with_product_info = []
 
     for item in items_serialize:
-        product_id = item["id_Producto"]
+        product_id = item["id_Product"]
         product = Product.query.get(product_id)
         if product:
             item['product_info'] = product.serialize()
@@ -191,10 +191,13 @@ def put_restaurant(id):
     if not restaurant:
         return jsonify({"message": "Restaurante no encontrado"}), 404
     
-    if "name" in body:
-        restaurant.name = body['name']
-    if "image" in body:
-        restaurant.image = body['image']
+    restaurant.name = body["name"]
+    restaurant.type = body["type"]
+    restaurant.description = body["description"]
+    restaurant.url_img = body["url_img"]
+    restaurant.idu_img = body["idu_img"]
+    restaurant.name_contact = body["name_contact"]
+    restaurant.num_contact = body["num_contact"]
     
     db.session.commit()
 
@@ -205,11 +208,14 @@ def post_restaurant():
 
     body = request.json
     new_restaurant = Restaurant(
-        name=body['name'],
-        tipo=body["tipo"],
-        contacto=body["contacto"],
+        id=body["id"],
+        name=body["name"],
+        type=body["type"],
         description=body["description"],
-        img=body["img"]
+        url_img=body["url_img"],
+        idu_img=body["idu_img"],
+        name_contact=body["name_contact"],
+        num_contact=body["num_contact"],
     )
     db.session.add(new_restaurant)
     db.session.commit()
@@ -245,14 +251,13 @@ def put_sucursale(id):
     if not Sucursale:
         return jsonify({"message": "Sucursal no encontrado"}), 404
     
-    if "name" in body:
-        sucursale.name = body['name']
-    if "direccion" in body:
-        sucursale.direccion = body['direccion']
-    if "tipo" in body:
-        sucursale.tipo = body['tipo']
-    if "contacto" in body:
-        sucursale.contacto = body['contacto']
+    sucursale.name = body['name']
+    sucursale.address = body['address']
+    sucursale.type = body['type']
+    sucursale.url_img = body["url_img"]
+    sucursale.idu_img = body["idu_img"]
+    sucursale.name_contact = body['name_contact']
+    sucursale.num_contact = body['num_contact']
     
     db.session.commit()
 
@@ -262,9 +267,14 @@ def put_sucursale(id):
 def post_sucursale():
     body = request.json
     new_sucursale = Sucursale(
+        id=body["id"],
         name=body['name'],
-        tipo=body["tipo"],
-        contacto=body["contacto"]
+        type=body["type"],
+        address=body["address"],
+        name_contact=body["name_contact"],
+        num_contact=body["num_contact"],
+        url_img = body["url_img"],
+        idu_img = body["idu_img"]
     )
 
     db.session.add(new_sucursale)

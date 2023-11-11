@@ -118,6 +118,8 @@ class Sucursale (db.Model):
     address = db.Column(db.String(250), unique=False, nullable=False)
     name_contact = db.Column(db.String(250), unique=False, nullable=False)
     num_contact = db.Column(db.String(250), unique=False, nullable=False)
+    url_img = db.Column(db.String(250), unique=False, nullable=True)
+    idu_img = db.Column(db.String(250), unique=False, nullable=True)
 
 
     def __repr__(self):
@@ -130,5 +132,7 @@ class Sucursale (db.Model):
             "address": self.address,
             "type": self.type,
             "name_contact": self.name_contact,
-            "num_contact": self.num_contact
+            "num_contact": self.num_contact,
+            "url_img": self.url_img,
+            "idu_img": self.idu_img
         }

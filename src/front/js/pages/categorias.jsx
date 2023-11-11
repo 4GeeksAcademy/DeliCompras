@@ -6,13 +6,13 @@ export const Categorias = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        actions.getCategorias();
+        actions.getCategories();
       }, []);
 
       return (
         <div className="container">
               <ul>
-        {store.categorias.map((item) => (
+        {store.categories.map((item) => (
           <li key={item.id}>
             <b>
               {item.id} {item.name}

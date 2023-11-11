@@ -8,9 +8,9 @@ export const Crear = () => {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
-    let idu;
+    let idu_img;
 
-    const isIdUnique = !(store.categorias.some(categorias => categorias.id == id))
+    const isIdUnique = !(store.categories.some(categories => categories.id == id))
     const isFormValid = name && image && isIdUnique && id;
 
     const crear = async (e) => {
@@ -19,17 +19,17 @@ export const Crear = () => {
         try {
             const temp = await actions.upload_img(image);
             console.log(temp)
-            const url = temp[0];
-            idu = temp[1]
+            const url_img = temp[0];
+            idu_img = temp[1]
 
             const objeto = {
                 id : id,
                 name: name,
-                idu: idu,
-                url: url
+                idu_img: idu_img,
+                url_img: url_img
             };        
             console.log("idu:",objeto.idu," url:",objeto.url)
-            await actions.crear(objeto);
+            await actions.postCategories(objeto);
         } catch (error) {
             console.error(error)
         }
