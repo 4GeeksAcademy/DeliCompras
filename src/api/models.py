@@ -119,8 +119,9 @@ class Sucursale (db.Model):
     name_contact = db.Column(db.String(250), unique=False, nullable=False)
     num_contact = db.Column(db.String(250), unique=False, nullable=False)
     url_img = db.Column(db.String(250), unique=False, nullable=True)
-    idu_img = db.Column(db.String(250), unique=False, nullable=True) 
-
+    idu_img = db.Column(db.String(250), unique=False, nullable=True)
+    id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    restaurant = db.relationship('Restaurant') 
 
     def __repr__(self):
         return f'<Sucursale {self.name}>'
@@ -134,5 +135,6 @@ class Sucursale (db.Model):
             "name_contact": self.name_contact,
             "num_contact": self.num_contact,
             "url_img": self.url_img,
-            "idu_img": self.idu_img
+            "idu_img": self.idu_img,
+            "id_restaurant": self.id_Restaurant
         }

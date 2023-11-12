@@ -6,7 +6,7 @@ export const Sucursales = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.getSucursales();
+    actions.getSucursales(localStorage.getItem("id"));
   }, []);
 
   return (

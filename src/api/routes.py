@@ -18,10 +18,7 @@ def post_register():
     if user:
         return jsonify({"msg": "Usuario ya existe"}), 401
     
-    next_user_id = (db.session.query(func.max(User.id)).scalar() or 0) + 1
-    
     new_user = User(
-        id= next_user_id,
         email=body['email'],
         password=body["password"]
     )
@@ -40,8 +37,8 @@ def post_login():
     if User is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.email)
-    return jsonify({ "token": access_token, "user_id": user.email })
+    access_token = create_access_token(identity=user.id)
+    return jsonify({ "token": access_token, "user_id": user.id })
 
 @api.route('/products', methods=['GET'])
 def get_products():
@@ -254,7 +251,7 @@ def post_restaurant():
         url_img=body["url_img"],
         idu_img=body["idu_img"],
         name_contact=body["name_contact"],
-        num_contact=body["num_contact"],
+        num_contact=body["num_contact"]
     )
     db.session.add(new_restaurant)
     db.session.commit()
@@ -275,11 +272,13 @@ def delete_restaurant(id):
     return jsonify({"message": "Restaurante eliminado con éxito"}), 200
 
 @api.route('/sucursale', methods=['GET'])
+@jwt_required()
 def get_sucursale():
-
+    #restaurant_id = get_jwt_identity()
+    #store.sucursales
     all_sucursale = Sucursale.query.all()
-    Sucursale_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursale))
-
+    Sucursale_seriallize = [item.serialize() for item in all_sucursale]
+    print("hoooolllaa")
     return jsonify(Sucursale_seriallize), 200
 
 @api.route('/sucursale/<int:id>', methods=['PUT'])
@@ -297,6 +296,7 @@ def put_sucursale(id):
     sucursale.idu_img = body["idu_img"]
     sucursale.name_contact = body['name_contact']
     sucursale.num_contact = body['num_contact']
+    sucursale.id_Restaurant = body['id_Restaurant']
     
     db.session.commit()
 
@@ -313,7 +313,8 @@ def post_sucursale():
         name_contact=body["name_contact"],
         num_contact=body["num_contact"],
         url_img = body["url_img"],
-        idu_img = body["idu_img"]
+        idu_img = body["idu_img"],
+        id_Restaurant = body['id_Restaurant']
     )
 
     db.session.add(new_sucursale)

@@ -43,7 +43,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					return response.json()
 				})
-				.then((data)=> localStorage.setItem("token",data.token))
+				.then((data)=> {
+					localStorage.setItem("token",data.token);
+					localStorage.setItem("id",data.user_id);
+				})
 			},
 			postRegister: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/register", {
@@ -135,16 +138,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
-					},
+					}
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
 			},
 
-			getSucursales: async() => {
-				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale')
+			getSucursales: async(id) => {
+				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
+					headers : {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${id}`
+					}
+				})
 				const body = await response.json();
-				setStore({sucursales: body})
+				setStore({sucursales: body});
 			},
 	
 			postSucursales : (obj) => {

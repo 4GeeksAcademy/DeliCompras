@@ -33,9 +33,10 @@ export const Crear_sucursales = () => {
                 url_img: url_img,
                 idu_img: idu_img,
                 name_contact: name_contact,
-                num_contact: num_contact
+                num_contact: num_contact,
+                id_Restaurant : localStorage.getItem("id")
             };
-
+            console.log(sucursale)
             await actions.postSucursales (sucursale);
         } catch (error) {
             console.error(error)
