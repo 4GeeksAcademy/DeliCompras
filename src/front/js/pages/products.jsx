@@ -7,6 +7,7 @@ export const Products = () => {
 
   useEffect(() => {
     actions.getList();
+    store.auth ? actions.getCart() : null;
   }, []);
 
   return (
@@ -21,7 +22,7 @@ export const Products = () => {
             <Link to={`/modificar/${item.id}`}>
               <button>Modificar</button>
             </Link>
-            <button onClick={() => actions.postCart(1,item.id,1)}>añadir</button>
+            <button onClick={() => actions.postCart(1,item.id, localStorage.getItem("id"))}>añadir</button>
           </li>
         ))}
       </ul>

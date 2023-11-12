@@ -266,7 +266,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				.then((response) => response.json())
-				.then((data) => setStore({ carrito: data }))
+				.then((data) =>{setStore({ carrito: data });console.log(data)})
 			},
 
 			putCart : (updatedCart , id) => {
@@ -281,18 +281,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => console.log(data))
 			},
 
-			postCart: (amount,id_product,id_user) => {
+			postCart: (amount,id_product,id_restaurant) => {
 				fetch(process.env.BACKEND_URL + 'api/cart', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						id : parseInt(v4()),
 						amount : amount,
 						id_Product : id_product,
-						id_User : id_user
-					})
+						id_Restaurant : id_restaurant
+					}) 
 				})
 				.then( response => response.json())
 				.then( data => console.log(data))

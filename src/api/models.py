@@ -94,8 +94,8 @@ class Cart (db.Model):
     amount = db.Column(db.Integer, unique=False, nullable=False)
     id_Product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product = db.relationship('Product')
-    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User')
+    id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    user = db.relationship('Restaurant')
     #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     #orden = db.relationship('Orden')
 
@@ -107,7 +107,7 @@ class Cart (db.Model):
             "id": self.id,
             "amount": self.amount,
             "id_Product": self.id_Product,
-            "id_User": self.id_User,
+            "id_Restaurant": self.id_Restaurant,
             #"id_Orden": self.id_Orden
         }
     

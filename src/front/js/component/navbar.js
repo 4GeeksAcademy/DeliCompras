@@ -1,9 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
+
+  useEffect(() => {
+    store.auth ? actions.getCart() : null;
+  },[])
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -32,7 +36,7 @@ export const Navbar = () => {
             {store.carrito.map((item, index) => (
               <li key={index}>
                 <a className="dropdown-item" href="#">
-                  <img width="50" src={item.product_info.img} alt="Img" />
+                  <img width="50" src={item.product_info.url_img} alt="Img" />
                   {item.product_info.name}
                   {item.product_info.price}
                   <div>

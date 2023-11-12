@@ -181,16 +181,11 @@ def put_cart(id):
 @api.route('/cart', methods=['POST'])
 def post_cart():
     body = request.json
-    cart = Cart.query.filter_by(id=body['id']).first()
-
-    if cart:
-        return jsonify({"message": "Carrito no creado, el ID ya existe"}), 400
     
     new_cart = Cart(
-        id=body['id'],
         amount=body['amount'],
         id_Product=body['id_Product'],
-        id_User=body['id_User']
+        id_Restaurant=body['id_Restaurant']
     )
 
     db.session.add(new_cart)
