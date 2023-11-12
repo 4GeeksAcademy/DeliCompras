@@ -2,12 +2,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User (db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(20), unique=False, nullable=False)
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -18,7 +18,7 @@ class User(db.Model):
             "email": self.email,
         }
 
-class Restaurant(db.Model):
+class Restaurant (db.Model):
     __tablename__ = 'restaurant'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
@@ -45,7 +45,7 @@ class Restaurant(db.Model):
             "num_contact": self.num_contact
         }
 
-class Category(db.Model):
+class Category (db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
@@ -63,7 +63,7 @@ class Category(db.Model):
             "idu_img": self.idu_img
         }
     
-class Product(db.Model):
+class Product (db.Model):
     __tablename__ = 'product'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)

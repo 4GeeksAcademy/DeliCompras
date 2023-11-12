@@ -1,8 +1,47 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale
 from api.utils import generate_sitemap, APIException
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from sqlalchemy import func
 
 api = Blueprint('api', __name__)
+
+@api.route("/user", methods=["POST"])
+def post_user():
+    body = request.json
+    user = User.query.filter_by(email = body['email']).first()
+    print(body)
+    print(user)
+    if user:
+        return jsonify({"msg": "Usuario ya existe"}), 401
+    
+    next_user_id = (db.session.query(func.max(User.id)).scalar() or 0) + 1
+    
+    new_user = User(
+        id= next_user_id,
+        email=body['email'],
+        password=body["password"]
+    )
+
+    db.session.add(new_user)
+    db.session.commit()
+ 
+    return jsonify({"msg" : "Usuario creado"}) , 200
+
+@api.route("/token", methods=["POST"])
+def post_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    user = User.query.filter_by(email=email, password=password).first()
+    if User is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+ 
+    access_token = create_access_token(identity=user.email)
+    return jsonify({ "token": access_token, "user_id": user.email })
 
 @api.route('/products', methods=['GET'])
 def get_products():
