@@ -23,8 +23,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 			carrito: [],
 			restaurants: [],
 			sucursales: [],
+			auth: false
 		},
 		actions: {
+			postUser: (email,password) => {
+				fetch(process.env.BACKEND_URL + "api/user", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email : email,
+						password: password
+					})
+				})
+				.then((response)=> {
+					if (response.status == 200){
+						setStore({ auth : true})
+					}
+					return response.json()
+				})
+				.then((data)=> localStorage.setItem("token",data.token))
+			},
+			postRegister: (email,password) => {
+				fetch(process.env.BACKEND_URL + "api/token", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email : email,
+						password: password
+					})
+				})
+				.then((response)=> response.json())
+				.then((data)=> console.log(data))
+			},
       		getCategories: async() => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/category')
 				const body = await response.json();

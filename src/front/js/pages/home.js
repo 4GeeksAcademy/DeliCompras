@@ -21,6 +21,14 @@ export const Home = () => {
 			<Link to="/restaurantes">
 				<button>restaurantes</button>
 			</Link>
+
+			<Link to="/user_registration">
+				<button>Registro</button>
+			</Link>
+
+			<Link to="/user_login">
+				<button>Login</button>
+			</Link>
 		</div>
 	);
 };
