@@ -5,7 +5,6 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-from sqlalchemy import func
 
 api = Blueprint('api', __name__)
 
@@ -13,8 +12,7 @@ api = Blueprint('api', __name__)
 def post_register():
     body = request.json
     user = User.query.filter_by(email = body['email']).first()
-    print(body)
-    print(user)
+    
     if user:
         return jsonify({"msg": "Usuario ya existe"}), 401
     
@@ -30,10 +28,10 @@ def post_register():
 
 @api.route("/login", methods=["POST"])
 def post_login():
-    email = request.json.get("email", None)
+    name = request.json.get("name", None)
     password = request.json.get("password", None)
     
-    user = User.query.filter_by(email=email, password=password).first()
+    user = Restaurant.query.filter_by(name=name, password=password).first()
     if User is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
@@ -241,11 +239,16 @@ def put_restaurant(id):
 
 @api.route('/restaurant', methods=['POST'])
 def post_restaurant():
-
     body = request.json
+    restaurant = Restaurant.query.filter_by(name = body['name']).first()
+    
+    if restaurant:
+        return jsonify({"msg": "Restaurante ya existe"}), 401
+
     new_restaurant = Restaurant(
         id=body["id"],
         name=body["name"],
+        password = body['password'],
         type=body["type"],
         description=body["description"],
         url_img=body["url_img"],
@@ -274,11 +277,12 @@ def delete_restaurant(id):
 @api.route('/sucursale', methods=['GET'])
 @jwt_required()
 def get_sucursale():
-    #restaurant_id = get_jwt_identity()
-    #store.sucursales
-    all_sucursale = Sucursale.query.all()
+    restaurant_id = get_jwt_identity()
+    
+    all_sucursale = Sucursale.query.filter_by( id_Restaurant = restaurant_id ).all()
+
     Sucursale_seriallize = [item.serialize() for item in all_sucursale]
-    print("hoooolllaa")
+    print(Sucursale_seriallize)
     return jsonify(Sucursale_seriallize), 200
 
 @api.route('/sucursale/<int:id>', methods=['PUT'])

@@ -22,6 +22,7 @@ class Restaurant (db.Model):
     __tablename__ = 'restaurant'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.String(20), unique=False, nullable=False)
     type = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
     url_img = db.Column(db.String(250), unique=False, nullable=False)

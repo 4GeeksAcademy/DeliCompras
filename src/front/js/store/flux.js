@@ -25,15 +25,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 			sucursales: [],
 			auth: false
 		},
-		actions: {
-			postUser: (email,password) => {
+		actions: { 
+			postUser: (name,password) => {
 				fetch(process.env.BACKEND_URL + "api/login", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						email : email,
+						name : name,
 						password: password
 					})
 				})
@@ -144,11 +144,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => console.log(data))
 			},
 
-			getSucursales: async(id) => {
+			getSucursales: async(token) => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
-					headers : {
+					method: 'GET',
+					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${id}`
+						'Authorization': `Bearer ${token}`
 					}
 				})
 				const body = await response.json();
