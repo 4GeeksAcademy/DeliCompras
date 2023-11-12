@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			postUser: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/user", {
+				fetch(process.env.BACKEND_URL + "api/token", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> localStorage.setItem("token",data.token))
 			},
 			postRegister: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/token", {
+				fetch(process.env.BACKEND_URL + "api/user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'

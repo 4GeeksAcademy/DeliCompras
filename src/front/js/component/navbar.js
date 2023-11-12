@@ -69,6 +69,11 @@ export const Navbar = () => {
 						<button className="btn btn-primary">Home</button>
 					</Link>
 				</div>
+        {store.auth == false ? null : 
+          <div className="ml-auto">
+            <button className="btn btn-primary">estas logueado</button>
+          </div>
+        }
 			</div>
 		</nav>
         </div>

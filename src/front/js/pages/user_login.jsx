@@ -18,7 +18,7 @@ export const User_login = () => {
                 <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </div>
             <div>
-                <button className="btn btn-primary" onClick={(e) => {e.preventDefault(); actions.postRegister(email,password)}}>Register</button>
+                <button className="btn btn-primary" onClick={(e) => {e.preventDefault(); actions.postUser(email,password)}}>Register</button>
             </div>
         </form>
     )
