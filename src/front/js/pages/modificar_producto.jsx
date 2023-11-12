@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 
-export const Modificar = () => {
+export const Modificar_productos = () => {
     const { id } = useParams();
     const { store, actions } = useContext(Context);
 
@@ -43,7 +43,8 @@ export const Modificar = () => {
     }
 
     return (
-        <div>
+        <>
+        { store.auth == false ? <Navigate to="/products" /> :
             <form>
                 <img width="100" src={ file === null ? img : URL.createObjectURL(file)} alt="Imagen Seleccionada" />
 
@@ -79,6 +80,7 @@ export const Modificar = () => {
                     <button onClick={() => actions.deleteProduct(id,idu)}>Delete </button>
                 </Link>
             </form>
-        </div>
+        }    
+        </>
     );
 };

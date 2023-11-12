@@ -25,15 +25,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 			sucursales: [],
 			auth: false
 		},
-		actions: {
-			postUser: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/token", {
+		actions: { 
+			postUser: (name,password) => {
+				fetch(process.env.BACKEND_URL + "api/login", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						email : email,
+						name : name,
 						password: password
 					})
 				})
@@ -43,10 +43,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 					return response.json()
 				})
-				.then((data)=> localStorage.setItem("token",data.token))
+				.then((data)=> {
+					localStorage.setItem("token",data.token);
+					localStorage.setItem("id",data.user_id);
+				})
 			},
 			postRegister: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/user", {
+				fetch(process.env.BACKEND_URL + "api/register", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -135,16 +138,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
-					},
+					}
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
 			},
 
-			getSucursales: async() => {
-				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale')
+			getSucursales: async(token) => {
+				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					}
+				})
 				const body = await response.json();
-				setStore({sucursales: body})
+				setStore({sucursales: body});
 			},
 	
 			postSucursales : (obj) => {

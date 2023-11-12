@@ -1,43 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { Link , Navigate } from "react-router-dom";
 
-export const Modificar_sucursales = () => {
-    const { theid } = useParams();
+export const Crear_sucursales = () => {
     const { store, actions } = useContext(Context);
 
-    const sucursales = store.sucursales.find(sucursal => sucursal.id == theid);
-    const [name, setName] = useState( sucursales.name || "");
-    const [image, setImage] =useState(sucursales.url_img || "");
-    const [idu_img, setIdu] = useState(sucursales.idu_img || "");
-    const [tipo, setTipo] = useState(sucursales.type || "");
-    const [address, setAddress] = useState(sucursales.address || "");
-    const [name_contact, setNameContacto] = useState(sucursales.name_contact || "");
-    const [num_contact, setNumContacto] = useState(sucursales.num_contact || "");
-    const [file, setFile] = useState(null);
-    console.log(sucursales)
-    const isFormValid = name && address && tipo;
+    const [id, setId] = useState("");
+    const [name, setName] = useState("");
+    const [image, setImage] =useState("");
+    const [tipo, setTipo] = useState("");
+    const [address, setAddress] = useState("");
+    const [name_contact, setNameContacto] = useState("");
+    const [num_contact, setNumContacto] = useState("");
 
-    const guardar = async (e) => {
+    const isIdUnique = !(store.sucursales.some(sucursales => sucursales.id == id))
+    const isFormValid = name && address && tipo && isIdUnique && id;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            let url_img;
-            if (file) {
-                const temp = await actions.upload_img(file);
-                url_img = temp[0];
-                setIdu(temp[1])
-            }else url_img = image
 
-            const objeto = {
+        try {
+            const temp = await actions.upload_img(image);
+            console.log(temp)
+            const url_img = temp[0];
+            const idu_img = temp[1]
+
+            const sucursale = {
+                id : id,
                 name: name,
                 type: tipo,
                 address: address,
                 url_img: url_img,
                 idu_img: idu_img,
                 name_contact: name_contact,
-                num_contact: num_contact
+                num_contact: num_contact,
+                id_Restaurant : localStorage.getItem("id")
             };
-            await actions.putSucursales(theid, objeto);
+            console.log(sucursale)
+            await actions.postSucursales (sucursale);
         } catch (error) {
             console.error(error)
         }
@@ -47,8 +47,10 @@ export const Modificar_sucursales = () => {
         <>
         { store.auth == false ? <Navigate to="/"/> :
             <div>
-                <form>
-                    <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
+                <div className="card" style={{width: "18rem"}}>
+                    <div className="card-body">
+                    <form>
+                    <img width="100" src={image ? URL.createObjectURL(image) : null } alt="Imagen Seleccionada" />
 
                     <div className="mb-3">
                         <label htmlFor="img" className="form-label">Imagen</label>
@@ -56,9 +58,14 @@ export const Modificar_sucursales = () => {
                             id="img"
                             type="file"
                             accept="image/*"
-                            onChange={(e)=> {setFile(e.target.files[0])}}
+                            onChange={(e)=> {setImage(e.target.files[0])}}
                         />
                     </div>
+                    <div className="mb-3">
+                        <label htmlFor="id" className="form-label">Id</label>
+                        <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
+                    </div>
+                    {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -68,8 +75,8 @@ export const Modificar_sucursales = () => {
                         <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="address" className="form-label">Direccion</label>
-                        <input type="text" className="form-control" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                        <label htmlFor="direccion" className="form-label">direccion</label>
+                        <input type="text" className="form-control" id="direccion" value={address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>
@@ -81,12 +88,11 @@ export const Modificar_sucursales = () => {
                     </div>
                     
                     <Link to="/sucursales">
-                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                        <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
                     </Link>
-                    <Link to="/sucursales">
-                        <button onClick={() => actions.deleteSucursales(theid)}>Delete </button>
-                    </Link>
-                </form>
+                    </form>
+                    </div>
+                </div>
             </div>
         }
         </>

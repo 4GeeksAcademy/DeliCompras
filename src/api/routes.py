@@ -5,23 +5,18 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-from sqlalchemy import func
 
 api = Blueprint('api', __name__)
 
-@api.route("/user", methods=["POST"])
-def post_user():
+@api.route("/register", methods=["POST"])
+def post_register():
     body = request.json
     user = User.query.filter_by(email = body['email']).first()
-    print(body)
-    print(user)
+    
     if user:
         return jsonify({"msg": "Usuario ya existe"}), 401
     
-    next_user_id = (db.session.query(func.max(User.id)).scalar() or 0) + 1
-    
     new_user = User(
-        id= next_user_id,
         email=body['email'],
         password=body["password"]
     )
@@ -31,17 +26,17 @@ def post_user():
  
     return jsonify({"msg" : "Usuario creado"}) , 200
 
-@api.route("/token", methods=["POST"])
-def post_token():
-    email = request.json.get("email", None)
+@api.route("/login", methods=["POST"])
+def post_login():
+    name = request.json.get("name", None)
     password = request.json.get("password", None)
     
-    user = User.query.filter_by(email=email, password=password).first()
+    user = Restaurant.query.filter_by(name=name, password=password).first()
     if User is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.email)
-    return jsonify({ "token": access_token, "user_id": user.email })
+    access_token = create_access_token(identity=user.id)
+    return jsonify({ "token": access_token, "user_id": user.id })
 
 @api.route('/products', methods=['GET'])
 def get_products():
@@ -244,17 +239,22 @@ def put_restaurant(id):
 
 @api.route('/restaurant', methods=['POST'])
 def post_restaurant():
-
     body = request.json
+    restaurant = Restaurant.query.filter_by(name = body['name']).first()
+    
+    if restaurant:
+        return jsonify({"msg": "Restaurante ya existe"}), 401
+
     new_restaurant = Restaurant(
         id=body["id"],
         name=body["name"],
+        password = body['password'],
         type=body["type"],
         description=body["description"],
         url_img=body["url_img"],
         idu_img=body["idu_img"],
         name_contact=body["name_contact"],
-        num_contact=body["num_contact"],
+        num_contact=body["num_contact"]
     )
     db.session.add(new_restaurant)
     db.session.commit()
@@ -275,11 +275,14 @@ def delete_restaurant(id):
     return jsonify({"message": "Restaurante eliminado con éxito"}), 200
 
 @api.route('/sucursale', methods=['GET'])
+@jwt_required()
 def get_sucursale():
+    restaurant_id = get_jwt_identity()
+    
+    all_sucursale = Sucursale.query.filter_by( id_Restaurant = restaurant_id ).all()
 
-    all_sucursale = Sucursale.query.all()
-    Sucursale_seriallize = list (map(lambda sucursale: sucursale.serialize(),all_sucursale))
-
+    Sucursale_seriallize = [item.serialize() for item in all_sucursale]
+    print(Sucursale_seriallize)
     return jsonify(Sucursale_seriallize), 200
 
 @api.route('/sucursale/<int:id>', methods=['PUT'])
@@ -297,6 +300,7 @@ def put_sucursale(id):
     sucursale.idu_img = body["idu_img"]
     sucursale.name_contact = body['name_contact']
     sucursale.num_contact = body['num_contact']
+    sucursale.id_Restaurant = body['id_Restaurant']
     
     db.session.commit()
 
@@ -313,7 +317,8 @@ def post_sucursale():
         name_contact=body["name_contact"],
         num_contact=body["num_contact"],
         url_img = body["url_img"],
-        idu_img = body["idu_img"]
+        idu_img = body["idu_img"],
+        id_Restaurant = body['id_Restaurant']
     )
 
     db.session.add(new_sucursale)
