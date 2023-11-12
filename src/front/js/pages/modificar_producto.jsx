@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useParams } from "react-router-dom";
 
-export const Modificar = () => {
+export const Modificar_productos = () => {
     const { id } = useParams();
     const { store, actions } = useContext(Context);
 

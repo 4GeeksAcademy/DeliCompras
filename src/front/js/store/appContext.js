@@ -24,8 +24,8 @@ const injectContext = PassedComponent => {
 		useEffect(() => {		
 			state.actions.getList();	
 			state.actions.getCategories();
-      		state.actions.getCart();
-   			state.actions.getRestaurants();
+      state.actions.getCart();
+   		state.actions.getRestaurants();
 			state.actions.getSucursales();
 		}, []);
 

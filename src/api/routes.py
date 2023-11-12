@@ -9,8 +9,8 @@ from sqlalchemy import func
 
 api = Blueprint('api', __name__)
 
-@api.route("/user", methods=["POST"])
-def post_user():
+@api.route("/register", methods=["POST"])
+def post_register():
     body = request.json
     user = User.query.filter_by(email = body['email']).first()
     print(body)
@@ -31,8 +31,8 @@ def post_user():
  
     return jsonify({"msg" : "Usuario creado"}) , 200
 
-@api.route("/token", methods=["POST"])
-def post_token():
+@api.route("/login", methods=["POST"])
+def post_login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     

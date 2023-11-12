@@ -119,7 +119,7 @@ class Sucursale (db.Model):
     name_contact = db.Column(db.String(250), unique=False, nullable=False)
     num_contact = db.Column(db.String(250), unique=False, nullable=False)
     url_img = db.Column(db.String(250), unique=False, nullable=True)
-    idu_img = db.Column(db.String(250), unique=False, nullable=True)
+    idu_img = db.Column(db.String(250), unique=False, nullable=True) 
 
 
     def __repr__(self):

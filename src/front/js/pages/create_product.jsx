@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link , Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export const Create = () => {
+export const Create_productos = () => {
     const { store, actions } = useContext(Context);
 
     const [id, setId] = useState("");
@@ -76,7 +76,7 @@ export const Create = () => {
                     <label htmlFor="amount" className="form-label">Amount</label>
                     <input type="number" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
-                
+
                 <button disabled={ !isFormValid } onClick={handleSubmit}>Crear Producto</button>
             </form>
         </div>

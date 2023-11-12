@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
-export const Crear = () => {
+export const Crear_categorias = () => { 
     const { store, actions } = useContext(Context);
 
     const [id, setId] = useState("");
