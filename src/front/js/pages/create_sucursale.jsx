@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link , Navigate } from "react-router-dom";
+import { Map } from "../component/map.jsx";
 
 export const Crear_sucursales = () => {
     const { store, actions } = useContext(Context);
@@ -12,6 +13,8 @@ export const Crear_sucursales = () => {
     const [address, setAddress] = useState("");
     const [name_contact, setNameContacto] = useState("");
     const [num_contact, setNumContacto] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
 
     const isIdUnique = !(store.sucursales.some(sucursales => sucursales.id == id))
     const isFormValid = name && address && tipo && isIdUnique && id;
@@ -47,6 +50,9 @@ export const Crear_sucursales = () => {
         <>
         { store.auth == false ? <Navigate to="/"/> :
             <div>
+                <div>
+                    <Map/>
+                </div>
                 <div className="card" style={{width: "18rem"}}>
                     <div className="card-body">
                     <form>

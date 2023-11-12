@@ -73,12 +73,14 @@
 		]
 	},
 	"dependencies": {
+		"@googlemaps/js-api-loader": "^1.16.2",
 		"firebase": "^10.5.2",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-dom": "^16.8.4",
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^6.3.0",
+		"simple-react-google-maps": "^1.1.2",
 		"uuid": "^9.0.1"
 	}
 }

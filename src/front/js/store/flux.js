@@ -48,6 +48,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("id",data.user_id);
 				})
 			},
+			logout : () => {
+				setStore({ auth : false});
+				localStorage.removeItem("token");
+				localStorage.removeItem("id")
+			},
 			postRegister: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/register", {
 					method: 'POST',

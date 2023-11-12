@@ -6,7 +6,7 @@ export const Restaurantes = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.getRestaurants();
+    store.auth ? actions.getRestaurants() : null;
   }, []);
 
   return (

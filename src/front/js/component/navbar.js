@@ -9,8 +9,14 @@ export const Navbar = () => {
     <nav className="navbar navbar-light bg-light">
       <div className="container">
         <div>
+          <Link to="/">
+            <button>Home</button>
+          </Link>
+        </div>
+
+        <div>
           {store.auth == false ? null : 
-            <button className="btn btn-primary">estas logueado</button>
+            <button className="btn btn-primary" onClick={()=> actions.logout()}>Logout</button>
           }
         </div>
         
