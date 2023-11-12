@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext.js";
-import { Link } from "react-router-dom";
+import { Link , Navigate } from "react-router-dom";
 
 export const Categorias = () => {
   const { store, actions } = useContext(Context);
@@ -24,7 +24,7 @@ export const Categorias = () => {
         ))}
       </ul>
 
-      <Link to="/crear">
+      <Link to="/crear_categorias">
         <button>Crear</button>
       </Link>
     </div>

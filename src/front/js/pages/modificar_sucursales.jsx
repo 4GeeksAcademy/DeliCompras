@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 
 export const Modificar_sucursales = () => {
     const { theid } = useParams();
@@ -44,47 +44,51 @@ export const Modificar_sucursales = () => {
     }
 
     return (
-        <div>
-            <form>
-                <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
+        <>
+        { store.auth == false ? <Navigate to="/"/> :
+            <div>
+                <form>
+                    <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
 
-                <div className="mb-3">
-                    <label htmlFor="img" className="form-label">Imagen</label>
-                    <input
-                        id="img"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e)=> {setFile(e.target.files[0])}}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="tipo" className="form-label">Tipo</label>
-                    <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="address" className="form-label">Direccion</label>
-                    <input type="text" className="form-control" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>
-                    <input type="text" className="form-control" id="name_contact" value={name_contact} onChange={(e) => setNameContacto(e.target.value)} />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="num_contact" className="form-label">Numero de Contacto</label>
-                    <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
-                </div>
-                
-                <Link to="/sucursales">
-                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                </Link>
-                <Link to="/sucursales">
-                    <button onClick={() => actions.deleteSucursales(theid)}>Delete </button>
-                </Link>
-            </form>
-        </div>
+                    <div className="mb-3">
+                        <label htmlFor="img" className="form-label">Imagen</label>
+                        <input
+                            id="img"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e)=> {setFile(e.target.files[0])}}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="tipo" className="form-label">Tipo</label>
+                        <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="address" className="form-label">Direccion</label>
+                        <input type="text" className="form-control" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>
+                        <input type="text" className="form-control" id="name_contact" value={name_contact} onChange={(e) => setNameContacto(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="num_contact" className="form-label">Numero de Contacto</label>
+                        <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
+                    </div>
+                    
+                    <Link to="/sucursales">
+                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    </Link>
+                    <Link to="/sucursales">
+                        <button onClick={() => actions.deleteSucursales(theid)}>Delete </button>
+                    </Link>
+                </form>
+            </div>
+        }
+        </>
     );
 };

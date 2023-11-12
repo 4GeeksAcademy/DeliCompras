@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 
 export const Modificar_categorias = () => {
     const { theid } = useParams();
@@ -37,31 +37,35 @@ export const Modificar_categorias = () => {
     }
 
     return (
-        <div>
-            <form>
-                <img width="100" src={file ? URL.createObjectURL(file) : img} alt="Imagen Seleccionada" />
+        <>
+        { store.auth == false ? <Navigate to="/categorias" /> :
+            <div>
+                <form>
+                    <img width="100" src={file ? URL.createObjectURL(file) : img} alt="Imagen Seleccionada" />
 
-                <div className="mb-3">
-                    <label htmlFor="img" className="form-label">Imagen</label>
-                    <input
-                        id="img"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e)=> {setFile(e.target.files[0])}}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">Name</label>
-                    <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
-                
-                <Link to="/categorias">
-                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                </Link>
-                <Link to="/categorias">
-                    <button onClick={() => actions.deleteCategories(theid)}>Delete </button>
-                </Link>
-            </form>
-        </div>
+                    <div className="mb-3">
+                        <label htmlFor="img" className="form-label">Imagen</label>
+                        <input
+                            id="img"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e)=> {setFile(e.target.files[0])}}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    
+                    <Link to="/categorias">
+                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    </Link>
+                    <Link to="/categorias">
+                        <button onClick={() => actions.deleteCategories(theid)}>Delete </button>
+                    </Link>
+                </form>
+            </div>
+        }
+        </>
     );
 };
