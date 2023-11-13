@@ -73,7 +73,6 @@
 		]
 	},
 	"dependencies": {
-		"@googlemaps/js-api-loader": "^1.16.2",
 		"firebase": "^10.5.2",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",

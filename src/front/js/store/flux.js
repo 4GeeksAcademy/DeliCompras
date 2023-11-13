@@ -23,6 +23,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			carrito: [],
 			restaurants: [],
 			sucursales: [],
+			lat: "",
+			lng: "",
 			auth: false
 		},
 		actions: { 
@@ -306,7 +308,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data));
-			}
+			},
+			getLatLng: (address) => {
+				console.log(address);
+				fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCj5o1FRwG7gBoDGpjpRddscMfNZ6Z0_cI")
+				.then(response => response.json())
+				.then(data => {
+					setStore({ lat : data.results[0].geometry.location.lat})
+					setStore({ lng : data.results[0].geometry.location.lng})
+				})
+			}			  
 		}
 	};
 };

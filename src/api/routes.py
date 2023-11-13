@@ -289,12 +289,14 @@ def put_sucursale(id):
         return jsonify({"message": "Sucursal no encontrado"}), 404
     
     sucursale.name = body['name']
-    sucursale.address = body['address']
     sucursale.type = body['type']
     sucursale.url_img = body["url_img"]
     sucursale.idu_img = body["idu_img"]
     sucursale.name_contact = body['name_contact']
     sucursale.num_contact = body['num_contact']
+    sucursale.dir = body["dir"]
+    sucursale.city = body["city"]
+    sucursale.country = body["country"]
     sucursale.id_Restaurant = body['id_Restaurant']
     
     db.session.commit()
@@ -308,9 +310,11 @@ def post_sucursale():
         id=body["id"],
         name=body['name'],
         type=body["type"],
-        address=body["address"],
         name_contact=body["name_contact"],
         num_contact=body["num_contact"],
+        dir=body["dir"],
+        city=body["city"],
+        country=body["country"],
         url_img = body["url_img"],
         idu_img = body["idu_img"],
         id_Restaurant = body['id_Restaurant']

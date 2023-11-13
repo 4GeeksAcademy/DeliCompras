@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import { Map } from "../component/map.jsx";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
