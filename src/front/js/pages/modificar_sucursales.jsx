@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useParams, Navigate } from "react-router-dom";
+import { Map } from "../component/map.jsx";
 
 export const Modificar_sucursales = () => {
     const { theid } = useParams();
@@ -11,12 +12,19 @@ export const Modificar_sucursales = () => {
     const [image, setImage] =useState(sucursales.url_img || "");
     const [idu_img, setIdu] = useState(sucursales.idu_img || "");
     const [tipo, setTipo] = useState(sucursales.type || "");
-    const [address, setAddress] = useState(sucursales.address || "");
     const [name_contact, setNameContacto] = useState(sucursales.name_contact || "");
     const [num_contact, setNumContacto] = useState(sucursales.num_contact || "");
+    const [dir, setDir] = useState(sucursales.dir || "");
+    const [city, setCity] = useState(sucursales.city || "");
+    const [country, setCountry] = useState(sucursales.country || "");
+    const [mapKey, setMapKey] = useState(0);
     const [file, setFile] = useState(null);
-    console.log(sucursales)
-    const isFormValid = name && address && tipo;
+    
+    const isFormValid = name && tipo;
+
+    useEffect(() => {
+        setMapKey(mapKey + 1);
+    }, [store.lat, store.lng]);
 
     const guardar = async (e) => {
         e.preventDefault();
@@ -31,11 +39,14 @@ export const Modificar_sucursales = () => {
             const objeto = {
                 name: name,
                 type: tipo,
-                address: address,
                 url_img: url_img,
                 idu_img: idu_img,
                 name_contact: name_contact,
-                num_contact: num_contact
+                num_contact: num_contact,
+                dir: dir,
+                city : city,
+                country : country,
+                id_Restaurant : localStorage.getItem("id")
             };
             await actions.putSucursales(theid, objeto);
         } catch (error) {
@@ -43,10 +54,35 @@ export const Modificar_sucursales = () => {
         }
     }
 
+    const handleGetLatLng = async (e) => {
+        e.preventDefault();
+        await actions.getLatLng(`${dir.replace(/ /g, "+")},+${city},+${country}`);
+    };
+
     return (
         <>
         { store.auth == false ? <Navigate to="/"/> :
             <div>
+                <div>
+                    <form>
+                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
+                        <div>{store.lat},{store.lng}</div>
+                        <div className="mb-3">
+                            <label htmlFor="dir" className="form-label">Address</label>
+                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
+                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="city" className="form-label">City</label>
+                            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="country" className="form-label">Country</label>
+                            <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                        </div>
+                        <button onClick={handleGetLatLng}>Validar</button>
+                    </form>
+                </div>
                 <form>
                     <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
 
@@ -66,10 +102,6 @@ export const Modificar_sucursales = () => {
                     <div className="mb-3">
                         <label htmlFor="tipo" className="form-label">Tipo</label>
                         <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="address" className="form-label">Direccion</label>
-                        <input type="text" className="form-control" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>

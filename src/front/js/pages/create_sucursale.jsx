@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link , Navigate } from "react-router-dom";
+import { Map } from "../component/map.jsx";
 
 export const Crear_sucursales = () => {
     const { store, actions } = useContext(Context);
@@ -9,12 +10,19 @@ export const Crear_sucursales = () => {
     const [name, setName] = useState("");
     const [image, setImage] =useState("");
     const [tipo, setTipo] = useState("");
-    const [address, setAddress] = useState("");
     const [name_contact, setNameContacto] = useState("");
     const [num_contact, setNumContacto] = useState("");
+    const [dir, setDir] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [mapKey, setMapKey] = useState(0);
 
     const isIdUnique = !(store.sucursales.some(sucursales => sucursales.id == id))
-    const isFormValid = name && address && tipo && isIdUnique && id;
+    const isFormValid = name && dir && tipo && isIdUnique && id;
+
+    useEffect(() => {
+        setMapKey(mapKey + 1);
+    }, [store.lat, store.lng]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,11 +37,13 @@ export const Crear_sucursales = () => {
                 id : id,
                 name: name,
                 type: tipo,
-                address: address,
                 url_img: url_img,
                 idu_img: idu_img,
                 name_contact: name_contact,
                 num_contact: num_contact,
+                dir: dir,
+                city : city,
+                country : country,
                 id_Restaurant : localStorage.getItem("id")
             };
             console.log(sucursale)
@@ -43,10 +53,35 @@ export const Crear_sucursales = () => {
         }
     }
 
+    const handleGetLatLng = async (e) => {
+        e.preventDefault();
+        await actions.getLatLng(`${dir.replace(/ /g, "+")},+${city},+${country}`);
+    };
+    
     return (
         <>
         { store.auth == false ? <Navigate to="/"/> :
             <div>
+                <div>
+                    <form>
+                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
+                        <div>{store.lat},{store.lng}</div>
+                        <div className="mb-3">
+                            <label htmlFor="dir" className="form-label">Address</label>
+                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
+                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="city" className="form-label">City</label>
+                            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="country" className="form-label">Country</label>
+                            <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                        </div>
+                        <button onClick={handleGetLatLng}>Validar</button>
+                    </form>
+                </div>
                 <div className="card" style={{width: "18rem"}}>
                     <div className="card-body">
                     <form>
@@ -61,6 +96,7 @@ export const Crear_sucursales = () => {
                             onChange={(e)=> {setImage(e.target.files[0])}}
                         />
                     </div>
+
                     <div className="mb-3">
                         <label htmlFor="id" className="form-label">Id</label>
                         <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
@@ -73,10 +109,6 @@ export const Crear_sucursales = () => {
                     <div className="mb-3">
                         <label htmlFor="tipo" className="form-label">Tipo</label>
                         <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="direccion" className="form-label">direccion</label>
-                        <input type="text" className="form-control" id="direccion" value={address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>

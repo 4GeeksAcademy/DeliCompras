@@ -1,16 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
 
+  useEffect(() => {
+    store.auth ? actions.getCart() : null;
+  },[])
+
   return (
     <nav className="navbar navbar-light bg-light">
       <div className="container">
         <div>
+          <Link to="/">
+            <button>Home</button>
+          </Link>
+        </div>
+
+        <div>
           {store.auth == false ? null : 
-            <button className="btn btn-primary">estas logueado</button>
+            <button className="btn btn-primary" onClick={()=> actions.logout()}>Logout</button>
           }
         </div>
         
@@ -26,7 +36,7 @@ export const Navbar = () => {
             {store.carrito.map((item, index) => (
               <li key={index}>
                 <a className="dropdown-item" href="#">
-                  <img width="50" src={item.product_info.img} alt="Img" />
+                  <img width="50" src={item.product_info.url_img} alt="Img" />
                   {item.product_info.name}
                   {item.product_info.price}
                   <div>

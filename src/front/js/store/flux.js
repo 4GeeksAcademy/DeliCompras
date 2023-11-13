@@ -23,6 +23,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			carrito: [],
 			restaurants: [],
 			sucursales: [],
+			lat: "",
+			lng: "",
 			auth: false
 		},
 		actions: { 
@@ -47,6 +49,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
 				})
+			},
+			logout : () => {
+				setStore({ auth : false});
+				localStorage.removeItem("token");
+				localStorage.removeItem("id")
 			},
 			postRegister: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/register", {
@@ -261,7 +268,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				.then((response) => response.json())
-				.then((data) => setStore({ carrito: data }))
+				.then((data) =>{setStore({ carrito: data });console.log(data)})
 			},
 
 			putCart : (updatedCart , id) => {
@@ -276,18 +283,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => console.log(data))
 			},
 
-			postCart: (amount,id_product,id_user) => {
+			postCart: (amount,id_product,id_restaurant) => {
 				fetch(process.env.BACKEND_URL + 'api/cart', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						id : parseInt(v4()),
 						amount : amount,
 						id_Product : id_product,
-						id_User : id_user
-					})
+						id_Restaurant : id_restaurant
+					}) 
 				})
 				.then( response => response.json())
 				.then( data => console.log(data))
@@ -302,7 +308,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data));
-			}
+			},
+			getLatLng: (address) => {
+				console.log(address);
+				fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCj5o1FRwG7gBoDGpjpRddscMfNZ6Z0_cI")
+				.then(response => response.json())
+				.then(data => {
+					setStore({ lat : data.results[0].geometry.location.lat})
+					setStore({ lng : data.results[0].geometry.location.lng})
+				})
+			}			  
 		}
 	};
 };

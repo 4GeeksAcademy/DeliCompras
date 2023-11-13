@@ -6,7 +6,7 @@ export const Sucursales = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
-    actions.getSucursales(localStorage.getItem("token"));
+    store.auth ? actions.getSucursales(localStorage.getItem("token")) : null;
   }, []);
 
   return (

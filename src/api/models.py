@@ -94,8 +94,8 @@ class Cart (db.Model):
     amount = db.Column(db.Integer, unique=False, nullable=False)
     id_Product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product = db.relationship('Product')
-    id_User = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User')
+    id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    user = db.relationship('Restaurant')
     #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     #orden = db.relationship('Orden')
 
@@ -107,7 +107,7 @@ class Cart (db.Model):
             "id": self.id,
             "amount": self.amount,
             "id_Product": self.id_Product,
-            "id_User": self.id_User,
+            "id_Restaurant": self.id_Restaurant,
             #"id_Orden": self.id_Orden
         }
     
@@ -116,11 +116,13 @@ class Sucursale (db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     type = db.Column(db.String(250), unique=False, nullable=False)
-    address = db.Column(db.String(250), unique=False, nullable=False)
     name_contact = db.Column(db.String(250), unique=False, nullable=False)
     num_contact = db.Column(db.String(250), unique=False, nullable=False)
     url_img = db.Column(db.String(250), unique=False, nullable=True)
     idu_img = db.Column(db.String(250), unique=False, nullable=True)
+    dir = db.Column(db.String(250), unique=False, nullable=True)
+    city = db.Column(db.String(250), unique=False, nullable=True)
+    country = db.Column(db.String(250), unique=False, nullable=True)
     id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
     restaurant = db.relationship('Restaurant') 
 
@@ -131,11 +133,13 @@ class Sucursale (db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "address": self.address,
             "type": self.type,
             "name_contact": self.name_contact,
             "num_contact": self.num_contact,
             "url_img": self.url_img,
             "idu_img": self.idu_img,
+            "dir": self.dir,
+            "city": self.city,
+            "country": self.country,
             "id_restaurant": self.id_Restaurant
         }
