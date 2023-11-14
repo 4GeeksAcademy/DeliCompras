@@ -325,7 +325,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then( data => console.log(data));
 			},
 
-			getOrder :  () => {
+			getOrder :  (token) => {
 				fetch(process.env.BACKEND_URL + 'api/order', {
 					headers: {
 						'Content-Type': 'application/json',
@@ -333,7 +333,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				.then((response) => response.json())
-				.then((data) =>{setStore({ order: data });console.log(data)})
+				.then((data) =>{setStore({ order : data });console.log(data)})
 			},
 
 			putOrder : (updatedOrder , id) => {

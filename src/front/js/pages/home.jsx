@@ -36,6 +36,11 @@ export const Home = () => {
 					<button>Login</button>
 				</Link>
 			</div>
+			<div>
+				<Link to="/ordenes">
+					<button> Mis Ordenes </button>
+				</Link>
+			</div>
 		</div>
 	);
 };

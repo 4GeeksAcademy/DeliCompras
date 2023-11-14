@@ -363,7 +363,8 @@ def delete_sucursale(id):
 def get_order():
     restaurant_id = get_jwt_identity()
     
-    all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+    #all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+    all_order = Order.query.all()
 
     Order_seriallize = [item.serialize() for item in all_order]
     return jsonify(Order_seriallize), 200

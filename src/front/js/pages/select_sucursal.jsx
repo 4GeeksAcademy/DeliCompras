@@ -56,7 +56,7 @@ export const SelectSucursal = () => {
             <Link to="/resumen">
                 <button>Volver a Resumen</button>
             </Link>
-            <Link to="/">
+            <Link to="/orden_creada">
                 <button onClick={crear}>Confirmar Orden</button>
             </Link>
         </div>
