@@ -25,7 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			sucursales: [],
 			lat: "",
 			lng: "",
-			auth: false
+			auth: true
 		},
 		actions: { 
 			postUser: (name,password) => {

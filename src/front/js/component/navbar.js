@@ -48,6 +48,9 @@ export const Navbar = () => {
                 </a>
               </li>
             ))}
+            <Link to="/resumen">
+              <button> Resumen </button>
+            </Link>
           </ul>
         </div>
       </div>
