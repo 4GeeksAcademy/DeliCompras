@@ -23,6 +23,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			carrito: [],
 			restaurants: [],
 			sucursales: [],
+			order: [],
+			selectSucursale: null,
 			lat: "",
 			lng: "",
 			auth: true
@@ -283,6 +285,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => console.log(data))
 			},
 
+			addOrderCart : (updatedCart , id) => {
+				fetch(process.env.BACKEND_URL + 'api/cart_add_idOrder/'+ id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(updatedCart)
+				})
+				.then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+
 			postCart: (amount,id_product,id_restaurant) => {
 				fetch(process.env.BACKEND_URL + 'api/cart', {
 					method: 'POST',
@@ -292,7 +306,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify({
 						amount : amount,
 						id_Product : id_product,
-						id_Restaurant : id_restaurant
+						id_Restaurant : id_restaurant,
+						id_Order: null
 					}) 
 				})
 				.then( response => response.json())
@@ -309,15 +324,67 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then( response => response.json())
 				.then( data => console.log(data));
 			},
+
+			getOrder :  () => {
+				fetch(process.env.BACKEND_URL + 'api/order', {
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+				})
+				.then((response) => response.json())
+				.then((data) =>{setStore({ order: data });console.log(data)})
+			},
+
+			putOrder : (updatedOrder , id) => {
+				fetch(process.env.BACKEND_URL + 'api/order/'+ id, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(updatedOrder)
+				})
+				.then((response) => response.json())
+				.then((data) => console.log(data))
+			},
+
+			postOrder: (order) => {
+				order.id = v4();
+				console.log(order);
+				fetch(process.env.BACKEND_URL + 'api/order', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(order) 
+				})
+				.then( response => response.json())
+				.then( data => console.log(data))
+				return order.id;
+			},
+
+			deleteOrder : (id) => {
+				fetch(process.env.BACKEND_URL + 'api/order/' + id, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+				.then( response => response.json())
+				.then( data => console.log(data));
+			},
+
 			getLatLng: (address) => {
-				console.log(address);
 				fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCj5o1FRwG7gBoDGpjpRddscMfNZ6Z0_cI")
 				.then(response => response.json())
 				.then(data => {
 					setStore({ lat : data.results[0].geometry.location.lat})
 					setStore({ lng : data.results[0].geometry.location.lng})
 				})
-			}			  
+			},
+			setSelectSucursale: (index) => {
+				setStore({ selectSucursale: index })
+			}
 		}
 	};
 };

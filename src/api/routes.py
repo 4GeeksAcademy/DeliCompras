@@ -172,11 +172,30 @@ def put_cart(id):
 
     cart.amount = body['amount']
     cart.id_Producto = body['id_Product']
-    cart.id_User = body['id_User']
+    cart.id_Restaurant = body['id_Restaurant']
+    cart.id_Order = body['id_Order']
 
     db.session.commit()
 
     return jsonify({"message": "Carrito modificado con éxito"}), 200
+
+@api.route('/cart_add_idOrder/<int:id>', methods=['PUT'])
+def add_order_cart(id):
+    cart = Cart.query.get(id)
+
+    if not cart:
+        return jsonify({"message": "Carrito no encontrado"}), 404
+    
+    body = request.json
+
+    cart.amount = body['amount']
+    cart.id_Producto = body['id_Product']
+    cart.id_Restaurant = body['id_Restaurant']
+    cart.id_Order = body['id_Order']
+
+    db.session.commit()
+
+    return jsonify({"message": "orden annadida con éxito"}), 200
 
 @api.route('/cart', methods=['POST'])
 def post_cart():
@@ -185,7 +204,8 @@ def post_cart():
     new_cart = Cart(
         amount=body['amount'],
         id_Product=body['id_Product'],
-        id_Restaurant=body['id_Restaurant']
+        id_Restaurant=body['id_Restaurant'],
+        id_Order = body['id_Order']
     )
 
     db.session.add(new_cart)
@@ -372,7 +392,7 @@ def post_order():
     body = request.json
     new_order = Order(
         id=body["id"],
-        state=body['state'],
+        state= "Creada",
         day_Date=body["day_Date"],
         month_Date=body["month_Date"],
         year_Date=body["year_Date"],
