@@ -23,10 +23,6 @@ export const SelectSucursal = () => {
             {store.sucursales.map((item) => (
                 <li key={item.id} className={`${item.id === isActive ? 'divBorder' : ''}`} onClick={() => toggleBorder(item.id)}>
                 <b>  {item.id} {item.name} {item.direccion}  </b>
-                
-                <Link to={`/modificar_sucursales/${item.id}`}>
-                    <button> Seleccionar </button>
-                </Link>
                 </li>
             ))}
             </ul>

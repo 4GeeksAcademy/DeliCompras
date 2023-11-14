@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale
+from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale, Order
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -337,3 +337,63 @@ def delete_sucursale(id):
     db.session.commit()
     
     return jsonify({"message": "Sucursal eliminada con éxito"}), 200
+
+@api.route('/order', methods=['GET'])
+@jwt_required()
+def get_order():
+    restaurant_id = get_jwt_identity()
+    
+    all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+
+    Order_seriallize = [item.serialize() for item in all_order]
+    return jsonify(Order_seriallize), 200
+
+@api.route('/order/<int:id>', methods=['PUT'])
+def put_order(id):
+    Order = Order.query.get(id)
+    body = request.json
+
+    if not Order:
+        return jsonify({"message": "Orden no encontrada"}), 404
+    
+    Order.state = body['state']
+    Order.day_Date = body['day_Date']
+    Order.month_Date = body["month_Date"]
+    Order.year_Date = body["year_Date"]
+    Order.id_Restaurant = body['id_Restaurant']
+    Order.id_Sucursale = body['id_Sucursale']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Orden modificada con éxito"}), 200
+
+@api.route('/order', methods=['POST'])
+def post_order():
+    body = request.json
+    new_order = Order(
+        id=body["id"],
+        state=body['state'],
+        day_Date=body["day_Date"],
+        month_Date=body["month_Date"],
+        year_Date=body["year_Date"],
+        id_Restaurant=body["id_Restaurant"],
+        id_Sucursale=body["id_Sucursale"],
+    )
+
+    db.session.add(new_order)
+    db.session.commit()
+
+    return jsonify({"message": "Orden creada con éxito"}), 200
+
+@api.route('/order/<int:id>', methods=['DELETE'])
+def delete_order(id):
+
+    order = Order.query.get(id)
+
+    if not order:
+        return jsonify({"message": "Orden no encontrada"}), 404
+
+    db.session.delete(order)
+    db.session.commit()
+    
+    return jsonify({"message": "Orden eliminada con éxito"}), 200

@@ -143,3 +143,29 @@ class Sucursale (db.Model):
             "country": self.country,
             "id_restaurant": self.id_Restaurant
         }
+    
+class Order (db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.Integer, primary_key=True)
+    state = db.Column(db.String(80), unique=True, nullable=False)
+    day_Date = db.Column(db.String(20), unique=False, nullable=False)
+    month_Date = db.Column(db.String(20), unique=False, nullable=False)
+    year_Date = db.Column(db.String(20), unique=False, nullable=False)
+    id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    restaurant = db.relationship('Restaurant')
+    id_Sucursale = db.Column(db.Integer, db.ForeignKey('sucursale.id'), nullable=False)
+    sucursale = db.relationship('Sucursale')
+
+    def __repr__(self):
+        return f'<Orden {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "state": self.state,
+            "day_Date": self.day_Date,
+            "month_Date": self.month_Date,
+            "year_Date": self.year_Date,
+            "id_Restaurant": self.id_Restaurant,
+            "id_Sucursale": self.id_Sucursale
+        }
