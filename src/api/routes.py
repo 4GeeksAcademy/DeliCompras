@@ -8,8 +8,14 @@ from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 
-@api.route("/register", methods=["POST"])
-def post_register():
+@api.route('/user', methods=['GET'])
+def get_user():
+    all_user = User.query.all()
+    user_serialize = [user.serialize() for user in all_user]
+    return jsonify(user_serialize), 200
+
+@api.route("/user", methods=["POST"])
+def post_user():
     body = request.json
     user = User.query.filter_by(email = body['email']).first()
     
@@ -26,6 +32,21 @@ def post_register():
  
     return jsonify({"msg" : "Usuario creado"}) , 200
 
+@api.route('/user/<int:id>', methods=['PUT'])
+def put_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    body = request.json
+    product.email = body['email']
+    product.password = body['password']
+
+    db.session.commit()
+
+    return jsonify({"message": "Usuario modificado con éxito"}), 200
+
 @api.route("/login", methods=["POST"])
 def post_login():
     name = request.json.get("name", None)
@@ -36,13 +57,39 @@ def post_login():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id })
+    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+
+@api.route('/user/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    db.session.delete(product)
+    db.session.commit()
+
+    return jsonify({"message": "Producto eliminado con éxito"}), 200
 
 @api.route('/products', methods=['GET'])
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
     return jsonify(products_serialize), 200
+
+@api.route('/products/<int:id>', methods=['PUT'])
+def put_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Producto no encontrado"}), 404
+    
+    body = request.json
+    product.name = body['name']
+    product.password = body['password']
+    db.session.commit()
+
+    return jsonify({"message": "Usuario modificado con éxito"}), 200
 
 @api.route('/products', methods=['POST'])
 def post_product():
@@ -363,8 +410,7 @@ def delete_sucursale(id):
 def get_order():
     restaurant_id = get_jwt_identity()
     
-    #all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
-    all_order = Order.query.all()
+    all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
 
     Order_seriallize = [item.serialize() for item in all_order]
     return jsonify(Order_seriallize), 200
