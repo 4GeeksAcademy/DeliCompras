@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale
+from api.models import db, User, Product, Category, Cart, Restaurant, Sucursale, Order
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -8,8 +8,14 @@ from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 
-@api.route("/register", methods=["POST"])
-def post_register():
+@api.route('/user', methods=['GET'])
+def get_user():
+    all_user = User.query.all()
+    user_serialize = [user.serialize() for user in all_user]
+    return jsonify(user_serialize), 200
+
+@api.route("/user", methods=["POST"])
+def post_user():
     body = request.json
     user = User.query.filter_by(email = body['email']).first()
     
@@ -26,6 +32,21 @@ def post_register():
  
     return jsonify({"msg" : "Usuario creado"}) , 200
 
+@api.route('/user/<int:id>', methods=['PUT'])
+def put_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    body = request.json
+    product.email = body['email']
+    product.password = body['password']
+
+    db.session.commit()
+
+    return jsonify({"message": "Usuario modificado con éxito"}), 200
+
 @api.route("/login", methods=["POST"])
 def post_login():
     name = request.json.get("name", None)
@@ -36,13 +57,39 @@ def post_login():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id })
+    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+
+@api.route('/user/<int:id>', methods=['DELETE'])
+def delete_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    db.session.delete(product)
+    db.session.commit()
+
+    return jsonify({"message": "Producto eliminado con éxito"}), 200
 
 @api.route('/products', methods=['GET'])
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
     return jsonify(products_serialize), 200
+
+@api.route('/products/<int:id>', methods=['PUT'])
+def put_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return jsonify({"message": "Producto no encontrado"}), 404
+    
+    body = request.json
+    product.name = body['name']
+    product.password = body['password']
+    db.session.commit()
+
+    return jsonify({"message": "Usuario modificado con éxito"}), 200
 
 @api.route('/products', methods=['POST'])
 def post_product():
@@ -172,11 +219,30 @@ def put_cart(id):
 
     cart.amount = body['amount']
     cart.id_Producto = body['id_Product']
-    cart.id_User = body['id_User']
+    cart.id_Restaurant = body['id_Restaurant']
+    cart.id_Order = body['id_Order']
 
     db.session.commit()
 
     return jsonify({"message": "Carrito modificado con éxito"}), 200
+
+@api.route('/cart_add_idOrder/<int:id>', methods=['PUT'])
+def add_order_cart(id):
+    cart = Cart.query.get(id)
+
+    if not cart:
+        return jsonify({"message": "Carrito no encontrado"}), 404
+    
+    body = request.json
+
+    cart.amount = body['amount']
+    cart.id_Producto = body['id_Product']
+    cart.id_Restaurant = body['id_Restaurant']
+    cart.id_Order = body['id_Order']
+
+    db.session.commit()
+
+    return jsonify({"message": "orden annadida con éxito"}), 200
 
 @api.route('/cart', methods=['POST'])
 def post_cart():
@@ -185,7 +251,8 @@ def post_cart():
     new_cart = Cart(
         amount=body['amount'],
         id_Product=body['id_Product'],
-        id_Restaurant=body['id_Restaurant']
+        id_Restaurant=body['id_Restaurant'],
+        id_Order = body['id_Order']
     )
 
     db.session.add(new_cart)
@@ -337,3 +404,63 @@ def delete_sucursale(id):
     db.session.commit()
     
     return jsonify({"message": "Sucursal eliminada con éxito"}), 200
+
+@api.route('/order', methods=['GET'])
+@jwt_required()
+def get_order():
+    restaurant_id = get_jwt_identity()
+    
+    all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+
+    Order_seriallize = [item.serialize() for item in all_order]
+    return jsonify(Order_seriallize), 200
+
+@api.route('/order/<int:id>', methods=['PUT'])
+def put_order(id):
+    Order = Order.query.get(id)
+    body = request.json
+
+    if not Order:
+        return jsonify({"message": "Orden no encontrada"}), 404
+    
+    Order.state = body['state']
+    Order.day_Date = body['day_Date']
+    Order.month_Date = body["month_Date"]
+    Order.year_Date = body["year_Date"]
+    Order.id_Restaurant = body['id_Restaurant']
+    Order.id_Sucursale = body['id_Sucursale']
+    
+    db.session.commit()
+
+    return jsonify({"message": "Orden modificada con éxito"}), 200
+
+@api.route('/order', methods=['POST'])
+def post_order():
+    body = request.json
+    new_order = Order(
+        id=body["id"],
+        state= "Creada",
+        day_Date=body["day_Date"],
+        month_Date=body["month_Date"],
+        year_Date=body["year_Date"],
+        id_Restaurant=body["id_Restaurant"],
+        id_Sucursale=body["id_Sucursale"],
+    )
+
+    db.session.add(new_order)
+    db.session.commit()
+
+    return jsonify({"message": "Orden creada con éxito"}), 200
+
+@api.route('/order/<int:id>', methods=['DELETE'])
+def delete_order(id):
+
+    order = Order.query.get(id)
+
+    if not order:
+        return jsonify({"message": "Orden no encontrada"}), 404
+
+    db.session.delete(order)
+    db.session.commit()
+    
+    return jsonify({"message": "Orden eliminada con éxito"}), 200

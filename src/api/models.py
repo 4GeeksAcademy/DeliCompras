@@ -87,17 +87,43 @@ class Product (db.Model):
             "url_img": self.url_img,
             "idu_img": self.idu_img
         }
+    
+class Order (db.Model):
+    __tablename__ = 'order'
+    id = db.Column(db.String , primary_key=True)
+    state = db.Column(db.String(80), unique=True, nullable=False)
+    day_Date = db.Column(db.String(20), unique=False, nullable=False)
+    month_Date = db.Column(db.String(20), unique=False, nullable=False)
+    year_Date = db.Column(db.String(20), unique=False, nullable=False)
+    id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    restaurant = db.relationship('Restaurant')
+    id_Sucursale = db.Column(db.Integer, db.ForeignKey('sucursale.id'), nullable=False)
+    sucursale = db.relationship('Sucursale')
 
-class Cart (db.Model):
+    def __repr__(self):
+        return f'<Orden {self.id}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "state": self.state,
+            "day_Date": self.day_Date,
+            "month_Date": self.month_Date,
+            "year_Date": self.year_Date,
+            "id_Restaurant": self.id_Restaurant,
+            "id_Sucursale": self.id_Sucursale
+        }
+
+class Cart(db.Model):
     __tablename__ = 'cart'
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer, unique=False, nullable=False)
     id_Product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     product = db.relationship('Product')
     id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
-    user = db.relationship('Restaurant')
-    #id_Orden = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #orden = db.relationship('Orden')
+    restaurant = db.relationship('Restaurant')
+    id_Order = db.Column(db.String, db.ForeignKey('order.id'), nullable=True)
+    order = db.relationship('Order')
 
     def __repr__(self):
         return f'<Cart {self.id}>'
@@ -108,8 +134,9 @@ class Cart (db.Model):
             "amount": self.amount,
             "id_Product": self.id_Product,
             "id_Restaurant": self.id_Restaurant,
-            #"id_Orden": self.id_Orden
+            "id_Order": self.id_Order
         }
+
     
 class Sucursale (db.Model):
     __tablename__ = 'sucursale'
