@@ -25,6 +25,8 @@ import { Modificar_productos } from "./pages/modificar_producto.jsx";
 
 import { User_registration } from "./pages/user_registration.jsx";
 import { User_login } from "./pages/user_login.jsx";
+import { Resumen } from "./pages/resumen_carrito.jsx";
+import { SelectSucursal } from "./pages/select_sucursal.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -55,6 +57,8 @@ const Layout = () => {
                         <Route element={<Modificar_productos />} path="/modificar/:id" />
                         <Route element={<Crear_restaurantes />} path="/user_registration" />
                         <Route element={<User_login />} path="/user_login" />
+                        <Route element={<Resumen />} path="/resumen" />
+                        <Route element={<SelectSucursal />} path="/select_sucursal" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
