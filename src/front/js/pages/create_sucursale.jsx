@@ -60,7 +60,7 @@ export const Crear_sucursales = () => {
     
     return (
         <>
-        { store.auth == false ? <Navigate to="/"/> :
+        { !store.auth ? <Navigate to="/"/> :
             <div>
                 <div>
                     <form>

@@ -27,11 +27,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: true
+			auth: false
 		},
 		actions: { 
+			validar: () => {
+				if ( localStorage.getItem("id") && localStorage.getItem("token")) {
+					setStore({ auth : true})
+				}
+			},
 			postUser: (name,password) => {
-				fetch(process.env.BACKEND_URL + "api/login", {
+				fetch(process.env.BACKEND_URL + "api/login_user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -52,13 +57,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("id",data.user_id);
 				})
 			},
-			logout : () => {
-				setStore({ auth : false});
-				localStorage.removeItem("token");
-				localStorage.removeItem("id")
-			},
-			postRegister: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/register", {
+			postAdmin: (email,password) => {
+				fetch(process.env.BACKEND_URL + "api/login_admin", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -67,6 +67,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 						email : email,
 						password: password
 					})
+				})
+				.then((response)=> {
+					if (response.status == 200){
+						setStore({ auth : true})
+					}
+					return response.json()
+				})
+				.then((data)=> {
+					localStorage.setItem("token",data.token);
+					localStorage.setItem("id",data.user_id);
+				})
+			},
+			logout : () => {
+				setStore({ auth : false});
+				localStorage.removeItem("token");
+				localStorage.removeItem("id")
+			},
+			postRegister: (user) => {
+				fetch(process.env.BACKEND_URL + "api/user", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(user)
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
@@ -266,7 +290,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getCart :  () => {
 				fetch(process.env.BACKEND_URL + 'api/cart', {
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${localStorage.getItem('token')}`
 					},
 				})
 				.then((response) => response.json())
@@ -336,7 +361,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) =>{setStore({ order : data });console.log(data)})
 			},
 
+			getAllOrder :  (token) => {
+				fetch(process.env.BACKEND_URL + 'api/all_order', {
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+				})
+				.then((response) => response.json())
+				.then((data) => setStore({ order : data }))
+			},
+
 			putOrder : (updatedOrder , id) => {
+				console.log(updatedOrder)
 				fetch(process.env.BACKEND_URL + 'api/order/'+ id, {
 					method: 'PUT',
 					headers: {

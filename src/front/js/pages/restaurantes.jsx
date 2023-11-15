@@ -11,7 +11,7 @@ export const Restaurantes = () => {
 
   return (
     <>
-    { store.auth == false ? <Navigate to="/"/> :
+    { !store.auth ? <Navigate to="/"/> :
       <div className="container">
         <ul>
           {store.restaurants.map((item) => (

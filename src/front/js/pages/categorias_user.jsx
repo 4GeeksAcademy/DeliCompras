@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext.js";
 import { Link , Navigate } from "react-router-dom";
 
-export const Categorias = () => {
+export const Categorias_user = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
@@ -18,17 +18,9 @@ export const Categorias = () => {
             <li key={item.id}>
               <b> {item.id} {item.name} </b>
               <img width="50" src={item.url} alt="Imagen Seleccionada" />
-              
-              <Link to={`/modificar_categorias/${item.id}`}>
-                <button>Modificar</button>
-              </Link>
             </li>
           ))}
         </ul>
-
-        <Link to="/crear_categorias">
-          <button>Crear</button>
-        </Link>
       </div>
     }
     </>

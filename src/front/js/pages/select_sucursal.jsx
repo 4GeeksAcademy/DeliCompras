@@ -41,25 +41,29 @@ export const SelectSucursal = () => {
 
     return (
         <>
-        <>{store.selectSucursale}</>
-        {store.auth == false ? <Navigate to="/"/> :
-        <div className="container">
-            <div> Selecciona el destino de tu orden </div>
-            <ul>
-            {store.sucursales.map((item) => (
-                <li key={item.id} className={`${item.id === isActive ? 'divBorder' : ''}`} onClick={() => toggleBorder(item.id)}>
-                <b>  {item.id} {item.name} {item.direccion}  </b>
-                </li>
-            ))}
-            </ul>
+        { !store.auth ? <Navigate to="/products" /> :
+            <>
 
-            <Link to="/resumen">
-                <button>Volver a Resumen</button>
-            </Link>
-            <Link to="/orden_creada">
-                <button onClick={crear}>Confirmar Orden</button>
-            </Link>
-        </div>
+                {store.auth == false ? <Navigate to="/"/> :
+                    <div className="container">
+                        <div> Selecciona el destino de tu orden </div>
+                        <ul>
+                        {store.sucursales.map((item) => (
+                            <li key={item.id} className={`${item.id === isActive ? 'divBorder' : ''}`} onClick={() => toggleBorder(item.id)}>
+                            <b>  {item.id} {item.name} {item.direccion}  </b>
+                            </li>
+                        ))}
+                        </ul>
+
+                        <Link to="/resumen">
+                            <button>Volver a Resumen</button>
+                        </Link>
+                        <Link to="/orden_creada">
+                            <button onClick={crear}>Confirmar Orden</button>
+                        </Link>
+                    </div> 
+                }
+            </>
         }
         </>
     );

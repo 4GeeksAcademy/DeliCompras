@@ -38,7 +38,7 @@ export const Modificar_categorias = () => {
 
     return (
         <>
-        { store.auth == false ? <Navigate to="/categorias" /> :
+        { !store.auth ? <Navigate to="/categorias" /> :
             <div>
                 <form>
                     <img width="100" src={file ? URL.createObjectURL(file) : img} alt="Imagen Seleccionada" />

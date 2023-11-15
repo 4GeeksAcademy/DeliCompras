@@ -45,7 +45,7 @@ export const Modificar_restaurantes = () => {
 
     return (
         <>
-        { store.auth == false ? <Navigate to="/"/> :
+        { !store.auth ? <Navigate to="/"/> :
             <div>
                 <form>
                     <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />

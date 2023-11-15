@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext.js";
 import { Link, Navigate } from "react-router-dom";
 
-export const Products = () => {
+export const Products_user = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
@@ -21,15 +21,10 @@ export const Products = () => {
                 {item.id} {item.name} {item.description} {item.price} {item.amount}
               </b>
               <img width="50" src={item.img} alt="Imagen Seleccionada" />
-              <Link to={`/modificar/${item.id}`}>
-                <button>Modificar</button>
-              </Link>
+              <button onClick={() => actions.postCart(1,item.id, localStorage.getItem("id"))}>añadir</button>
             </li>
           ))}
         </ul>
-        <Link to="/create">
-          <button>Crear</button>
-        </Link>
       </div>
     }
     </>  
