@@ -198,7 +198,7 @@ def delete_categories(id):
 def get_carts():
     id = get_jwt_identity()
 
-    all_items = Cart.query.filter_by( id_Restaurant = id ).all()
+    all_items = Cart.query.filter_by( id_Restaurant = id  , id_Order = None ).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -465,7 +465,7 @@ def post_order():
 
     return jsonify({"message": "Orden creada con éxito"}), 200
 
-@api.route('/order/<int:id>', methods=['DELETE'])
+@api.route('/order/<id>', methods=['DELETE'])
 def delete_order(id):
 
     order = Order.query.get(id)

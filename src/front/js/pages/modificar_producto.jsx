@@ -44,7 +44,7 @@ export const Modificar_productos = () => {
 
     return (
         <>
-        { store.auth == false ? <Navigate to="/products" /> :
+        { !store.auth ? <Navigate to="/products" /> :
             <form>
                 <img width="100" src={ file === null ? img : URL.createObjectURL(file)} alt="Imagen Seleccionada" />
 

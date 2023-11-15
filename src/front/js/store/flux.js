@@ -30,6 +30,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			auth: false
 		},
 		actions: { 
+			validar: () => {
+				if ( localStorage.getItem("id") && localStorage.getItem("token")) {
+					setStore({ auth : true})
+				}
+			},
 			postUser: (name,password) => {
 				fetch(process.env.BACKEND_URL + "api/login_user", {
 					method: 'POST',

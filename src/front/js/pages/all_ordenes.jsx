@@ -1,16 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export const All_ordenes = () => {
     const { store , actions } = useContext(Context);
 
-    useEffect(()=>{
-        actions.getAllOrder(localStorage.getItem("token"))
+    useEffect(() => {
+        store.auth ? actions.getAllOrder(localStorage.getItem("token")) : null
     },[])
 
     return(
         <>
+        { !store.auth ? <Navigate to="/" /> :
+            <>
             <ul>
             {store.order.map((item, index) => (
                 <li key={item.id}>
@@ -24,6 +26,8 @@ export const All_ordenes = () => {
             <Link to="/">
                 <button> Home </button>
             </Link>
+            </>
+        }
         </>
     )
 }

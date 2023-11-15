@@ -10,6 +10,15 @@ export const Home = () => {
 	return (
 		<div className="d-flex justify-content-evenly align-items-center" style={{height:100}}>
 			<div>
+				<h1>ADMIN</h1>
+				<Link to="/crear_admin">
+					<button>Registro admin</button>
+				</Link>
+
+				<Link to="/admin_login">
+					<button>Login admin</button>
+				</Link>
+
 				<Link to="/products">
 					<button>productos</button>
 				</Link>
@@ -17,39 +26,39 @@ export const Home = () => {
 				<Link to="/categorias">
 					<button>categorias</button>
 				</Link>
-			</div>
-			<div>
+
 				<Link to="/restaurantes">
 					<button>restaurantes</button>
 				</Link>
 
-				<Link to="/sucursales">
-					<button>Sucursales</button>
+				<Link to="/all_ordenes">
+					<button> Ordenes </button>
 				</Link>
 			</div>
 			<div>
+				<h1>USER</h1>
 				<Link to="/user_registration">
 					<button>Registro user</button>
-				</Link>
-
-				<Link to="/crear_admin">
-					<button>Registro admin</button>
 				</Link>
 
 				<Link to="/user_login">
 					<button>Login user</button>
 				</Link>
 
-				<Link to="/admin_login">
-					<button>Login admin</button>
+				<Link to="/products_user">
+					<button>productos usuario</button>
 				</Link>
-			</div>
-			<div>
+
+				<Link to="/categorias_user">
+					<button>categorias</button>
+				</Link>
+
+				<Link to="/sucursales">
+					<button>Sucursales</button>
+				</Link>
+
 				<Link to="/ordenes">
 					<button> Mis Ordenes </button>
-				</Link>
-				<Link to="/all_ordenes">
-					<button> Ordenes </button>
 				</Link>
 			</div>
 		</div>

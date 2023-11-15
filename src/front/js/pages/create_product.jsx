@@ -43,7 +43,7 @@ export const Create_productos = () => {
 
     return (
         <>
-        { store.auth == false ? <Navigate to="/products"/> :
+        { !store.auth ? <Navigate to="/products"/> :
             <div>
                 <form>
                     <img width="100" src={file ? URL.createObjectURL(file) : null } alt="Imagen Seleccionada" />

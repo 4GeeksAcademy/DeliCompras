@@ -37,7 +37,7 @@ export const Crear_categorias = () => {
 
     return (
         <>
-        { store.auth == false ? <Navigate to="/categorias" /> :
+        { !store.auth ? <Navigate to="/categorias" /> :
             <div>
                 <img width="100" src={image ? URL.createObjectURL(image) : null } alt="Imagen Seleccionada" />
 

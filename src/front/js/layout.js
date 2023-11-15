@@ -7,6 +7,7 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home.jsx";
 
 import { Categorias } from "./pages/categorias.jsx";
+import { Categorias_user } from "./pages/categorias_user.jsx";
 import { Crear_categorias } from "./pages/create_category.jsx";
 import { Modificar_categorias } from "./pages/modificar_categorias.jsx";
 
@@ -20,6 +21,7 @@ import { Modificar_sucursales } from "./pages/modificar_sucursales.jsx";
 
 
 import { Products } from "./pages/products.jsx";
+import { Products_user } from "./pages/products_user.jsx";
 import { Create_productos } from "./pages/create_product.jsx";
 import { Modificar_productos } from "./pages/modificar_producto.jsx";
 
@@ -71,6 +73,8 @@ const Layout = () => {
                         <Route element={<Crear_admin />} path="/crear_admin" />
                         <Route element={<All_ordenes />} path="/all_ordenes" />
                         <Route element={<Modificar_orden />} path="/modificar_orden/:index" />
+                        <Route element={<Products_user />} path="/products_user" />
+                        <Route element={<Categorias_user />} path="/categorias_user" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
