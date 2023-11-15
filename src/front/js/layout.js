@@ -29,6 +29,7 @@ import { Resumen } from "./pages/resumen_carrito.jsx";
 import { SelectSucursal } from "./pages/select_sucursal.jsx";
 import { OrdenCreada } from "./pages/orden_creada.jsx";
 import { Ordenes } from "./pages/ordenes.jsx";
+import { Admin_login } from "./pages/login_admin.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -63,6 +64,7 @@ const Layout = () => {
                         <Route element={<SelectSucursal />} path="/select_sucursal" />
                         <Route element={<OrdenCreada />} path="/orden_creada" />
                         <Route element={<Ordenes />} path="/ordenes" />
+                        <Route element={<Admin_login />} path="/admin_login" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

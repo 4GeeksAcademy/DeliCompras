@@ -40,24 +40,12 @@ def put_user(id):
         return jsonify({"message": "Usuario no encontrado"}), 404
     
     body = request.json
-    product.email = body['email']
-    product.password = body['password']
+    user.email = body['email']
+    user.password = body['password']
 
     db.session.commit()
 
     return jsonify({"message": "Usuario modificado con éxito"}), 200
-
-@api.route("/login", methods=["POST"])
-def post_login():
-    name = request.json.get("name", None)
-    password = request.json.get("password", None)
-    
-    user = Restaurant.query.filter_by(name=name, password=password).first()
-    if User is None:
-        return jsonify({"msg": "Bad username or password"}), 401
- 
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) , 200
 
 @api.route('/user/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -66,30 +54,42 @@ def delete_user(id):
     if not user:
         return jsonify({"message": "Usuario no encontrado"}), 404
     
-    db.session.delete(product)
+    db.session.delete(user)
     db.session.commit()
 
     return jsonify({"message": "Producto eliminado con éxito"}), 200
+
+@api.route("/login_user", methods=["POST"])
+def post_login_user():
+    name = request.json.get("name", None)
+    password = request.json.get("password", None)
+    
+    user = Restaurant.query.filter_by(name=name, password=password).first()
+    
+    if user is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+ 
+    access_token = create_access_token(identity=user.id)
+    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+
+@api.route("/login_admin", methods=["POST"])
+def post_login_admin():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    user = User.query.filter_by(email=email, password=password).first()
+
+    if user is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+ 
+    access_token = create_access_token(identity=user.id)
+    return jsonify({ "token": access_token, "user_id": user.id }) , 200
 
 @api.route('/products', methods=['GET'])
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
     return jsonify(products_serialize), 200
-
-@api.route('/products/<int:id>', methods=['PUT'])
-def put_user(id):
-    user = User.query.get(id)
-
-    if not user:
-        return jsonify({"message": "Producto no encontrado"}), 404
-    
-    body = request.json
-    product.name = body['name']
-    product.password = body['password']
-    db.session.commit()
-
-    return jsonify({"message": "Usuario modificado con éxito"}), 200
 
 @api.route('/products', methods=['POST'])
 def post_product():

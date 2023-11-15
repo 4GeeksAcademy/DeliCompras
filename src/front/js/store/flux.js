@@ -31,13 +31,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: { 
 			postUser: (name,password) => {
-				fetch(process.env.BACKEND_URL + "api/login", {
+				fetch(process.env.BACKEND_URL + "api/login_user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
 						name : name,
+						password: password
+					})
+				})
+				.then((response)=> {
+					if (response.status == 200){
+						setStore({ auth : true})
+					}
+					return response.json()
+				})
+				.then((data)=> {
+					localStorage.setItem("token",data.token);
+					localStorage.setItem("id",data.user_id);
+				})
+			},
+			postAdmin: (email,password) => {
+				fetch(process.env.BACKEND_URL + "api/login_admin", {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email : email,
 						password: password
 					})
 				})

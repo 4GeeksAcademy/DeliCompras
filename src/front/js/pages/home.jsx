@@ -33,7 +33,10 @@ export const Home = () => {
 				</Link>
 
 				<Link to="/user_login">
-					<button>Login</button>
+					<button>Login user</button>
+				</Link>
+				<Link to="/admin_login">
+					<button>Login admin</button>
 				</Link>
 			</div>
 			<div>
