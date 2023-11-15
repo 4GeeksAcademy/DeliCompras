@@ -91,7 +91,7 @@ class Product (db.Model):
 class Order (db.Model):
     __tablename__ = 'order'
     id = db.Column(db.String , primary_key=True)
-    state = db.Column(db.String(80), unique=True, nullable=False)
+    state = db.Column(db.String(80), unique=False, nullable=False)
     day_Date = db.Column(db.String(20), unique=False, nullable=False)
     month_Date = db.Column(db.String(20), unique=False, nullable=False)
     year_Date = db.Column(db.String(20), unique=False, nullable=False)

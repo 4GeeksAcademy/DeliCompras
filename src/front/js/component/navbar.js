@@ -44,7 +44,7 @@ export const Navbar = () => {
                     {item.amount}
                     <button onClick={() => disminuir(item)}>-</button>
                   </div>
-				          <button onClick={async () => {await actions.deleteCart(item.id);await actions.getCart}}>eliminar</button>
+				          <button onClick={async () => {await actions.deleteCart(item.id)}}>eliminar</button>
                 </a>
               </li>
             ))}

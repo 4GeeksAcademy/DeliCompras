@@ -194,8 +194,11 @@ def delete_categories(id):
     return jsonify({"message": "Categoría eliminada con éxito"}), 200
 
 @api.route('/cart', methods=['GET'])
+@jwt_required()
 def get_carts():
-    all_items = Cart.query.all()
+    id = get_jwt_identity()
+
+    all_items = Cart.query.filter_by( id_Restaurant = id ).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -411,6 +414,16 @@ def get_order():
     restaurant_id = get_jwt_identity()
     
     all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+
+    Order_seriallize = [item.serialize() for item in all_order]
+    return jsonify(Order_seriallize), 200
+
+@api.route('/all_order', methods=['GET'])
+@jwt_required()
+def get_all_order():
+    user_id = get_jwt_identity()
+    
+    all_order = Order.query.all()
 
     Order_seriallize = [item.serialize() for item in all_order]
     return jsonify(Order_seriallize), 200

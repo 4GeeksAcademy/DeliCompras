@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: true
+			auth: false
 		},
 		actions: { 
 			postUser: (name,password) => {
@@ -79,16 +79,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				localStorage.removeItem("id")
 			},
-			postRegister: (email,password) => {
-				fetch(process.env.BACKEND_URL + "api/register", {
+			postRegister: (user) => {
+				fetch(process.env.BACKEND_URL + "api/user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({
-						email : email,
-						password: password
-					})
+					body: JSON.stringify(user)
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
@@ -288,7 +285,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getCart :  () => {
 				fetch(process.env.BACKEND_URL + 'api/cart', {
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${localStorage.getItem('token')}`
 					},
 				})
 				.then((response) => response.json())
@@ -356,6 +354,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) =>{setStore({ order : data });console.log(data)})
+			},
+
+			getAllOrder :  (token) => {
+				fetch(process.env.BACKEND_URL + 'api/all_order', {
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
+				})
+				.then((response) => response.json())
+				.then((data) => setStore({ order : data }))
 			},
 
 			putOrder : (updatedOrder , id) => {

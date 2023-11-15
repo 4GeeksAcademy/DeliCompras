@@ -29,12 +29,17 @@ export const Home = () => {
 			</div>
 			<div>
 				<Link to="/user_registration">
-					<button>Registro</button>
+					<button>Registro user</button>
+				</Link>
+
+				<Link to="/crear_admin">
+					<button>Registro admin</button>
 				</Link>
 
 				<Link to="/user_login">
 					<button>Login user</button>
 				</Link>
+
 				<Link to="/admin_login">
 					<button>Login admin</button>
 				</Link>
@@ -42,6 +47,9 @@ export const Home = () => {
 			<div>
 				<Link to="/ordenes">
 					<button> Mis Ordenes </button>
+				</Link>
+				<Link to="/all_ordenes">
+					<button> Ordenes </button>
 				</Link>
 			</div>
 		</div>
