@@ -12,9 +12,12 @@ export const All_ordenes = () => {
     return(
         <>
             <ul>
-            {store.order.map((item) => (
+            {store.order.map((item, index) => (
                 <li key={item.id}>
                     <b>{item.id},{item.state},{item.day_Date}/{item.month_Date}/{item.year_Date},{item.id_Sucursale}</b>
+                    <Link to={'/modificar_orden/'+ index }>
+                        <button> Modificar </button>
+                    </Link>
                 </li>
             ))}
             </ul>

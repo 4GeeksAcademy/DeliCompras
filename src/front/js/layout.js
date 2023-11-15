@@ -32,6 +32,7 @@ import { Ordenes } from "./pages/ordenes.jsx";
 import { Admin_login } from "./pages/login_admin.jsx";
 import { Crear_admin } from "./pages/create_admin.jsx";
 import { All_ordenes } from "./pages/all_ordenes.jsx";
+import { Modificar_orden } from "./pages/modificar_orden.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -69,6 +70,7 @@ const Layout = () => {
                         <Route element={<Admin_login />} path="/admin_login" />
                         <Route element={<Crear_admin />} path="/crear_admin" />
                         <Route element={<All_ordenes />} path="/all_ordenes" />
+                        <Route element={<Modificar_orden />} path="/modificar_orden/:index" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

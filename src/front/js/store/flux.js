@@ -368,6 +368,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			putOrder : (updatedOrder , id) => {
+				console.log(updatedOrder)
 				fetch(process.env.BACKEND_URL + 'api/order/'+ id, {
 					method: 'PUT',
 					headers: {

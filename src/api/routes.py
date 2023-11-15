@@ -428,20 +428,20 @@ def get_all_order():
     Order_seriallize = [item.serialize() for item in all_order]
     return jsonify(Order_seriallize), 200
 
-@api.route('/order/<int:id>', methods=['PUT'])
+@api.route('/order/<id>', methods=['PUT'])
 def put_order(id):
-    Order = Order.query.get(id)
+    order = Order.query.get(id)
     body = request.json
 
-    if not Order:
+    if not order:
         return jsonify({"message": "Orden no encontrada"}), 404
     
-    Order.state = body['state']
-    Order.day_Date = body['day_Date']
-    Order.month_Date = body["month_Date"]
-    Order.year_Date = body["year_Date"]
-    Order.id_Restaurant = body['id_Restaurant']
-    Order.id_Sucursale = body['id_Sucursale']
+    order.state = body['state']
+    order.day_Date = body['day_Date']
+    order.month_Date = body["month_Date"]
+    order.year_Date = body["year_Date"]
+    order.id_Restaurant = body['id_Restaurant']
+    order.id_Sucursale = body['id_Sucursale']
     
     db.session.commit()
 
