@@ -5,7 +5,6 @@ import { Link, Navigate } from "react-router-dom";
 export const Create_productos = () => {
     const { store, actions } = useContext(Context);
 
-    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
     const [price, setPrice] = useState("");
@@ -13,20 +12,17 @@ export const Create_productos = () => {
     const [file, setFile] = useState(null);
     let idu_img;
 
-    const isIdUnique = !(store.products.some(product => product.id == id));
-    const isFormValid = name && desc && price && amount && isIdUnique && id;
+    const isFormValid = name && desc && price && amount;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             const temp = await actions.upload_img(file);
-            console.log(temp)
             const url_img = temp[0];
             idu_img = temp[1]
 
             const product = {
-                id: id,
                 name: name,
                 description: desc,
                 price: price,
@@ -57,11 +53,7 @@ export const Create_productos = () => {
                             onChange={(e)=> {setFile(e.target.files[0])}}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="id" className="form-label">Id</label>
-                        <input type="number" className="form-control" id="id" value={id} onChange={(e) => setId(e.target.value)} />
-                    </div>
-                    {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
+
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />

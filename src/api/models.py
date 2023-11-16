@@ -25,8 +25,6 @@ class Restaurant (db.Model):
     password = db.Column(db.String(20), unique=False, nullable=False)
     type = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
-    url_img = db.Column(db.String(250), unique=False, nullable=False)
-    idu_img = db.Column(db.String(250), unique=False, nullable=False)
     name_contact = db.Column(db.String(250), unique=False, nullable=False)
     num_contact = db.Column(db.String(250), unique=False, nullable=False)
 
@@ -40,8 +38,6 @@ class Restaurant (db.Model):
             "name": self.name,
             "description": self.description,
             "type": self.type,
-            "url_img": self.url_img,
-            "idu_img": self.idu_img,
             "name_contact": self.name_contact,
             "num_contact": self.num_contact
         }

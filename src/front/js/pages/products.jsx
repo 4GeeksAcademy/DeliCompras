@@ -7,7 +7,6 @@ export const Products = () => {
 
   useEffect(() => {
     actions.getList();
-    store.auth ? actions.getCart() : null;
   }, []);
 
   return (
@@ -17,10 +16,10 @@ export const Products = () => {
         <ul>
           {store.products.map((item) => (
             <li key={item.id}>
+              <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
               <b>
                 {item.id} {item.name} {item.description} {item.price} {item.amount}
               </b>
-              <img width="50" src={item.img} alt="Imagen Seleccionada" />
               <Link to={`/modificar/${item.id}`}>
                 <button>Modificar</button>
               </Link>
