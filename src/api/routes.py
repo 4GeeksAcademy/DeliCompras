@@ -378,7 +378,6 @@ def put_sucursale(id):
 def post_sucursale():
     body = request.json
     new_sucursale = Sucursale(
-        id=body["id"],
         name=body['name'],
         type=body["type"],
         name_contact=body["name_contact"],

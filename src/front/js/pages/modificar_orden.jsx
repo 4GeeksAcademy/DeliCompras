@@ -39,7 +39,6 @@ export const Modificar_orden = () => {
                     <div>
                         <label className="form-label">Estado</label>
                         <select className="form-select" value={state} onChange={(e) => setState(e.target.value)}>
-                            <option selected value="">Open this select menu</option>
                             <option value="Creada">Creada</option>
                             <option value="Pagada">Pagada</option>
                             <option value="En Proceso">En Proceso</option>
