@@ -11,6 +11,7 @@ export const Crear_restaurantes = () => {
     const [description, setDescription] = useState("");
     const [name_contact, setNameContacto] = useState("");
     const [num_contact, setNumContacto] = useState("");
+    const [create , setCreate] = useState(false)
 
     const isFormValid = name && tipo && description && name_contact && num_contact;
 
@@ -28,6 +29,7 @@ export const Crear_restaurantes = () => {
             };
 
             await actions.postRestaurants (restaurant);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -62,9 +64,8 @@ export const Crear_restaurantes = () => {
                         <input type="text" className="form-control" id="num_contacto" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <Link to="/restaurantes">
-                        <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                    {create ? <Navigate to='/restaurantes' /> : null}
                 </form>
             </div>
         </div>

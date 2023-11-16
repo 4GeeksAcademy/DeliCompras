@@ -7,6 +7,7 @@ export const Crear_admin = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [create , setCreate] = useState(false)
 
     const isFormValid = email && password;
 
@@ -20,6 +21,7 @@ export const Crear_admin = () => {
             };
 
             await actions.postRegister (user);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -38,9 +40,8 @@ export const Crear_admin = () => {
                         <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     
-                    <Link to="/">
-                        <button disabled={!isFormValid} onClick={handleSubmit}> Registrar </button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={handleSubmit}> Registrar </button>
+                    {create ? <Navigate to='/' /> : null}
                 </form>
             </div>
         </div>

@@ -8,6 +8,8 @@ export const Modificar_orden = () => {
 
     const [ state , setState] = useState(store.order[index].state || "");
 
+    const isFormValid = state;
+
     async function modificar () {
         const order = {
             day_Date : store.order[index].day_Date,
@@ -37,6 +39,7 @@ export const Modificar_orden = () => {
                     <div>
                         <label className="form-label">Estado</label>
                         <select className="form-select" value={state} onChange={(e) => setState(e.target.value)}>
+                            <option selected value="">Open this select menu</option>
                             <option value="Creada">Creada</option>
                             <option value="Pagada">Pagada</option>
                             <option value="En Proceso">En Proceso</option>
@@ -47,7 +50,7 @@ export const Modificar_orden = () => {
                     </div>
                     <div>{store.order[index].day_Date}/{store.order[index].month_Date}/{store.order[index].year_Date}</div>
                     <Link to='/all_ordenes'>
-                        <button onClick={() => modificar()}> Modificar </button>
+                        <button disabled={!isFormValid} onClick={() => modificar()}> Modificar </button>
                     </Link>
                 </form>
             </div>

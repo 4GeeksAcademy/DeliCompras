@@ -1,11 +1,17 @@
 import React, { useState , useContext } from "react";
 import { Context } from "../store/appContext";
+import { Navigate } from "react-router-dom";
 
 export const Admin_login = () => {
     const { store , actions } = useContext( Context );
 
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
+    
+    function loguear (e) {
+        e.preventDefault();
+        actions.postAdmin(email,password);
+    }
 
     return (
         <form>
@@ -18,7 +24,8 @@ export const Admin_login = () => {
                 <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </div>
             <div>
-                <button className="btn btn-primary" onClick={(e) => {e.preventDefault(); actions.postAdmin(email,password)}}>Login</button>
+                <button className="btn btn-primary" onClick={loguear}>Login</button>
+                {store.auth? <Navigate to='/' /> : null}
             </div>
         </form>
     )

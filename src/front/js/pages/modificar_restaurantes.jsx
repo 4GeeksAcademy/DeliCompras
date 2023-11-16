@@ -13,6 +13,7 @@ export const Modificar_restaurantes = () => {
     const [description, setDescription] = useState(restaurantes.description || "");
     const [name_contact, setNameContacto] = useState(restaurantes.name_contact || "");
     const [num_contact, setNumContacto] = useState(restaurantes.num_contact || "");
+    const [create , setCreate] = useState(false)
 
     const isFormValid = name && tipo && description && name_contact && num_contact;
 
@@ -27,6 +28,7 @@ export const Modificar_restaurantes = () => {
                 num_contact: num_contact
             };
             await actions.putRestaurants(theid, objeto);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -58,9 +60,9 @@ export const Modificar_restaurantes = () => {
                         <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <Link to="/restaurantes">
-                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    {create ? <Navigate to='/restaurantes' /> : null}
+
                     <Link to="/restaurantes">
                         <button onClick={() => actions.deleteRestaurants(theid)}>Delete </button>
                     </Link>

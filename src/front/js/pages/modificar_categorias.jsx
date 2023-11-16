@@ -11,6 +11,7 @@ export const Modificar_categorias = () => {
     const [img, setUrl] = useState(categorias.url_img || "");
     const [file, setFile] = useState(null);
     const [idu_img, setIdu] = useState(categorias.idu_img || "");
+    const [create , setCreate] = useState(false)
     
 
     const isFormValid = name && img;
@@ -30,7 +31,9 @@ export const Modificar_categorias = () => {
                 url_img: url_img,
                 idu_img: idu_img
             };
+
             await actions.putCategories(theid, objeto);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -57,9 +60,9 @@ export const Modificar_categorias = () => {
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                     
-                    <Link to="/categorias">
-                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    {create ? <Navigate to='/categorias' /> : null}
+                    
                     <Link to="/categorias">
                         <button onClick={() => actions.deleteCategories(theid)}>Delete </button>
                     </Link>
