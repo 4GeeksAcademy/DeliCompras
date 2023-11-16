@@ -7,33 +7,22 @@ export const Modificar_restaurantes = () => {
     const { store, actions } = useContext(Context);
 
     const restaurantes = store.restaurants.find(restaurantes => restaurantes.id == theid);
+
     const [name, setName] = useState( restaurantes.name || "");
-    const [image, setImage] =useState(restaurantes.url_img || "");
-    const [idu_img, setIdu] = useState(restaurantes.idu_img || "");
     const [tipo, setTipo] = useState(restaurantes.type || "");
     const [description, setDescription] = useState(restaurantes.description || "");
     const [name_contact, setNameContacto] = useState(restaurantes.name_contact || "");
     const [num_contact, setNumContacto] = useState(restaurantes.num_contact || "");
-    const [file, setFile] = useState("");
 
-    const isFormValid = name && image && tipo && name_contact && num_contact;
+    const isFormValid = name && tipo && description && name_contact && num_contact;
 
     const guardar = async (e) => {
         e.preventDefault();
         try {
-            let url_img;
-            if (file) {
-                const temp = await actions.upload_img(file);
-                url_img = temp[0];
-                setIdu(temp[1])
-            }else url_img = image
-
             const objeto = {
                 name: name,
                 type: tipo,
                 description: description,
-                url_img: url_img,
-                idu_img: idu_img,
                 name_contact: name_contact,
                 num_contact: num_contact
             };
@@ -48,17 +37,6 @@ export const Modificar_restaurantes = () => {
         { !store.auth ? <Navigate to="/"/> :
             <div>
                 <form>
-                    <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
-
-                    <div className="mb-3">
-                        <label htmlFor="img" className="form-label">Imagen</label>
-                        <input
-                            id="img"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e)=> {setFile(e.target.files[0])}}
-                        />
-                    </div>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />

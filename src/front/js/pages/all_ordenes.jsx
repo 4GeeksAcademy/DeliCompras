@@ -8,7 +8,7 @@ export const All_ordenes = () => {
     useEffect(() => {
         store.auth ? actions.getAllOrder(localStorage.getItem("token")) : null
     },[])
-
+    
     return(
         <>
         { !store.auth ? <Navigate to="/" /> :

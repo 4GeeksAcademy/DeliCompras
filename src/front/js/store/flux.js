@@ -249,12 +249,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const product = getStore().products.find(product => product.id == id) 
 
 				if (product.url != obj.url){
-					storageRef = ref( storage , `products/${obj.idu}`);
+					const storageRef = ref( storage , `products/${obj.idu}`);
 					deleteObject(storageRef);
 				}
 			},      
 
-			postProduct: (obj) => {
+			postProduct: (obj) => { 
 				fetch(process.env.BACKEND_URL + 'api/products', {
 					method: 'POST',
 					headers: {

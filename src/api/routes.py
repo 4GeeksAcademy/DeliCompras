@@ -94,13 +94,8 @@ def get_products():
 @api.route('/products', methods=['POST'])
 def post_product():
     body = request.json
-    product = Product.query.filter_by(id=body['id']).first()
-
-    if product:
-        return jsonify({"message": "Producto no creado, el ID ya existe"}), 400
     
     new_product = Product(
-        id=body['id'],
         name=body['name'],
         description=body['description'],
         price=body['price'],
@@ -250,16 +245,26 @@ def add_order_cart(id):
 @api.route('/cart', methods=['POST'])
 def post_cart():
     body = request.json
-    
-    new_cart = Cart(
-        amount=body['amount'],
-        id_Product=body['id_Product'],
-        id_Restaurant=body['id_Restaurant'],
-        id_Order = body['id_Order']
-    )
 
-    db.session.add(new_cart)
-    db.session.commit()
+    existente = Cart.query.filter_by(id_Product = body['id_Product'], id_Restaurant = body['id_Restaurant'], id_Order = None).first()
+
+    if (existente):
+        existente.amount = existente.amount + 1,
+        existente.id_Product=body['id_Product'],
+        existente.id_Restaurant=body['id_Restaurant'],
+        existente.id_Order = body['id_Order'],
+
+        db.session.commit()
+    else : 
+        new_cart = Cart(
+            amount=body['amount'],
+            id_Product=body['id_Product'],
+            id_Restaurant=body['id_Restaurant'],
+            id_Order = body['id_Order']
+        )
+
+        db.session.add(new_cart)
+        db.session.commit()
 
     return jsonify({"message": "Carrito creado con éxito"}), 200
 
@@ -293,8 +298,6 @@ def put_restaurant(id):
     restaurant.name = body["name"]
     restaurant.type = body["type"]
     restaurant.description = body["description"]
-    restaurant.url_img = body["url_img"]
-    restaurant.idu_img = body["idu_img"]
     restaurant.name_contact = body["name_contact"]
     restaurant.num_contact = body["num_contact"]
     
@@ -311,13 +314,10 @@ def post_restaurant():
         return jsonify({"msg": "Restaurante ya existe"}), 401
 
     new_restaurant = Restaurant(
-        id=body["id"],
         name=body["name"],
         password = body['password'],
         type=body["type"],
         description=body["description"],
-        url_img=body["url_img"],
-        idu_img=body["idu_img"],
         name_contact=body["name_contact"],
         num_contact=body["num_contact"]
     )
@@ -421,12 +421,23 @@ def get_order():
 @api.route('/all_order', methods=['GET'])
 @jwt_required()
 def get_all_order():
-    user_id = get_jwt_identity()
-    
     all_order = Order.query.all()
+    order_seriallize = [item.serialize() for item in all_order]
+    order_with_info = []
 
-    Order_seriallize = [item.serialize() for item in all_order]
-    return jsonify(Order_seriallize), 200
+    for item in order_seriallize:
+        restaurant_id = item["id_Restaurant"]
+        sucursale_id = item["id_Sucursale"]
+        restaurant = Restaurant.query.get(restaurant_id)
+        sucursale = Sucursale.query.get(sucursale_id)
+
+        order_item = item.copy()
+
+        order_item['restaurant_info'] = restaurant.serialize()
+        order_item['sucursale_info'] = sucursale.serialize()
+        order_with_info.append(order_item)
+
+    return jsonify(order_with_info), 200
 
 @api.route('/order/<id>', methods=['PUT'])
 def put_order(id):
