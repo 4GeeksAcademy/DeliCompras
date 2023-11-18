@@ -70,6 +70,7 @@ export const Create_productos = () => {
                     <div>
                         <label className="form-label">Categoria</label>
                         <select className="form-select" value={cat} onChange={(e) => setCat(e.target.value)}>
+                                <option selected>Open this select menu</option>
                             {store.categories.map((item) => (
                                 <option value={item.id} key={item.id}>{item.name}</option>
                             ))}

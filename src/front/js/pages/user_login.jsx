@@ -26,7 +26,6 @@ export const User_login = () => {
             </div>
             <div>
                 <button className="btn btn-primary" onClick={loguear}>Login</button>
-                {store.auth ? <Navigate to='/' /> : null}
             </div>
         </form>
     )

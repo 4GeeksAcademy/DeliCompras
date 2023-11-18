@@ -64,7 +64,7 @@ export const Modificar_categorias = () => {
                     {create ? <Navigate to='/categorias' /> : null}
                     
                     <Link to="/categorias">
-                        <button onClick={() => actions.deleteCategories(theid)}>Delete </button>
+                        <button> Atras </button>
                     </Link>
                 </form>
             </div>

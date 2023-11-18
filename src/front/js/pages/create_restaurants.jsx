@@ -49,7 +49,12 @@ export const Crear_restaurantes = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="tipo" className="form-label">Tipo</label>
-                        <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
+                        <select id="tipo" className="form-select" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                        <option selected>Open this select menu</option>
+                        <option value="Comida China">Comida China</option>
+                        <option value="Asadero">Asadero</option>
+                        <option value="Gourmet">Gourmet</option>
+                    </select>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="Descripcion" className="form-label">Descripcion</label>
@@ -65,7 +70,7 @@ export const Crear_restaurantes = () => {
                     </div>
                     
                     <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
-                    {create ? <Navigate to='/restaurantes' /> : null}
+                    {create ? <Navigate to='/' /> : null}
                 </form>
             </div>
         </div>

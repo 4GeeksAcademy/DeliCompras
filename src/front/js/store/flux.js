@@ -101,8 +101,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({categories: body})
 			},
 
-			postCategories : (obj) => {
-				fetch(process.env.BACKEND_URL + "api/category", {
+			postCategories : async (obj) => {
+				await fetch(process.env.BACKEND_URL + "api/category", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -111,10 +111,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
+				await getActions().getCategories()
 			},
 
-			putCategories : (id,obj) => {
-				fetch(process.env.BACKEND_URL + 'api/category/'+id, {
+			putCategories : async (id,obj) => {
+				await fetch(process.env.BACKEND_URL + 'api/category/'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -123,10 +124,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data));
+				await getActions().getCategories()
 			},
 
-			deleteCategories : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/category/'+id, {
+			deleteCategories : async (id) => {
+				await fetch(process.env.BACKEND_URL + 'api/category/'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -134,6 +136,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getCategories()
 			},
 
 			getRestaurants: async() => {
@@ -142,8 +145,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({restaurants: body})
 				},
 
-			postRestaurants : (obj) => {
-				fetch(process.env.BACKEND_URL + 'api/restaurant', {
+			postRestaurants : async (obj) => {
+				await fetch(process.env.BACKEND_URL + 'api/restaurant', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -152,10 +155,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
+				await getActions().getRestaurants()
 			},
 	
-			putRestaurants : (id,obj) => {
-				fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
+			putRestaurants : async (id,obj) => {
+				await fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -164,10 +168,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response)=>response.json())
 				.then((data)=> console.log(data));
+				await getActions().getRestaurants()
 			},
 	
-			deleteRestaurants : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
+			deleteRestaurants : async (id) => {
+				await fetch(process.env.BACKEND_URL + 'api/restaurant/'+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -175,6 +180,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getRestaurants()
 			},
 
 			getSucursales: async(token) => {
@@ -189,8 +195,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({sucursales: body});
 			},
 	
-			postSucursales : (obj) => {
-				fetch(process.env.BACKEND_URL + "api/sucursale", {
+			postSucursales : async (obj) => {
+				await fetch(process.env.BACKEND_URL + "api/sucursale", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -199,10 +205,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data))
+				await getActions().getSucursales()
 			},
 	
-			putSucursales : (id,obj) => {
-				fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
+			putSucursales : async (id,obj) => {
+				await fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -210,11 +217,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify(obj)
 				})
 				.then((response)=>response.json())
-				.then((data)=> console.log(data));
+				.then((data)=> console.log(data))
+				await getActions().getSucursales()
 			},
 	
-			deleteSucursales : (id) => {
-				fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
+			deleteSucursales : async (id) => {
+				await fetch(process.env.BACKEND_URL + "/api/sucursale/"+id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -222,6 +230,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getSucursales()
 			},
 			
 			getList: () => {
@@ -235,8 +244,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then( data => setStore({ products: data }));
 			},
 
-			putProduct: (id, obj) => {
-				fetch(process.env.BACKEND_URL + `api/products/${id}`, {
+			putProduct: async (id, obj) => {
+				await fetch(process.env.BACKEND_URL + `api/products/${id}`, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -246,16 +255,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => response.json())
 				.then(data => console.log(data));
 				
-				const product = getStore().products.find(product => product.id == id) 
+				const product = await getStore().products.find(product => product.id == id) 
 
 				if (product.url != obj.url){
 					const storageRef = ref( storage , `products/${obj.idu}`);
-					deleteObject(storageRef);
+					await deleteObject(storageRef);
 				}
+				await getActions().getList()
 			},      
 
-			postProduct: (obj) => { 
-				fetch(process.env.BACKEND_URL + 'api/products', {
+			postProduct: async (obj) => { 
+				await fetch(process.env.BACKEND_URL + 'api/products', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -264,10 +274,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data))
+				await getActions().getList()
 			},
 
-			deleteProduct: (id,idu) => {
-				fetch(process.env.BACKEND_URL + 'api/products/' + id, {
+			deleteProduct: async (id,idu) => {
+				await fetch(process.env.BACKEND_URL + 'api/products/' + id, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'
@@ -276,7 +287,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then( data => console.log(data));
 
 				const storageRef = ref( storage , `products/${idu}`);
-				deleteObject(storageRef);
+				await deleteObject(storageRef);
+				await getActions().getList()
 			},
 
 			upload_img : async (file) => {
@@ -298,7 +310,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) =>{setStore({ carrito: data });console.log(data)})
 			},
 
-			putCart : (updatedCart , id) => {
+			putCart : async (updatedCart , id) => {
 				fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
 					method: 'PUT',
 					headers: {
@@ -308,10 +320,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getCart()
 			},
 
-			addOrderCart : (updatedCart , id) => {
-				fetch(process.env.BACKEND_URL + 'api/cart_add_idOrder/'+ id, {
+			addOrderCart : async (updatedCart , id) => {
+				await fetch(process.env.BACKEND_URL + 'api/cart_add_idOrder/'+ id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -320,10 +333,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getCart()
 			},
 
-			postCart: (amount,id_product,id_restaurant) => {
-				fetch(process.env.BACKEND_URL + 'api/cart', {
+			postCart: async (amount,id_product,id_restaurant) => {
+				await fetch(process.env.BACKEND_URL + 'api/cart', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -337,10 +351,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data))
+				await getActions().getCart()
 			},
 
-			deleteCart : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/cart/' + id, {
+			deleteCart : async (id) => {
+				await fetch(process.env.BACKEND_URL + 'api/cart/' + id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -348,6 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data));
+				await getActions().getCart()
 			},
 
 			getOrder :  (token) => {
@@ -361,7 +377,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) =>{setStore({ order : data });console.log(data)})
 			},
 
-			getAllOrder :  (token) => {
+			getAllOrder : (token) => {
 				fetch(process.env.BACKEND_URL + 'api/all_order', {
 					headers: {
 						'Content-Type': 'application/json',
