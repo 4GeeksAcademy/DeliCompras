@@ -11,6 +11,7 @@ export const Crear_restaurantes = () => {
     const [description, setDescription] = useState("");
     const [name_contact, setNameContacto] = useState("");
     const [num_contact, setNumContacto] = useState("");
+    const [create , setCreate] = useState(false)
 
     const isFormValid = name && tipo && description && name_contact && num_contact;
 
@@ -28,6 +29,7 @@ export const Crear_restaurantes = () => {
             };
 
             await actions.postRestaurants (restaurant);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -47,7 +49,12 @@ export const Crear_restaurantes = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="tipo" className="form-label">Tipo</label>
-                        <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
+                        <select id="tipo" className="form-select" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                        <option selected>Open this select menu</option>
+                        <option value="Comida China">Comida China</option>
+                        <option value="Asadero">Asadero</option>
+                        <option value="Gourmet">Gourmet</option>
+                    </select>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="Descripcion" className="form-label">Descripcion</label>
@@ -62,9 +69,8 @@ export const Crear_restaurantes = () => {
                         <input type="text" className="form-control" id="num_contacto" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <Link to="/restaurantes">
-                        <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                    {create ? <Navigate to='/' /> : null}
                 </form>
             </div>
         </div>

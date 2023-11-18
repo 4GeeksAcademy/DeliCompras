@@ -6,7 +6,6 @@ import { Map } from "../component/map.jsx";
 export const Crear_sucursales = () => {
     const { store, actions } = useContext(Context);
 
-    const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] =useState("");
     const [tipo, setTipo] = useState("");
@@ -16,9 +15,9 @@ export const Crear_sucursales = () => {
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [mapKey, setMapKey] = useState(0);
+    const [create , setCreate] = useState(false);
 
-    const isIdUnique = !(store.sucursales.some(sucursales => sucursales.id == id))
-    const isFormValid = name && dir && tipo && isIdUnique && id;
+    const isFormValid = name && dir && tipo && name_contact && num_contact;
 
     useEffect(() => {
         setMapKey(mapKey + 1);
@@ -29,12 +28,10 @@ export const Crear_sucursales = () => {
 
         try {
             const temp = await actions.upload_img(image);
-            console.log(temp)
             const url_img = temp[0];
             const idu_img = temp[1]
 
             const sucursale = {
-                id : id,
                 name: name,
                 type: tipo,
                 url_img: url_img,
@@ -46,8 +43,8 @@ export const Crear_sucursales = () => {
                 country : country,
                 id_Restaurant : localStorage.getItem("id")
             };
-            console.log(sucursale)
             await actions.postSucursales (sucursale);
+            setCreate(true);
         } catch (error) {
             console.error(error)
         }
@@ -98,11 +95,6 @@ export const Crear_sucursales = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="id" className="form-label">Id</label>
-                        <input type="text" className="form-control" id="Id" value={id} onChange={(e) => setId(e.target.value)} />
-                    </div>
-                    {isIdUnique ? null : <p style={{"color": "red"}}>"Id ya existe"</p>}
-                    <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
@@ -119,9 +111,8 @@ export const Crear_sucursales = () => {
                         <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <Link to="/sucursales">
-                        <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                    {create ? <Navigate to='/sucursales' /> : null}
                     </form>
                     </div>
                 </div>

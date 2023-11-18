@@ -1,3 +1,6 @@
 .divBorder {
     border: 2px solid #ccc;
 }
+.rounded{
+    background-color: blue;
+}

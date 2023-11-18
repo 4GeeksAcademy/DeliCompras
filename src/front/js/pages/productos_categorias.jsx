@@ -1,36 +1,37 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext.js";
-import { Link , Navigate } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
-export const Categorias = () => {
+export const Products_Categorias = () => {
   const { store, actions } = useContext(Context);
+  const { id_cat } = useParams();
 
   useEffect(() => {
-    actions.getCategories();
+    actions.getList();
   }, []);
 
   return (
     <>
     { !store.auth ? <Navigate to="/"/> :
-      <div className="container">
+      <div>
         <ul>
-          {store.categories.map((item) => (
+          {store.products.filter(producto => producto.id_category == id_cat).map((item) => (
             <li key={item.id}>
-              <b> {item.id} {item.name} </b>
               <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
-              
-              <Link to={`/modificar_categorias/${item.id}`}>
+              <b>
+                {item.id} {item.name} {item.description} {item.price} {item.amount}
+              </b>
+              <Link to={`/modificar/${item.id}`}>
                 <button>Modificar</button>
               </Link>
             </li>
           ))}
         </ul>
-
-        <Link to="/crear_categorias">
+        <Link to="/create">
           <button>Crear</button>
         </Link>
       </div>
     }
-    </>
+    </>  
   );
 };

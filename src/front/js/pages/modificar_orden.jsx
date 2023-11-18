@@ -8,6 +8,8 @@ export const Modificar_orden = () => {
 
     const [ state , setState] = useState(store.order[index].state || "");
 
+    const isFormValid = state;
+
     async function modificar () {
         const order = {
             day_Date : store.order[index].day_Date,
@@ -47,7 +49,7 @@ export const Modificar_orden = () => {
                     </div>
                     <div>{store.order[index].day_Date}/{store.order[index].month_Date}/{store.order[index].year_Date}</div>
                     <Link to='/all_ordenes'>
-                        <button onClick={() => modificar()}> Modificar </button>
+                        <button disabled={!isFormValid} onClick={() => modificar()}> Modificar </button>
                     </Link>
                 </form>
             </div>

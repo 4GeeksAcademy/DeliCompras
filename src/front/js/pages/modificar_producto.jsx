@@ -14,6 +14,8 @@ export const Modificar_productos = () => {
     const [desc, setDesc] = useState(product.description || "");
     const [price, setPrice] = useState(product.price || "");
     const [amount, setAmount] = useState(product.amount || "");
+    const [cat, setCat] = useState(product.id_category || "")
+    const [create , setCreate] = useState(false)
 
     const isFormValid = name && desc && price && amount;
 
@@ -34,9 +36,11 @@ export const Modificar_productos = () => {
                 price: price,
                 amount: amount,
                 url: url,
-                idu : idu
+                idu : idu,
+                id_category: cat
             }
             await actions.putProduct(id, product);
+            setCreate(true)
         } catch (error) {
             console.error(error)
         }
@@ -65,6 +69,14 @@ export const Modificar_productos = () => {
                     <label htmlFor="description" className="form-label">Description</label>
                     <input type="text" className="form-control" id="description" value={desc} onChange={(e) => setDesc(e.target.value)} />
                 </div>
+                <div>
+                    <label className="form-label">Categoria</label>
+                    <select className="form-select" value={cat} onChange={(e) => setCat(e.target.value)}>
+                        {store.categories.map((item) => (
+                            <option value={item.id} key={item.id}>{item.name}</option>
+                        ))}
+                    </select>
+                </div>
                 <div className="mb-3">
                     <label htmlFor="price" className="form-label">Price</label>
                     <input type="number" className="form-control" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
@@ -73,9 +85,10 @@ export const Modificar_productos = () => {
                     <label htmlFor="amount" className="form-label">Amount</label>
                     <input type="number" className="form-control" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
-                <Link to="/products">
-                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
-                </Link>
+
+                <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                {create ? <Navigate to='/products' /> : null}
+
                 <Link to="/products">
                     <button onClick={() => actions.deleteProduct(id,idu)}>Delete </button>
                 </Link>

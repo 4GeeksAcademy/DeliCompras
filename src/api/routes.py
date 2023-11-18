@@ -101,7 +101,8 @@ def post_product():
         price=body['price'],
         amount=body['amount'],
         url_img=body['url_img'],
-        idu_img=body['idu_img']
+        idu_img=body['idu_img'],
+        id_category= body['id_category']
     )
 
     db.session.add(new_product)
@@ -123,6 +124,7 @@ def put_product(id):
     product.amount = body['amount']
     product.url_img = body['url']
     product.idu_img = body['idu']
+    product.id_category = body['id_category']
     db.session.commit()
 
     return jsonify({"message": "Producto modificado con éxito"}), 200
@@ -150,7 +152,6 @@ def get_categories():
 def post_categories():
     body = request.json
     new_categories = Category(
-        id=body['id'],
         name=body['name'],
         url_img=body['url_img'],
         idu_img=body['idu_img']
@@ -377,7 +378,6 @@ def put_sucursale(id):
 def post_sucursale():
     body = request.json
     new_sucursale = Sucursale(
-        id=body["id"],
         name=body['name'],
         type=body["type"],
         name_contact=body["name_contact"],

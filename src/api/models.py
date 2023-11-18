@@ -69,6 +69,8 @@ class Product (db.Model):
     amount = db.Column(db.Integer, unique=False, nullable=False)
     url_img = db.Column(db.String(250), unique=False, nullable=True)
     idu_img = db.Column(db.String(250), unique=False, nullable=True)
+    id_category = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+    category = db.relationship('Category')
 
     def __repr__(self):
         return f'<Product {self.name}>'
@@ -81,7 +83,8 @@ class Product (db.Model):
             "price": self.price,
             "amount": self.amount,
             "url_img": self.url_img,
-            "idu_img": self.idu_img
+            "idu_img": self.idu_img,
+            "id_category": self.id_category
         }
     
 class Order (db.Model):

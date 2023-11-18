@@ -19,6 +19,7 @@ export const Modificar_sucursales = () => {
     const [country, setCountry] = useState(sucursales.country || "");
     const [mapKey, setMapKey] = useState(0);
     const [file, setFile] = useState(null);
+    const [create , setCreate] = useState(false);
     
     const isFormValid = name && tipo;
 
@@ -49,6 +50,7 @@ export const Modificar_sucursales = () => {
                 id_Restaurant : localStorage.getItem("id")
             };
             await actions.putSucursales(theid, objeto);
+            setCreate(true);
         } catch (error) {
             console.error(error)
         }
@@ -112,9 +114,9 @@ export const Modificar_sucursales = () => {
                         <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <Link to="/sucursales">
-                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                    </Link>
+                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    {create ? <Navigate to='/sucursales' /> : null}
+
                     <Link to="/sucursales">
                         <button onClick={() => actions.deleteSucursales(theid)}>Delete </button>
                     </Link>

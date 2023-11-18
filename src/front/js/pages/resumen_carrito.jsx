@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export const Resumen = () => {
     const { store, actions } = useContext(Context);
@@ -25,7 +25,7 @@ export const Resumen = () => {
                 </li>
                 ))}
                 <Link to="/select_sucursal">
-                    <button> Continuar </button>
+                    <button disabled={store.carrito.length > 0 ? false : true}> Continuar </button>
                 </Link>
             </ul>
         }

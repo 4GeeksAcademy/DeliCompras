@@ -10,9 +10,11 @@ export const Create_productos = () => {
     const [price, setPrice] = useState("");
     const [amount, setAmount] = useState("");
     const [file, setFile] = useState(null);
+    const [cat, setCat] = useState("")
+    const [create , setCreate] = useState(false)
     let idu_img;
 
-    const isFormValid = name && desc && price && amount;
+    const isFormValid = name && desc && price && amount && cat;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,12 +30,15 @@ export const Create_productos = () => {
                 price: price,
                 amount: amount,
                 url_img: url_img,
-                idu_img: idu_img
+                idu_img: idu_img,
+                id_category: cat
             };
 
             await actions.postProduct(product);
+            setCreate(true)
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            console.log("hola")
         }
     }
 
@@ -62,6 +67,15 @@ export const Create_productos = () => {
                         <label htmlFor="description" className="form-label">Description</label>
                         <input type="text" className="form-control" id="description" value={desc} onChange={(e) => setDesc(e.target.value)} />
                     </div>
+                    <div>
+                        <label className="form-label">Categoria</label>
+                        <select className="form-select" value={cat} onChange={(e) => setCat(e.target.value)}>
+                                <option selected>Open this select menu</option>
+                            {store.categories.map((item) => (
+                                <option value={item.id} key={item.id}>{item.name}</option>
+                            ))}
+                        </select>
+                    </div>
                     <div className="mb-3">
                         <label htmlFor="price" className="form-label">Price</label>
                         <input type="number" className="form-control" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
@@ -72,6 +86,7 @@ export const Create_productos = () => {
                     </div>
 
                     <button disabled={ !isFormValid } onClick={handleSubmit}>Crear Producto</button>
+                    {create ? <Navigate to='/products' /> : null}
                 </form>
             </div>
         }
