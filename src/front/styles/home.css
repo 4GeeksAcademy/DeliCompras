@@ -1,6 +1,37 @@
 .divBorder {
     border: 2px solid #ccc;
 }
-.rounded{
-    background-color: blue;
+
+.carousel-item.active.carousel-item-start {
+    transform: translate3d(-1500px, 0px, 0px) !important; 
+    transition: transform 2200ms linear !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around;
 }
+
+.carousel-item-start{
+    transform: translate3d(0px, 0px, 0px) !important; 
+     transition: transform 2000ms linear !important;
+}
+
+.active{
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around;
+}
+
+.carousel-item.carousel-item-next.carousel-item-start{
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around;
+}
+
+.card-product {
+    transition: border 0.3s, box-shadow 0.3s; 
+}
+
+.card-product:hover {
+    box-shadow: 0 0 5px 2px rgba(23, 146, 23, 0.5);
+}
+  

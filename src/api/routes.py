@@ -89,6 +89,16 @@ def post_login_admin():
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
+    product_with_product_info = []
+
+    for item in products_serialize:
+        category_id = item["id_category"]
+        category = Category.query.get(category_id)
+        
+        if category:
+            item['category_info'] = category.serialize()
+            product_with_product_info.append(item)
+
     return jsonify(products_serialize), 200
 
 @api.route('/products', methods=['POST'])
@@ -203,7 +213,7 @@ def get_carts():
         product = Product.query.get(product_id)
         if product:
             item['product_info'] = product.serialize()
-        cart_with_product_info.append(item)
+            cart_with_product_info.append(item)
 
     return jsonify(cart_with_product_info), 200
 
