@@ -11,27 +11,17 @@ export const Products_Categorias = () => {
   }, []);
 
   return (
-    <>
-    { !store.auth ? <Navigate to="/"/> :
-      <div>
-        <ul>
-          {store.products.filter(producto => producto.id_category == id_cat).map((item) => (
-            <li key={item.id}>
-              <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
-              <b>
-                {item.id} {item.name} {item.description} {item.price} {item.amount}
-              </b>
-              <Link to={`/modificar/${item.id}`}>
-                <button>Modificar</button>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link to="/create">
-          <button>Crear</button>
-        </Link>
-      </div>
-    }
-    </>  
+    <div>
+      <ul>
+        {store.products.filter(producto => producto.id_category == id_cat).map((item) => (
+          <li key={item.id}>
+            <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
+            <b>
+              {item.id} {item.name} {item.description} {item.price} {item.amount}
+            </b>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };

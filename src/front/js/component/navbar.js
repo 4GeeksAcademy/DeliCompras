@@ -4,6 +4,8 @@ import { Context } from "../store/appContext";
 import { User_login } from "../pages/user_login.jsx";
 import logo from "../../img/logo.png"
 import logo2 from "../../img/logo2.png"
+import logout from "../../img/logout.png"
+import { Carrito } from "./carrito.jsx";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -27,28 +29,30 @@ export const Navbar = () => {
         </Link>
 
         <div className="d-flex justify-content-evenly align-items-center" id="lado">
-          <div>
-            {store.auth == false ? null : 
-              <button className="btn btn-primary" onClick={async() => {await actions.logout();await actions.validarAdmin(localStorage.getItem("token"))}}>Logout</button>
-            }
-          </div>
-          <button onClick={async() => console.log(store.user)}>probar</button>
-          <div>
-            <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-              <div className="modal-dialog">
-                <div className="modal-content" style={{borderRadius:"12px"}}>
-                  <div className="modal-body">
-                    <User_login/>
+          { !store.auth ?
+            <div>
+              <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              
+              <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                <div className="modal-dialog">
+                  <div className="modal-content" style={{borderRadius:"12px"}}>
+                    <div className="modal-body">
+                      <User_login/>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          :
+            <img src={logout} width="20px" height="22px" onClick={
+              async() => {
+                await actions.logout();
+                await actions.validarAdmin(localStorage.getItem("token"))
+            }}/>
+          }
 
           <div>
             <svg data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
@@ -58,9 +62,9 @@ export const Navbar = () => {
             </svg>
             
             {store.auth && store.carrito.length > 0 ? 
-              <span class="position-relative top-0 start-0 translate-middle badge rounded-pill bg-success">
+              <span className="position-relative top-0 start-0 translate-middle badge rounded-pill bg-success">
                 {store.carrito.length}
-                <span class="visually-hidden">unread messages</span>
+                <span className="visually-hidden">unread messages</span>
               </span>
             : null }
           </div>
@@ -72,30 +76,12 @@ export const Navbar = () => {
               <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div className="offcanvas-body">
-              <ul>
-                {store.carrito.map((item, index) => (
-                  <li key={index}>
-                    <a>
-                      <img width="50" src={item.product_info.url_img} alt="Img" />
-                      {item.product_info.name}
-                      {item.product_info.price}
-                      <div>
-                        <button onClick={() => aumentar(item)}>+</button>
-                        {item.amount}
-                        <button onClick={() => disminuir(item)}>-</button>
-                      </div>
-                      <button onClick={async () => {await actions.deleteCart(item.id)}}>eliminar</button>
-                    </a>
-                  </li>
-                ))}
-                <Link to="/resumen">
-                  <button> Resumen </button>
-                </Link>
-              </ul>
+            <Carrito/>
             </div>
           </div>
         </div>
       </header>
+
       <header className="d-flex justify-content-between py-3" style={{ minWidth : "85%"}}>
         <ul className="nav">
           <li className="nav-item">
@@ -106,14 +92,13 @@ export const Navbar = () => {
                 </svg>
                 <b>Categorias</b>
               </button>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu" style={{padding: "8px"}}> 
                 {store.categories.map((item) => (
-                  <Link to={`/lista_por_categorias/${item.id}`}>
-                    <li key={item.id}>
-                      <b> {item.id} {item.name} </b>
-                      <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
-                    </li>
-                  </Link>
+                  <li key={item.id} style={{padding:"2px 12px"}}>
+                    <Link to={`/lista_por_categorias/${item.id}`} style={{textDecoration:"none",color:"#5c6c75"}}>
+                      <b>{item.name}</b>
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
