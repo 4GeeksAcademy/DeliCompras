@@ -69,7 +69,7 @@ def post_login_user():
     if user is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.name)
+    access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200
 
 @api.route("/login_admin", methods=["POST"])
@@ -82,7 +82,7 @@ def post_login_admin():
     if user is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.email)
+    access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "user_id": user.id , "user":"admin"}) , 200
 
 @api.route('/products', methods=['GET'])
@@ -266,7 +266,7 @@ def post_cart():
         existente.id_Order = body['id_Order'],
 
         db.session.commit()
-    else : 
+    else :
         new_cart = Cart(
             amount=body['amount'],
             id_Product=body['id_Product'],
