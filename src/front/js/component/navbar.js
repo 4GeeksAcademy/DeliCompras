@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { User_login } from "../pages/user_login.jsx";
+import logo from "../../img/logo.png"
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -11,37 +12,18 @@ export const Navbar = () => {
   },[])
 
   return (
-    <div className="container border-bottom">
-      <header className="d-flex justify-content-center py-3 mb-4">
+    <div className="container border-bottom" style={{ 
+      maxWidth : "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent:"center",
+      alignItems: "center"
+    }}>
+      <header className="d-flex justify-content-between py-3 mb-4" style={{ minWidth : "90%"}}>
         <Link to="/">
-          <img src="https://firebasestorage.googleapis.com/v0/b/proyect-6a0a9.appspot.com/o/img%2Fcarrito.png?alt=media&token=07182e9f-a2a2-495e-a2e0-596764c7ea1a" id="logo"/>
+          <img src={logo} id="logo"/>
         </Link>
-      </header>
-      <header className="d-flex justify-content-between py-3">
-        <ul className="nav nav-pills">
-          <li className="nav-item">
-            <div className="dropdown">
-              <button className="btn btn-success" data-bs-toggle="dropdown">
-                Categorias
-              </button>
-              <ul className="dropdown-menu">
-                {store.categories.map((item) => (
-                  <Link to={`/lista_por_categorias/${item.id}`}>
-                    <li key={item.id}>
-                      <b> {item.id} {item.name} </b>
-                      <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            </div>
-          </li>
-          <li className="nav-item"><Link to="/"><div className="nav-link">Home</div></Link></li>
-          <li className="nav-item"><Link to="/products_user"><div className="nav-link">Productos</div></Link></li>
-          <li className="nav-item"><Link to="/sucursales"><div className="nav-link">Sucursales</div></Link></li>
-          <li className="nav-item"><Link to="/ordenes"><div className="nav-link">Mis Ordenes</div></Link></li>
-          <li className="nav-item"><Link to="/"><div className="nav-link">Contactenos</div></Link></li>
-        </ul>
+
         <div className="d-flex justify-content-evenly align-items-center" id="lado">
           <div>
             {store.auth == false ? null : 
@@ -101,6 +83,32 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
+      </header>
+      <header className="d-flex justify-content-between py-3" style={{ minWidth : "90%"}}>
+        <ul className="nav nav-pills">
+          <li className="nav-item">
+            <div className="dropdown">
+              <button className="btn btn-success" data-bs-toggle="dropdown">
+                Categorias
+              </button>
+              <ul className="dropdown-menu">
+                {store.categories.map((item) => (
+                  <Link to={`/lista_por_categorias/${item.id}`}>
+                    <li key={item.id}>
+                      <b> {item.id} {item.name} </b>
+                      <img width="50" src={item.url_img} alt="Imagen Seleccionada" />
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          </li>
+          <li className="nav-item"><Link to="/"><div className="nav-link">Home</div></Link></li>
+          <li className="nav-item"><Link to="/products_user"><div className="nav-link">Productos</div></Link></li>
+          <li className="nav-item"><Link to="/sucursales"><div className="nav-link">Sucursales</div></Link></li>
+          <li className="nav-item"><Link to="/ordenes"><div className="nav-link">Mis Ordenes</div></Link></li>
+          <li className="nav-item"><Link to="/"><div className="nav-link">Contactenos</div></Link></li>
+        </ul>
       </header>
     </div>
   );
