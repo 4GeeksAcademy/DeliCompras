@@ -27,7 +27,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: false
+			auth: false,
+			user: null
 		},
 		actions: { 
 			validar: () => {
@@ -55,6 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
+					setStore({user : data.user})
 				})
 			},
 			postAdmin: (email,password) => {
@@ -77,12 +79,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
+					setStore({user : data.user})
 				})
 			},
 			logout : () => {
 				setStore({ auth : false});
 				localStorage.removeItem("token");
 				localStorage.removeItem("id")
+				setStore({user : "null"})
 			},
 			postRegister: (user) => {
 				fetch(process.env.BACKEND_URL + "api/user", {
@@ -437,7 +441,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setSelectSucursale: (index) => {
 				setStore({ selectSucursale: index })
-			}
+			},
 		}
 	};
 };

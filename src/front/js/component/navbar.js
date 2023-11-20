@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { User_login } from "../pages/user_login.jsx";
 import logo from "../../img/logo.png"
+import logo2 from "../../img/logo2.png"
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -19,27 +20,28 @@ export const Navbar = () => {
       justifyContent:"center",
       alignItems: "center"
     }}>
-      <header className="d-flex justify-content-between py-3 mb-4" style={{ minWidth : "90%"}}>
+      <header className="d-flex justify-content-between py-1" style={{ minWidth : "85%"}}>
         <Link to="/">
           <img src={logo} id="logo"/>
+          <img src={logo2} height={"70"} id="logo2"/>
         </Link>
 
         <div className="d-flex justify-content-evenly align-items-center" id="lado">
           <div>
             {store.auth == false ? null : 
-              <button className="btn btn-primary" onClick={() => actions.logout()}>Logout</button>
+              <button className="btn btn-primary" onClick={async() => {await actions.logout();await actions.validarAdmin(localStorage.getItem("token"))}}>Logout</button>
             }
           </div>
-
+          <button onClick={async() => console.log(store.user)}>probar</button>
           <div>
             <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
               <div className="modal-dialog">
-                <div className="modal-content">
+                <div className="modal-content" style={{borderRadius:"12px"}}>
                   <div className="modal-body">
                     <User_login/>
                   </div>
@@ -48,11 +50,21 @@ export const Navbar = () => {
             </div>
           </div>
 
-          <svg data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
+          <div>
+            <svg data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            
+            {store.auth && store.carrito.length > 0 ? 
+              <span class="position-relative top-0 start-0 translate-middle badge rounded-pill bg-success">
+                {store.carrito.length}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            : null }
+          </div>
+          
 
           <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div className="offcanvas-header">
@@ -84,12 +96,15 @@ export const Navbar = () => {
           </div>
         </div>
       </header>
-      <header className="d-flex justify-content-between py-3" style={{ minWidth : "90%"}}>
-        <ul className="nav nav-pills">
+      <header className="d-flex justify-content-between py-3" style={{ minWidth : "85%"}}>
+        <ul className="nav">
           <li className="nav-item">
             <div className="dropdown">
-              <button className="btn btn-success" data-bs-toggle="dropdown">
-                Categorias
+              <button className="btn btn-success d-flex justify-content-around align-items-center" data-bs-toggle="dropdown" style={{minWidth: "145px", minHeight:"42px", borderRadius:"8px" ,backgroundColor:"#0aad0a"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-grid-1x2" viewBox="0 0 16 16">
+                  <path d="M6 1H1v14h5V1zm9 0h-5v5h5V1zm0 9v5h-5v-5h5zM0 1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm9 0a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1V1zm1 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1h-5z"/>
+                </svg>
+                <b>Categorias</b>
               </button>
               <ul className="dropdown-menu">
                 {store.categories.map((item) => (
@@ -103,11 +118,11 @@ export const Navbar = () => {
               </ul>
             </div>
           </li>
-          <li className="nav-item"><Link to="/"><div className="nav-link">Home</div></Link></li>
-          <li className="nav-item"><Link to="/products_user"><div className="nav-link">Productos</div></Link></li>
-          <li className="nav-item"><Link to="/sucursales"><div className="nav-link">Sucursales</div></Link></li>
-          <li className="nav-item"><Link to="/ordenes"><div className="nav-link">Mis Ordenes</div></Link></li>
-          <li className="nav-item"><Link to="/"><div className="nav-link">Contactenos</div></Link></li>
+          <li><Link to="/" style={{textDecoration: "none"}}><b className="nav-link">Home</b></Link></li>
+          <li><Link to="/products_user" style={{textDecoration: "none"}}><b className="nav-link">Productos</b></Link></li>
+          <li><Link to="/sucursales" style={{textDecoration: "none"}}><b className="nav-link">Sucursales</b></Link></li>
+          <li><Link to="/ordenes" style={{textDecoration: "none"}}><b className="nav-link">Mis Ordenes</b></Link></li>
+          <li><Link to="/" style={{textDecoration: "none"}}><b className="nav-link">Contactenos</b></Link></li>
         </ul>
       </header>
     </div>

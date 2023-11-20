@@ -69,8 +69,8 @@ def post_login_user():
     if user is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+    access_token = create_access_token(identity=user.name)
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200
 
 @api.route("/login_admin", methods=["POST"])
 def post_login_admin():
@@ -82,8 +82,8 @@ def post_login_admin():
     if user is None:
         return jsonify({"msg": "Bad username or password"}), 401
  
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+    access_token = create_access_token(identity=user.email)
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"admin"}) , 200
 
 @api.route('/products', methods=['GET'])
 def get_products():
