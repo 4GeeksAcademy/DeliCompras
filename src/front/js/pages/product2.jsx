@@ -4,19 +4,18 @@ import { Link, Navigate } from "react-router-dom";
 import estrellas from "../../img/estrellas.png"
 
 
-export const Products_user = () => {
+export const Products2 = () => {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
     actions.getList();
     store.auth ? actions.getCart() : null;
-    console.log(store.carrito)
   }, []);
 
   return (
-    <div className="container" style={{marginTop:"80px"}}> 
+    <div className="container" style={{marginTop:"30px"}}> 
       <div>
-          <h3 class="mb-0"><b>Productos Populares</b></h3>
+          <h3 class="mb-0"><b>Productos</b></h3>
       </div>
       <ul className="row row-cols-lg-5 list-unstyled">
         {store.products.map((item) => (

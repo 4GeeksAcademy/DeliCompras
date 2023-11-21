@@ -7,7 +7,7 @@ export const SelectSucursal = () => {
     const [isActive, setIsActive] = useState(null);
 
     useEffect(() => {
-        store.auth ? actions.getSucursales(localStorage.getItem("token")) : null;
+        store.auth ? actions.getSucursales() : null;
     }, []);
 
     function toggleBorder (index) {

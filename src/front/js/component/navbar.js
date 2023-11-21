@@ -96,7 +96,7 @@ export const Navbar = () => {
             </div>
           </li>
           <li><Link to="/" style={{textDecoration: "none"}}><b className="nav-link">Home</b></Link></li>
-          <li><Link to="/products_user" style={{textDecoration: "none"}}><b className="nav-link">Productos</b></Link></li>
+          <li><Link to="/product2" style={{textDecoration: "none"}}><b className="nav-link">Productos</b></Link></li>
           <li><Link to="/sucursales" style={{textDecoration: "none"}}><b className="nav-link">Sucursales</b></Link></li>
           <li><Link to="/ordenes" style={{textDecoration: "none"}}><b className="nav-link">Mis Ordenes</b></Link></li>
           <li><Link to="/" style={{textDecoration: "none"}}><b className="nav-link">Contactenos</b></Link></li>

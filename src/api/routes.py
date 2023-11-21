@@ -203,10 +203,8 @@ def delete_categories(id):
 @jwt_required()
 def get_carts():
     id = get_jwt_identity()
-    if id is not None :
-        return jsonify(""), 200
 
-    all_items = Cart.query.filter_by( id_Restaurant = id ).all()
+    all_items = Cart.query.filter_by(id_Restaurant = id).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -356,6 +354,7 @@ def delete_restaurant(id):
 @jwt_required()
 def get_sucursale():
     restaurant_id = get_jwt_identity()
+    print("solicitado")
     
     all_sucursale = Sucursale.query.filter_by( id_Restaurant = restaurant_id ).all()
 
@@ -422,7 +421,7 @@ def delete_sucursale(id):
 
 @api.route('/order', methods=['GET'])
 @jwt_required()
-def get_order():
+def get_order(): 
     restaurant_id = get_jwt_identity()
     
     all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()

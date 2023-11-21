@@ -36,8 +36,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ auth : true})
 				}
 			},
-			postUser: (name,password) => {
-				fetch(process.env.BACKEND_URL + "api/login_user", {
+			postUser: async (name,password) => {
+				await fetch(process.env.BACKEND_URL + "api/login_user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -58,6 +58,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("id",data.user_id);
 					setStore({user : data.user})
 				})
+				await getActions().getCart()
 			},
 			postAdmin: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/login_admin", {
@@ -124,7 +125,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify(obj)
+					body: JSON.stringify(obj) 
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data));
@@ -187,12 +188,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				await getActions().getRestaurants()
 			},
 
-			getSucursales: async(token) => {
+			getSucursales: async() => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${token}`
+						'Authorization': `Bearer ${localStorage.getItem("token")}`
 					}
 				})
 				const body = await response.json();
