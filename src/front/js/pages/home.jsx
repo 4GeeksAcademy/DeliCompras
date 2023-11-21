@@ -3,9 +3,9 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import { Carousel } from "../component/carrusel.jsx";
-import image from "../../img/image1.png"
 import { Prom } from "../component/prom.jsx";
 import { Products_user } from "./products_user.jsx"
+import { Seccion } from "../component/seccion.jsx";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
@@ -70,7 +70,7 @@ export const Home = () => {
 			<Carousel/>
 			<Prom/>
 			<Products_user/>
-
+			<Seccion/>
 		</div>
 	);
 };

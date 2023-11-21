@@ -311,11 +311,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				.then((response) => response.json())
-				.then((data) =>{setStore({ carrito: data });console.log(data)})
+				.then((data) =>{setStore({ carrito: data });console.log("carrito", data)})
 			},
 
 			putCart : async (updatedCart , id) => {
-				fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
+				await fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'

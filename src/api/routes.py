@@ -203,8 +203,10 @@ def delete_categories(id):
 @jwt_required()
 def get_carts():
     id = get_jwt_identity()
+    if id is not None :
+        return jsonify(""), 200
 
-    all_items = Cart.query.filter_by( id_Restaurant = id  , id_Order = None ).all()
+    all_items = Cart.query.filter_by( id_Restaurant = id ).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -214,7 +216,7 @@ def get_carts():
         if product:
             item['product_info'] = product.serialize()
             cart_with_product_info.append(item)
-
+    print(cart_with_product_info)
     return jsonify(cart_with_product_info), 200
 
 @api.route('/cart/<int:id>', methods=['PUT'])

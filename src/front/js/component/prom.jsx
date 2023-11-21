@@ -16,13 +16,13 @@ export const Prom = () => {
                         padding: "48px 28px"
                     }}>
                         <div>
-                            <h3 className="fw-bold mb-1">Fruits &amp; Vegetables</h3>
+                            <h3 className="fw-bold mb-1">Frutas &amp; Vegetales</h3>
                             <p className="mb-4">
-                                Get Upto
-                                <span className="fw-bold">30%</span>
-                                Off
+                                Hasta
+                                <span className="fw-bold"> 30% </span>
+                                de descuento
                             </p>
-                            <a href="#!" className="btn btn-dark">Shop Now</a>
+                            <a href="#!" className="btn btn-dark">Comprar ahora</a>
                         </div>
                     </div>
                     </div>
@@ -37,13 +37,13 @@ export const Prom = () => {
                         padding: "48px 28px"
                     }}>
                         <div>
-                            <h3 className="fw-bold mb-1">Freshly Baked Buns</h3>
+                            <h3 className="fw-bold mb-1">Pan Recien Horneado</h3>
                             <p className="mb-4">
-                                Get Upto
-                                <span className="fw-bold">25%</span>
-                                Off
+                                Hasta
+                                <span className="fw-bold"> 25% </span>
+                                de descuento
                             </p>
-                            <a href="#!" className="btn btn-dark">Shop Now</a>
+                            <a href="#!" className="btn btn-dark">Comprar Ahora</a>
                         </div>
                     </div>
                     </div>

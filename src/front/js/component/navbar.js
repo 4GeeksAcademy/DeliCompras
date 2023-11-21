@@ -28,10 +28,11 @@ export const Navbar = () => {
           <img src={logo2} height={"70"} id="logo2"/>
         </Link>
 
-        <div className="d-flex justify-content-evenly align-items-center" id="lado">
+        <div className="d-flex justify-content-evenly align-items-center" id="lado" style={{ maxWidth : "130px"}}>
+          <div>
           { !store.auth ?
             <div>
-              <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user">
+              <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user" color="#5c6c75">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
@@ -47,15 +48,15 @@ export const Navbar = () => {
               </div>
             </div>
           :
-            <img src={logout} width="20px" height="22px" onClick={
+            <img src={logout} width="20px" height="20px" color="#5c6c75" onClick={
               async() => {
                 await actions.logout();
-                await actions.validarAdmin(localStorage.getItem("token"))
             }}/>
           }
+          </div>
 
           <div>
-            <svg data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag">
+            <svg data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-shopping-bag" style={{color:"#5c6c75"}}>
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>

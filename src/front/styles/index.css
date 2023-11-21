@@ -9,3 +9,9 @@
 #lado{
     width: 20%;
 }
+body{
+    font-family: 'Noto Sans Glagolitic', sans-serif;
+}
+.nav-link.p-0:hover {
+    color: #0aad0a !important;
+}

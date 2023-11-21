@@ -26,7 +26,6 @@ const injectContext = PassedComponent => {
 			state.actions.getList();	
 			state.actions.getCategories();
 			state.actions.getLatLng();
-			state.store.auth ? state.actions.getCart() : null;
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,

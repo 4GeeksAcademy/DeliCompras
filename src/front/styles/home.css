@@ -4,7 +4,7 @@
 
 .carousel-item.active.carousel-item-start {
     transform: translate3d(-1500px, 0px, 0px) !important; 
-    transition: transform 2200ms linear !important;
+    transition: transform 2600ms linear !important;
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-around;
