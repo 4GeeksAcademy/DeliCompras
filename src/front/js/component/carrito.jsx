@@ -19,7 +19,7 @@ export const Carrito = () => {
             }, 0);
             setTotal(newTotal);
         }
-    }, [store.carrito]);
+    }, [store.carrito]); 
 
     function change (id , amount, id_Product , id_Restaurant, id_Order) {
         const cart = {
