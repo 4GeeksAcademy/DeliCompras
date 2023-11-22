@@ -27,7 +27,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: false
+			auth: false,
+			user: null
 		},
 		actions: { 
 			validar: () => {
@@ -35,8 +36,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ auth : true})
 				}
 			},
-			postUser: (name,password) => {
-				fetch(process.env.BACKEND_URL + "api/login_user", {
+			postUser: async (name,password) => {
+				await fetch(process.env.BACKEND_URL + "api/login_user", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -55,7 +56,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
+					setStore({user : data.user})
 				})
+				await getActions().getCart()
 			},
 			postAdmin: (email,password) => {
 				fetch(process.env.BACKEND_URL + "api/login_admin", {
@@ -77,12 +80,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data)=> {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
+					setStore({user : data.user})
 				})
 			},
 			logout : () => {
 				setStore({ auth : false});
 				localStorage.removeItem("token");
 				localStorage.removeItem("id")
+				setStore({user : "null"})
 			},
 			postRegister: (user) => {
 				fetch(process.env.BACKEND_URL + "api/user", {
@@ -120,7 +125,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify(obj)
+					body: JSON.stringify(obj) 
 				})
 				.then((response)=> response.json())
 				.then((data)=> console.log(data));
@@ -183,12 +188,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				await getActions().getRestaurants()
 			},
 
-			getSucursales: async(token) => {
+			getSucursales: async() => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/sucursale', {
 					method: 'GET',
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${token}`
+						'Authorization': `Bearer ${localStorage.getItem("token")}`
 					}
 				})
 				const body = await response.json();
@@ -307,11 +312,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 				})
 				.then((response) => response.json())
-				.then((data) =>{setStore({ carrito: data });console.log(data)})
+				.then((data) =>{setStore({ carrito: data });console.log("carrito", data)})
 			},
 
 			putCart : async (updatedCart , id) => {
-				fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
+				await fetch(process.env.BACKEND_URL + 'api/cart/'+ id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -437,7 +442,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setSelectSucursale: (index) => {
 				setStore({ selectSucursale: index })
-			}
+			},
 		}
 	};
 };

@@ -70,7 +70,7 @@ def post_login_user():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200
 
 @api.route("/login_admin", methods=["POST"])
 def post_login_admin():
@@ -83,12 +83,22 @@ def post_login_admin():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) , 200
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"admin"}) , 200
 
 @api.route('/products', methods=['GET'])
 def get_products():
     all_products = Product.query.all()
     products_serialize = [product.serialize() for product in all_products]
+    product_with_product_info = []
+
+    for item in products_serialize:
+        category_id = item["id_category"]
+        category = Category.query.get(category_id)
+        
+        if category:
+            item['category_info'] = category.serialize()
+            product_with_product_info.append(item)
+
     return jsonify(products_serialize), 200
 
 @api.route('/products', methods=['POST'])
@@ -194,7 +204,7 @@ def delete_categories(id):
 def get_carts():
     id = get_jwt_identity()
 
-    all_items = Cart.query.filter_by( id_Restaurant = id  , id_Order = None ).all()
+    all_items = Cart.query.filter_by(id_Restaurant = id).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -203,8 +213,8 @@ def get_carts():
         product = Product.query.get(product_id)
         if product:
             item['product_info'] = product.serialize()
-        cart_with_product_info.append(item)
-
+            cart_with_product_info.append(item)
+    print(cart_with_product_info)
     return jsonify(cart_with_product_info), 200
 
 @api.route('/cart/<int:id>', methods=['PUT'])
@@ -256,7 +266,7 @@ def post_cart():
         existente.id_Order = body['id_Order'],
 
         db.session.commit()
-    else : 
+    else :
         new_cart = Cart(
             amount=body['amount'],
             id_Product=body['id_Product'],
@@ -344,6 +354,7 @@ def delete_restaurant(id):
 @jwt_required()
 def get_sucursale():
     restaurant_id = get_jwt_identity()
+    print("solicitado")
     
     all_sucursale = Sucursale.query.filter_by( id_Restaurant = restaurant_id ).all()
 
@@ -410,7 +421,7 @@ def delete_sucursale(id):
 
 @api.route('/order', methods=['GET'])
 @jwt_required()
-def get_order():
+def get_order(): 
     restaurant_id = get_jwt_identity()
     
     all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()

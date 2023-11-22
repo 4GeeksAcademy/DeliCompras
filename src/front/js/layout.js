@@ -36,6 +36,7 @@ import { Crear_admin } from "./pages/create_admin.jsx";
 import { All_ordenes } from "./pages/all_ordenes.jsx";
 import { Modificar_orden } from "./pages/modificar_orden.jsx";
 import { Products_Categorias } from "./pages/productos_categorias.jsx";
+import { Products2 } from "./pages/product2.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -78,6 +79,7 @@ const Layout = () => {
                         <Route element={<Categorias_user />} path="/categorias_user" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route element={<Products_Categorias />} path="/lista_por_categorias/:id_cat" />
+                        <Route element={<Products2 />} path="/product2" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

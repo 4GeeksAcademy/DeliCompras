@@ -11,18 +11,32 @@ export const Ordenes = () => {
     return(
         <>
         { !store.auth ? <Navigate to="/" /> :
-            <>
-                <ul>
-                {store.order.map((item) => (
-                    <li key={item.id}>
-                        <b>{item.id},{item.state},{item.day_Date}/{item.month_Date}/{item.year_Date},{item.id_Sucursale}</b>
-                    </li>
-                ))}
-                </ul>
-                <Link to="/">
-                    <button> Home </button>
-                </Link>
-            </>
+            <div class="card-body" style={{padding:"10%"}}>
+                <div class="table-responsive" style={{borderRadius:"8px"}}>
+                    <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                        <thead class="bg-light">
+                        <tr>
+                            <th style={{paddingLeft:"30px"}}>id</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Sucursal</th>
+                            <th>Valor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {store.order.map((item) => (
+                                <tr>
+                                <td style={{paddingLeft:"30px"}}>{item.id}</td>
+                                <td>{item.state}</td>
+                                <td>{item.day_Date}/{item.month_Date}/{item.year_Date}</td>
+                                <td>{item.id_Sucursale}</td>
+                                <td></td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         }
         </>
         
