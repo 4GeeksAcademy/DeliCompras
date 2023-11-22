@@ -1,15 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, Navigate } from "react-router-dom";
 
+
 export const Carrito = () => {
     const {store,actions} = useContext(Context) 
+    const [ redirect , setRedirect] = useState(false)
+    const [ total , setTotal ] = useState(0)
+
+    useEffect(() => {
+        setRedirect(false)
+    },[redirect])
+
+    useEffect(() => {
+        if (Array.isArray(store.carrito)) {
+            const newTotal = store.carrito.reduce((acc, item) => {
+                return acc + ((item.product_info.price - 1) * item.amount);
+            }, 0);
+            setTotal(newTotal);
+        }
+    }, [store.carrito]);
+
+    function change (id , amount, id_Product , id_Restaurant, id_Order) {
+        const cart = {
+            amount: amount,
+            id_Product : id_Product,
+            id_Restaurant : id_Restaurant,
+            id_Order : id_Order
+        }
+
+        actions.putCart(cart,id)
+    }
 
     return(
-        <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" aria-modal="true" role="dialog">
+        <div className="offcanvas offcanvas-end" style={{width:"500px"}} tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" aria-modal="true" role="dialog">
             <div className="offcanvas-header border-bottom">
                 <div className="text-start">
-                    <h5 id="offcanvasRightLabel" className="mb-0 fs-4">Carrito</h5>
+                    <h5 id="offcanvasRightLabel" className="mb-0 fs-4"><b>Carrito</b></h5>
                 </div>
                 <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
@@ -25,7 +52,7 @@ export const Carrito = () => {
                         {Array.isArray(store.carrito) && store.carrito.map((item, index) => (
                             <li className="list-group-item py-3 ps-0 border-top">
                                 <div className="row align-items-center">
-                                    <div className="col-7">
+                                    <div className="col-6">
                                         <div className="d-flex">
                                             <img width="64px" height="64px" src={item.product_info.url_img} alt="Ecommerce" className="icon-shape icon-xxl"/>
                                             <div className="ms-3">
@@ -53,29 +80,33 @@ export const Carrito = () => {
                                     </div>
                     
                                     <div className="col-3 p-0">
-                                        <div class="input-group input-spinner p-0" style={{width:"92px"}}>
-                                            <div class="btn-group" style={{width:"100%", padding:"5px"}} role="group" aria-label="Basic outlined example">
-                                                <button type="button" class="btn btn-outline-primary">+</button>
-                                                <button type="button" class="btn btn-outline-primary">{item.amount}</button>
-                                                <button type="button" class="btn btn-outline-primary">-</button>
-                                            </div>
+                                        <div className="btn-group" role="group" aria-label="First group">
+                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount + 1, item.id_Product , item.id_Restaurant, item.id_Order)}>+</button>
+                                            <div className="container d-flex align-items-center">{item.amount}</div>
+                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount - 1, item.id_Product , item.id_Restaurant, item.id_Order)}>-</button>
                                         </div>
                                     </div>
 
-                                    <div className="col-2">
-                                        <div className="col-2" style={{width:"100%"}}>
-                                            <span className="fw-bold">{`$ ${(item.product_info.price-1) * 1}`}</span>
+                                    <div className="col-3" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                                        <div>
+                                            <span className="fw-bold">{`$ ${(item.product_info.price-1) * item.amount}`}</span> 
                                         </div>
                                         <div className="text-decoration-line-through text-muted small">{`$ ${item.product_info.price}`}</div>
                                     </div>
                                 </div>
                             </li> 
                         ))}
+                            <li className="d-flex justify-content-end py-3 px-4 ps-0 border-top">
+                                <div className="d-flex justify-content-around">
+                                    <div className="px-3"><b>Total</b></div>
+                                    <div className="px-3" style={{color:"#0aad0a"}}><b>$ {total}</b></div>
+                                </div>
+                            </li>
                     </ul>
                 
                     <div className="d-flex justify-content-between mt-4">
-                        <a href="#!" className="btn btn-primary">Continue Shopping</a>
-                        <a href="#!" className="btn btn-dark">Update Cart</a>
+                        <button className="btn btn-primary" data-bs-dismiss="offcanvas" aria-label="Close" style={{backgroundColor:"#0aad0a", borderRadius:"8px"}} onClick={() => setRedirect(true) }><b>Continuar</b></button>
+                        { redirect ? <Navigate to="/resumen" /> : null}
                     </div>
                 </div>
             </div>
