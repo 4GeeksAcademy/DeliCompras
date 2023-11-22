@@ -56,31 +56,11 @@ export const Crear_sucursales = () => {
     };
     
     return (
-        <>
+        <div className="container card">
         { !store.auth ? <Navigate to="/"/> :
-            <div>
-                <div>
-                    <form>
-                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
-                        <div>{store.lat},{store.lng}</div>
-                        <div className="mb-3">
-                            <label htmlFor="dir" className="form-label">Address</label>
-                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
-                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="city" className="form-label">City</label>
-                            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="country" className="form-label">Country</label>
-                            <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
-                        </div>
-                        <button onClick={handleGetLatLng}>Validar</button>
-                    </form>
-                </div>
-                <div className="card" style={{width: "18rem"}}>
-                    <div className="card-body">
+            <div className="row card-body" style={{width:"100%"}}>
+                <div className="col" style={{width: "18rem",  borderRight:"1px solid #0aad0a"}}>
+                    <div>
                     <form>
                     <img width="100" src={image ? URL.createObjectURL(image) : null } alt="Imagen Seleccionada" />
 
@@ -116,8 +96,28 @@ export const Crear_sucursales = () => {
                     </form>
                     </div>
                 </div>
+                <div className="col">
+                    <form>
+                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
+                        <div>{store.lat},{store.lng}</div>
+                        <div className="mb-3">
+                            <label htmlFor="dir" className="form-label">Address</label>
+                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
+                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="city" className="form-label">City</label>
+                            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="country" className="form-label">Country</label>
+                            <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                        </div>
+                        <button onClick={handleGetLatLng}>Validar</button>
+                    </form>
+                </div>
             </div>
         }
-        </>
+        </div>
     );
 };
