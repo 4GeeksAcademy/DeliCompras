@@ -41,3 +41,22 @@
 .nav-link:hover {
     color: #0aad0a;
 }
+
+
+.mi-boton {
+    background-color: transparent;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .mi-boton:hover {
+    background-color: #f0f3f2;
+  }
+  
+  .mi-boton.seleccionado {
+    background-color: #ceefce !important;
+  }
+  

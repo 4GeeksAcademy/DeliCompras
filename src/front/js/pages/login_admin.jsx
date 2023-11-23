@@ -4,14 +4,16 @@ import { Navigate } from "react-router-dom";
 
 export const Admin_login = () => {
     const { store , actions } = useContext( Context );
-
+ 
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("");
     const [redirect, setRedirect] = useState(false)
+    const [home , setHome] = useState(false)
     
     function loguearAdmin (e) {
         e.preventDefault();
         actions.postAdmin(email,password);
+        setHome(true);
     }
 
     return (
@@ -32,6 +34,7 @@ export const Admin_login = () => {
                         </div>
                         <div>
                             <button className="btn btn-success" type="submit" data-bs-dismiss="modal" aria-label="Close" style={{borderRadius:"8px" ,backgroundColor:"#0aad0a"}}>Login</button>
+                            { home ? <Navigate to="/home_user" /> : null}
                         </div>
                     </form>
                 </div>
@@ -39,7 +42,7 @@ export const Admin_login = () => {
                     Aun no tienes cuenta? 
                     <div data-bs-dismiss="modal" aria-label="Close" style={{color:"#0aad0a", textDecoration: "none"}}>
                         <b onClick={() => setRedirect(true)}>Registrate</b>
-                        {redirect? <Navigate to="/user_registration" /> : null}
+                        {redirect? <Navigate to="/crear_admin" /> : null}
                     </div>
                 </div>
             </div>

@@ -38,6 +38,8 @@ import { Modificar_orden } from "./pages/modificar_orden.jsx";
 import { Products_Categorias } from "./pages/productos_categorias.jsx";
 import { Products2 } from "./pages/product2.jsx";
 
+import { Home_admin } from "./pages/home_admin.jsx";
+
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -77,9 +79,10 @@ const Layout = () => {
                         <Route element={<Modificar_orden />} path="/modificar_orden/:index" />
                         <Route element={<Products_user />} path="/products_user" />
                         <Route element={<Categorias_user />} path="/categorias_user" />
-                        <Route element={<h1>Not found!</h1>} />
                         <Route element={<Products_Categorias />} path="/lista_por_categorias/:id_cat" />
                         <Route element={<Products2 />} path="/product2" />
+                        <Route element={<Home_admin />} path="/home_user" />
+                        <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

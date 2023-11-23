@@ -27,7 +27,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: true,
+			auth: false,
 			user: null,
 			creado: null,
 			priceOrder: null

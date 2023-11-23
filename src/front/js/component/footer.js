@@ -41,8 +41,8 @@ export const Footer = () => {
                         <h6 style={{marginBottom:"16px"}}>Para Admin</h6>
                         <ul className="nav flex-column">
                     
-                           <li className="nav-item mb-2"><a href="#!" className="nav-link p-0" style={{color:"#5c6c75"}}>Registar</a></li>
-                           <li className="nav-item mb-2"><a href="#!" className="nav-link p-0" style={{color:"#5c6c75"}}>Loguear</a></li>
+                           <li className="nav-item mb-2"><div className="nav-link p-0" style={{color:"#5c6c75"}}>Registar</div></li>
+                           <li cldivssName="nav-item mb-2"><div className="nav-link p-0" style={{color:"#5c6c75"}}>Loguear</div></li>
                         </ul>
                      </div>
                   </div>

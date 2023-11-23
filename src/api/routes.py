@@ -70,7 +70,7 @@ def post_login_user():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200 
 
 @api.route("/login_admin", methods=["POST"])
 def post_login_admin():
