@@ -94,6 +94,7 @@ class Order (db.Model):
     day_Date = db.Column(db.String(20), unique=False, nullable=False)
     month_Date = db.Column(db.String(20), unique=False, nullable=False)
     year_Date = db.Column(db.String(20), unique=False, nullable=False)
+    value = db.Column(db.Integer, unique=False, nullable=True)
     id_Restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
     restaurant = db.relationship('Restaurant')
     id_Sucursale = db.Column(db.Integer, db.ForeignKey('sucursale.id'), nullable=False)
@@ -109,6 +110,7 @@ class Order (db.Model):
             "day_Date": self.day_Date,
             "month_Date": self.month_Date,
             "year_Date": self.year_Date,
+            "value": self.value,
             "id_Restaurant": self.id_Restaurant,
             "id_Sucursale": self.id_Sucursale
         }

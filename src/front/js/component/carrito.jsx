@@ -18,8 +18,9 @@ export const Carrito = () => {
                 return acc + ((item.product_info.price - 1) * item.amount);
             }, 0);
             setTotal(newTotal);
+            actions.setPriceOrder(newTotal);
         }
-    }, [store.carrito]); 
+    }, [store.carrito]);
 
     function change (id , amount, id_Product , id_Restaurant, id_Order) {
         const cart = {

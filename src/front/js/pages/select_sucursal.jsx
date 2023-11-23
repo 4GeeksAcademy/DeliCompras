@@ -26,6 +26,7 @@ export const SelectSucursal = () => {
             day_Date : dia,
             month_Date: mes,
             year_Date: anio,
+            value : store.priceOrder,
             id_Restaurant: parseInt(localStorage.getItem("id")),
             id_Sucursale: store.selectSucursale
         }
@@ -36,35 +37,45 @@ export const SelectSucursal = () => {
             element.id_Order = id;
             console.log(element);
             await actions.addOrderCart(element, element.id);
+            await actions.creado();
         }
     };
 
     return (
         <>
-        { !store.auth ? <Navigate to="/products" /> :
-            <>
-
-                {store.auth == false ? <Navigate to="/"/> :
-                    <div className="container">
-                        <div> Selecciona el destino de tu orden </div>
-                        <ul>
-                        {store.sucursales.map((item) => (
-                            <li key={item.id} className={`${item.id === isActive ? 'divBorder' : ''}`} onClick={() => toggleBorder(item.id)}>
-                            <b>  {item.id} {item.name} {item.direccion}  </b>
-                            </li>
-                        ))}
-                        </ul>
-
-                        <Link to="/resumen">
-                            <button>Volver a Resumen</button>
-                        </Link>
-                        <Link to="/orden_creada">
-                            <button onClick={crear}>Confirmar Orden</button>
-                        </Link>
-                    </div> 
-                }
-            </>
-        }
-        </>
+    { !store.auth ? <Navigate to="/"/> :
+      <div className="container" style={{marginTop:"30px"}}>
+        <div>
+          <h3 class="mb-0"><b>Sucursales</b></h3>
+        </div>
+        <ul className="row row-cols-lg-5 list-unstyled" style={{paddingTop:"30px", paddingBottom:"60px"}}>
+          {store.sucursales.map((item) => (
+            <div key={item.id} className={`card card-product ${item.id === isActive ? 'divBorder' : ''}`} style={{borderRadius:"8px"}} onClick={() => toggleBorder(item.id)}>
+              <div className="card-body" style={{height:"343px", width:"216"}}>
+                <div className="text-center position-relative">
+                  <a href="#!"><img src={item.url_img} alt="img product" className="img-fluid" style={{width:"184px",height:"184px", marginBottom:"12px"}}/></a>
+    
+                  <div className="card-product-action">
+                    <a href="#!" className="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                    <i className="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Quick View" data-bs-original-title="Quick View"></i>
+                    </a>
+                    <a href="#!" className="btn-action" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Wishlist" data-bs-original-title="Wishlist"><i className="bi bi-heart"></i></a>
+                    <a href="#!" className="btn-action" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare" data-bs-original-title="Compare"><i className="bi bi-arrow-left-right"></i></a>
+                  </div>
+                </div>
+                <h2 className="fs-6" style={{mexHeight:"14px", marginBottom:"6px"}}><a href="./pages/shop-single.html" className="text-inherit text-decoration-none" style={{color:"black"}}>{item.name}</a></h2>
+                <div className="text-small mb-1" style={{marginBottom:"4px"}}>
+                  <a href="#!" className="text-decoration-none text-muted" style={{display:"flex",flexDirection:"column"}}><small>{item.dir}</small><small>{item.city}, {item.country}</small></a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </ul>
+        <Link to="/ordenes">
+            <button className="btn btn-success" onClick={crear}>Confirmar Orden</button>
+        </Link>
+      </div>
+    }
+    </>
     );
 }

@@ -9,8 +9,6 @@ export const Sucursales = () => {
     store.auth ? actions.getSucursales() : null;
   }, []);
 
-  console.log(store.sucursales)
-
   return (
     <>
     { !store.auth ? <Navigate to="/"/> :

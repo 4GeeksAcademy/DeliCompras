@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link , Navigate } from "react-router-dom";
 import { Map } from "../component/map.jsx";
+import rest from "../../img/default_rest.jpg"
 
 export const Crear_sucursales = () => {
     const { store, actions } = useContext(Context);
@@ -56,16 +57,17 @@ export const Crear_sucursales = () => {
     };
     
     return (
-        <div className="container card">
+        <div className="container card" style={{marginTop:"30px", borderColor:"#0aad0a"}}>
         { !store.auth ? <Navigate to="/"/> :
             <div className="row card-body" style={{width:"100%"}}>
-                <div className="col" style={{width: "18rem",  borderRight:"1px solid #0aad0a"}}>
-                    <div>
+                <div className="col" style={{borderRight:"1px solid #0aad0a"}}>
+                    <div style={{maxWidth: "80%", margin:"auto auto"}}>
                     <form>
-                    <img width="100" src={image ? URL.createObjectURL(image) : null } alt="Imagen Seleccionada" />
+                    <div style={{width:"300px", height:"300", margin:"auto", padding: "20px"}}>
+                        <img width="100%" height="100%" src={image ? URL.createObjectURL(image) : rest } alt="Imagen Seleccionada" />
+                    </div>
 
                     <div className="mb-3">
-                        <label htmlFor="img" className="form-label">Imagen</label>
                         <input
                             id="img"
                             type="file"
@@ -91,7 +93,7 @@ export const Crear_sucursales = () => {
                         <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                    <button className="btn btn-success" style={{backgroundColor:"#0aad0a"}} disabled={!isFormValid} onClick={handleSubmit}><b>Guardar Cambios</b></button>
                     {create ? <Navigate to='/sucursales' /> : null}
                     </form>
                     </div>

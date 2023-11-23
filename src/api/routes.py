@@ -204,7 +204,7 @@ def delete_categories(id):
 def get_carts():
     id = get_jwt_identity()
 
-    all_items = Cart.query.filter_by(id_Restaurant = id).all()
+    all_items = Cart.query.filter_by(id_Restaurant=id, id_Order=None).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -425,9 +425,22 @@ def get_order():
     restaurant_id = get_jwt_identity()
     
     all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
+    order_seriallize = [item.serialize() for item in all_order]
+    order_with_info = []
 
-    Order_seriallize = [item.serialize() for item in all_order]
-    return jsonify(Order_seriallize), 200
+    for item in order_seriallize:
+        restaurant_id = item["id_Restaurant"]
+        sucursale_id = item["id_Sucursale"]
+        restaurant = Restaurant.query.get(restaurant_id)
+        sucursale = Sucursale.query.get(sucursale_id)
+
+        order_item = item.copy()
+
+        order_item['restaurant_info'] = restaurant.serialize()
+        order_item['sucursale_info'] = sucursale.serialize()
+        order_with_info.append(order_item)
+
+    return jsonify(order_with_info), 200
 
 @api.route('/all_order', methods=['GET'])
 @jwt_required()
@@ -462,6 +475,7 @@ def put_order(id):
     order.day_Date = body['day_Date']
     order.month_Date = body["month_Date"]
     order.year_Date = body["year_Date"]
+    order.value = body["value"]
     order.id_Restaurant = body['id_Restaurant']
     order.id_Sucursale = body['id_Sucursale']
     
@@ -477,6 +491,7 @@ def post_order():
         state= "Creada",
         day_Date=body["day_Date"],
         month_Date=body["month_Date"],
+        value=body["value"],
         year_Date=body["year_Date"],
         id_Restaurant=body["id_Restaurant"],
         id_Sucursale=body["id_Sucursale"],

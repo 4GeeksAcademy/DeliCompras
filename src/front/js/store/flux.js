@@ -27,10 +27,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			selectSucursale: null,
 			lat: "",
 			lng: "",
-			auth: false,
-			user: null
+			auth: true,
+			user: null,
+			creado: null,
+			priceOrder: null
 		},
 		actions: { 
+			setPriceOrder: (price) => {
+				setStore({priceOrder : price})
+			},
+			vaciar: () => {
+				setStore({creado : false})
+			},
+			creado: () => {
+				setStore({creado : true})
+			},
 			validar: () => {
 				if ( localStorage.getItem("id") && localStorage.getItem("token")) {
 					setStore({ auth : true})

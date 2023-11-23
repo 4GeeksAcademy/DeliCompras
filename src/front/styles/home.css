@@ -1,5 +1,6 @@
 .divBorder {
-    border: 2px solid #ccc;
+    border: 2px solid #0aad0a;
+    background-color: #efffef;
 }
 
 .carousel-item.active.carousel-item-start {
