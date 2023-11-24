@@ -298,7 +298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				await getActions().getList()
 			},
 
-			deleteProduct: async (id,idu) => {
+			deleteProduct: async (id) => {
 				await fetch(process.env.BACKEND_URL + 'api/products/' + id, {
 				method: 'DELETE',
 				headers: {
@@ -306,10 +306,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 				}).then( response => response.json())
 				.then( data => console.log(data));
-
-				const storageRef = ref( storage , `products/${idu}`);
-				await deleteObject(storageRef);
+				
 				await getActions().getList()
+				//const storageRef = ref( storage , `products/${idu}`);
+				//await deleteObject(storageRef);
 			},
 
 			upload_img : async (file) => {

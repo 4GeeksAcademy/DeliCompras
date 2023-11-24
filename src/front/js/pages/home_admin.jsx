@@ -22,9 +22,6 @@ export const Home_admin = () => {
         {store.selectOpcion === 4 ? 
             <All_ordenes/>
         : null}
-        {store.selectOpcion === 5 ? 
-            <Products/>
-        : null}
         </div>
     )
 }
