@@ -30,9 +30,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			auth: false,
 			user: null,
 			creado: null,
-			priceOrder: null
+			priceOrder: null,
+			selectOpcion: null,
 		},
 		actions: { 
+			setSelectOpcion : (opcion) => {
+				setStore({selectOpcion : opcion})
+				console.log(opcion)
+			},
 			setPriceOrder: (price) => {
 				setStore({priceOrder : price})
 			},

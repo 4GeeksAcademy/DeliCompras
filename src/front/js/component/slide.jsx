@@ -4,7 +4,7 @@ import back2 from "../../img/back2.jpg"
 
 export const Slide = () => {
     return (
-        <div className="container" style={{maxWidth:"85%" , paddingTop:"40px"}}>
+        <div className="container" style={{paddingTop:"40px"}}>
         <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
 

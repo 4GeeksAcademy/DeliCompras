@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import injectContext from "./store/appContext";
+import { Context } from "./store/appContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
@@ -39,12 +40,14 @@ import { Products_Categorias } from "./pages/productos_categorias.jsx";
 import { Products2 } from "./pages/product2.jsx";
 
 import { Home_admin } from "./pages/home_admin.jsx";
+import { Navbar_user } from "./component/navbar_admin.jsx";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
 const Layout = () => {
     const basename = process.env.BASENAME || "";
+    const { store } = useContext(Context)
 
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
 
@@ -53,37 +56,46 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    <Routes> 
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Sucursales />} path="/sucursales" />
-                        <Route element={<Crear_sucursales />} path="/crear_sucursales" />
-                        <Route element={<Modificar_sucursales />} path="/modificar_sucursales/:theid" />
-                        <Route element={<Restaurantes />} path="/restaurantes" />
-                        <Route element={<Crear_restaurantes />} path="/crear_restaurantes" />
-                        <Route element={<Modificar_restaurantes />} path="/modificar_restaurantes/:theid" />
-                        <Route element={<Categorias />} path="/categorias" />
-                        <Route element={<Crear_categorias />} path="/crear_categorias" />
-                        <Route element={<Modificar_categorias />} path="/modificar_categorias/:theid" />
-                        <Route element={<Products />} path="/products" />
-                        <Route element={<Create_productos />} path="/create" />
-                        <Route element={<Modificar_productos />} path="/modificar/:id" />
-                        <Route element={<Crear_restaurantes />} path="/user_registration" />
-                        <Route element={<User_login />} path="/user_login" />
-                        <Route element={<Resumen />} path="/resumen" />
-                        <Route element={<SelectSucursal />} path="/select_sucursal" />
-                        <Route element={<OrdenCreada />} path="/orden_creada" />
-                        <Route element={<Ordenes />} path="/ordenes" />
-                        <Route element={<Admin_login />} path="/admin_login" />
-                        <Route element={<Crear_admin />} path="/crear_admin" />
-                        <Route element={<All_ordenes />} path="/all_ordenes" />
-                        <Route element={<Modificar_orden />} path="/modificar_orden/:index" />
-                        <Route element={<Products_user />} path="/products_user" />
-                        <Route element={<Categorias_user />} path="/categorias_user" />
-                        <Route element={<Products_Categorias />} path="/lista_por_categorias/:id_cat" />
-                        <Route element={<Products2 />} path="/product2" />
-                        <Route element={<Home_admin />} path="/home_user" />
-                        <Route element={<h1>Not found!</h1>} />
-                    </Routes>
+                    <div className="row p-0">
+                        { store.user == "admin" ? 
+                            <div className="col-3" style={{borderRight:"1px dashed #0aad0a", minHeight:"100vh", paddingLeft:"10px"}}>
+                                <Navbar_user/>
+                            </div>
+                        : null}
+                        <div className="col-9" style={{minWidth: store.user === "admin" ? "60%" : "85%", margin:"auto"}}>
+                            <Routes> 
+                                <Route element={<Home />} path="/" />
+                                <Route element={<Sucursales />} path="/sucursales" />
+                                <Route element={<Crear_sucursales />} path="/crear_sucursales" />
+                                <Route element={<Modificar_sucursales />} path="/modificar_sucursales/:theid" />
+                                <Route element={<Restaurantes />} path="/restaurantes" />
+                                <Route element={<Crear_restaurantes />} path="/crear_restaurantes" />
+                                <Route element={<Modificar_restaurantes />} path="/modificar_restaurantes/:theid" />
+                                <Route element={<Categorias />} path="/categorias" />
+                                <Route element={<Crear_categorias />} path="/crear_categorias" />
+                                <Route element={<Modificar_categorias />} path="/modificar_categorias/:theid" />
+                                <Route element={<Products />} path="/products" />
+                                <Route element={<Create_productos />} path="/create" />
+                                <Route element={<Modificar_productos />} path="/modificar/:id" />
+                                <Route element={<Crear_restaurantes />} path="/user_registration" />
+                                <Route element={<User_login />} path="/user_login" />
+                                <Route element={<Resumen />} path="/resumen" />
+                                <Route element={<SelectSucursal />} path="/select_sucursal" />
+                                <Route element={<OrdenCreada />} path="/orden_creada" />
+                                <Route element={<Ordenes />} path="/ordenes" />
+                                <Route element={<Admin_login />} path="/admin_login" />
+                                <Route element={<Crear_admin />} path="/crear_admin" />
+                                <Route element={<All_ordenes />} path="/all_ordenes" />
+                                <Route element={<Modificar_orden />} path="/modificar_orden/:index" />
+                                <Route element={<Products_user />} path="/products_user" />
+                                <Route element={<Categorias_user />} path="/categorias_user" />
+                                <Route element={<Products_Categorias />} path="/lista_por_categorias/:id_cat" />
+                                <Route element={<Products2 />} path="/product2" />
+                                <Route element={<Home_admin />} path="/home_user" />
+                                <Route element={<h1>Not found!</h1>} />
+                            </Routes>
+                        </div>
+                    </div>
                     <Footer />
                 </ScrollToTop>
             </BrowserRouter>

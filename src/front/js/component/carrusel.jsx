@@ -14,8 +14,8 @@ export const Carousel = () => {
     const groupedItems = chunkArray(store.categories , 4);
 
     return (
-        <div id="carousel" className="carousel slide" data-bs-ride="carousel" style={{maxWidth:"100%", display:"flex", justifyContent:"center", margin:"80px 0px"}}>
-            <div className="carousel-inner" style={{maxWidth:"85%"}}>
+        <div id="carousel" className="carousel slide" data-bs-ride="carousel" style={{display:"flex", justifyContent:"center", margin:"80px 5%"}}>
+            <div className="carousel-inner" style={{maxWidth:"100%"}}>
                 <h3 class="container" style={{marginBottom:"9px"}} ><b>Featured Categories</b></h3>
                 {groupedItems.map((group, index) => (
                 <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
