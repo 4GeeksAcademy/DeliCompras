@@ -15,3 +15,8 @@ body{
 .nav-link.p-0:hover {
     color: #0aad0a !important;
 }
+#map{
+    max-width: 280px;
+    max-height: 280px;
+    border-radius: 12px;
+}

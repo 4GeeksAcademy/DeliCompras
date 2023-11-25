@@ -40,7 +40,7 @@ export const Footer = () => {
                      <div className="col-6 col-sm-6 col-md-6" style={{marginTop:"16px",padding:"0px 8px"}}>
                         <h6 style={{marginBottom:"16px"}}>Para Admin</h6>
                         <ul className="nav flex-column">
-                    
+                           
                            <li className="nav-item mb-2"><div className="nav-link p-0" style={{color:"#5c6c75"}}>Registar</div></li>
                            <li cldivssName="nav-item mb-2"><div className="nav-link p-0" style={{color:"#5c6c75"}}>Loguear</div></li>
                         </ul>

@@ -49,10 +49,13 @@ export const Navbar = () => {
                 </div>
               </div>
             :
-              <img src={logout} width="20px" height="20px" color="#5c6c75" onClick={
-                async() => {
-                  await actions.logout();
-              }}/>
+              <div>
+                <div>{store.name}</div>
+                <img src={logout} width="20px" height="20px" color="#5c6c75" onClick={
+                  async() => {
+                    await actions.logout();
+                }}/>
+              </div>
             }
             </div>
           </div>

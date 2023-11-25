@@ -25,13 +25,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			sucursales: [],
 			order: [],
 			selectSucursale: null,
-			lat: "",
-			lng: "",
+			lat: 4.6556,
+			lng: -74.07,
 			auth: false,
 			user: null,
 			creado: null,
 			priceOrder: null,
 			selectOpcion: null,
+			name: null
 		},
 		actions: { 
 			setSelectOpcion : (opcion) => {
@@ -73,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem("token",data.token);
 					localStorage.setItem("id",data.user_id);
 					setStore({user : data.user})
+					setStore({name : data.name})
 				})
 				await getActions().getCart()
 			},

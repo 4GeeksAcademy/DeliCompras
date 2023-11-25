@@ -57,10 +57,10 @@ export const Crear_sucursales = () => {
     };
     
     return (
-        <div className="container card" style={{marginTop:"30px", borderColor:"#0aad0a"}}>
+        <div className="card" style={{marginTop:"30px", borderColor:"#0aad0a", minHeight:"750px"}}>
         { !store.auth ? <Navigate to="/"/> :
-            <div className="row card-body" style={{width:"100%"}}>
-                <div className="col" style={{borderRight:"1px solid #0aad0a"}}>
+            <div className="row card-body p-0">
+                <div className="col p-0" style={{borderRight:"1px solid #0aad0a"}}>
                     <div style={{maxWidth: "80%", margin:"auto auto"}}>
                     <form>
                     <div style={{width:"300px", height:"300", margin:"auto", padding: "20px"}}>
@@ -93,30 +93,38 @@ export const Crear_sucursales = () => {
                         <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <button className="btn btn-success" style={{backgroundColor:"#0aad0a"}} disabled={!isFormValid} onClick={handleSubmit}><b>Guardar Cambios</b></button>
-                    {create ? <Navigate to='/sucursales' /> : null}
+                    
                     </form>
                     </div>
                 </div>
-                <div className="col">
-                    <form>
+                <div className="col p-0">
+                    <div  style={{maxWidth: "80%", margin:"auto auto"}}>
+                    <div className="container" style={{width:"280px", height:"280px", margin:"10px"}}>
                         { store.lat && store.lng ? <Map key={mapKey}/> : null }
-                        <div>{store.lat},{store.lng}</div>
-                        <div className="mb-3">
-                            <label htmlFor="dir" className="form-label">Address</label>
-                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
-                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
-                        </div>
-                        <div className="mb-3">
+                    </div>
+                    <div>
+                        <label htmlFor="dir" className="form-label">Address</label>
+                        <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
+                        <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
+                    </div>
+
+                    <div className="mb-3" style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
+                        <div style={{maxWidth:"45%"}}>
                             <label htmlFor="city" className="form-label">City</label>
                             <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
                         </div>
-                        <div className="mb-3">
+                        <div style={{maxWidth:"45%"}}>
                             <label htmlFor="country" className="form-label">Country</label>
                             <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
                         </div>
-                        <button onClick={handleGetLatLng}>Validar</button>
-                    </form>
+                    </div>
+                    <button className="mb-5" onClick={handleGetLatLng}>Validar</button>
+                    </div>
+
+                    <div className="d-flex justify-content-end mt-5" style={{maxWidth:"90%"}}>
+                        <button className="btn btn-success" style={{backgroundColor:"#0aad0a"}} disabled={!isFormValid} onClick={handleSubmit}><b>Guardar Cambios</b></button>
+                        {create ? <Navigate to='/sucursales' /> : null}
+                    </div>
                 </div>
             </div>
         }

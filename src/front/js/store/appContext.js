@@ -22,7 +22,7 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {	
-			state.actions.validar()
+			//state.actions.validar()
 			state.actions.getList();	
 			state.actions.getCategories();
 			state.actions.getLatLng();
