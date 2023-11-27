@@ -44,7 +44,7 @@ export const Crear_admin = () => {
                             <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)}/>
                         </div>
                         <div>
-                            <button className="btn btn-primary" onClick={(e) => {e.preventDefault(); actions.postRegister(email,password)}} style={{backgroundColor:"#0aad0a", textDecoration: "none"}}><b>Register</b></button>
+                            <button className="btn btn-primary" onClick={(e) => {e.preventDefault(); actions.postRegister(email,password)}} style={{backgroundColor:"#0aad0a", textDecoration: "none", borderRadius:"8px"}}>Register</button>
                         </div>
                     </form>
                 </div>
