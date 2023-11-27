@@ -446,22 +446,32 @@ def get_order():
 @jwt_required()
 def get_all_order():
     all_order = Order.query.all()
-    order_seriallize = [item.serialize() for item in all_order]
     order_with_info = []
 
-    for item in order_seriallize:
-        restaurant_id = item["id_Restaurant"]
-        sucursale_id = item["id_Sucursale"]
+    for item in all_order:
+        restaurant_id = item.id_Restaurant
+        sucursale_id = item.id_Sucursale
         restaurant = Restaurant.query.get(restaurant_id)
         sucursale = Sucursale.query.get(sucursale_id)
+        carts = Cart.query.filter_by(id_Order=item.id)
+        cart_with_product_info = []
 
-        order_item = item.copy()
+        for cart in carts:
+            product = Product.query.get(cart.id_Product)
+            cart_info = {
+                'product_info': product.serialize(),
+            }
+            cart_with_product_info.append(cart_info)
+
+        order_item = item.serialize()
 
         order_item['restaurant_info'] = restaurant.serialize()
         order_item['sucursale_info'] = sucursale.serialize()
+        order_item['products'] = cart_with_product_info
         order_with_info.append(order_item)
 
     return jsonify(order_with_info), 200
+
 
 @api.route('/order/<id>', methods=['PUT'])
 def put_order(id):

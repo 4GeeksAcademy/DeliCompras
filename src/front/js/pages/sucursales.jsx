@@ -35,7 +35,7 @@ export const Sucursales = () => {
                 <div className="text-small mb-1" style={{marginBottom:"4px"}}>
                   <a href="#!" className="text-decoration-none text-muted" style={{display:"flex",flexDirection:"column"}}><small>{item.dir}</small><small>{item.city}, {item.country}</small></a>
                 </div>
-                <div className="d-flex justify-content-center align-items-center" style={{maxHeight:"29.6", paddingTop:"12px"}}>
+                <div className="d-flex justify-content-between align-items-center" style={{maxHeight:"100%", paddingTop:"12px"}}>
                   <Link to={`/modificar_sucursales/${item.id}`}>
                     <button className="d-flex justify-content-between btn btn-success btn-sm" style={{width:"110px", backgroundColor: "#0aad0a"}}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
@@ -45,7 +45,7 @@ export const Sucursales = () => {
                     </button>
                   </Link>
                 
-                  <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{height:"31px", minWidth:"31px" , padding:"0px", margin:"auto"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                       <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                       <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
@@ -59,7 +59,7 @@ export const Sucursales = () => {
                           <h1 className="modal-title fs-5" id="exampleModalLabel">Seguro?</h1>
                           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-footer">
+                        <div className="modal-footer" style={{display:"flex", flexDirection:"column"}}>
                           <div>
                             <p>Se borrara la sucursal <b>{item.name}</b> de forma permanente</p>
                           </div>

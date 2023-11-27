@@ -17,17 +17,21 @@ export const Resumen = () => {
         }
     }, [store.carrito]); 
 
-    function change (operacion, id , amount, id_Product , id_Restaurant, id_Order) {
-        if (operacion == "sumar" || (operacion == "restar" && amount >= 0)) {
-            const cart = {
-                amount: amount,
-                id_Product : id_Product,
-                id_Restaurant : id_Restaurant,
-                id_Order : id_Order
-            }
-
-            actions.putCart(cart,id)
+    function change (id , amount, id_Product , id_Restaurant, id_Order) {
+        if (amount == 0){
+            actions.deleteCart(id)
+            return;
         }
+    
+        const cart = {
+            amount: amount,
+            id_Product : id_Product,
+            id_Restaurant : id_Restaurant,
+            id_Order : id_Order
+        }
+
+        actions.putCart(cart,id)
+    
     }
 
     return(
@@ -54,9 +58,9 @@ export const Resumen = () => {
                                 <td style={{alignItems:"center"}}>
                                     <div className="col-3 p-0">
                                         <div className="btn-group" role="group" aria-label="First group">
-                                            <button type="button" className="btn btn-light" onClick={() => change("sumar", item.id, item.amount + 1, item.id_Product , item.id_Restaurant, item.id_Order)}>+</button>
+                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount + 1, item.id_Product , item.id_Restaurant, item.id_Order)}>+</button>
                                             <div className="container d-flex align-items-center">{item.amount}</div>
-                                            <button type="button" className="btn btn-light" onClick={() => change("restar", item.id, item.amount - 1, item.id_Product , item.id_Restaurant, item.id_Order)}>-</button>
+                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount - 1, item.id_Product , item.id_Restaurant, item.id_Order)}>-</button>
                                         </div>
                                     </div>
                                 </td>
@@ -71,9 +75,15 @@ export const Resumen = () => {
                             <div className="mx-3" style={{color:"#0aad0a", width:"120px"}}><b>$ {total}</b></div>
                         </div>
                     </div>
-                    <Link className="d-flex justify-content-end" to="/select_sucursal" style={{padding:"20px", paddingBottom:"0px"}}>
+                    {total > 0 ? 
+                    <Link className="d-flex justify-content-end" to="/select_sucursal"  style={{padding:"20px", paddingBottom:"0px", textDecoration:"none"}}>
                         <button type="button" className="btn btn-success" style={{backgroundColor:"#0aad0a"}}>Continuar</button>
-                    </Link>
+                    </Link> 
+                    :
+                    <div className="d-flex justify-content-end" style={{padding:"20px", paddingBottom:"0px"}}>
+                        <button type="button" className="btn btn-success" disabled={total <= 0} style={{backgroundColor:"#0aad0a"}}>Continuar</button>
+                    </div> 
+                    }
                 </div>
             </div>
         }

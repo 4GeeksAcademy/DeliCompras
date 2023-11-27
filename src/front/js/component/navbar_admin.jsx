@@ -5,8 +5,6 @@ import { Link, Navigate } from "react-router-dom";
 export const Navbar_user = () => {
     const { store, actions } = useContext(Context)
 
-    const [isActive, setIsActive] = useState(null);
-
     function seleccionarBoton(boton) {
         // Obtener todos los botones
         var botones = document.querySelectorAll('.mi-boton');
@@ -70,7 +68,7 @@ export const Navbar_user = () => {
                 </li>
             </Link>
 
-            <Link to="/ordenes" style={{textDecoration: "none"}}>
+            <Link to="/all_ordenes" style={{textDecoration: "none"}}>
                 <li key={4} className={`mi-boton`} onClick={(e) => seleccionarBoton(e.currentTarget)} style={{width:"247px", height:"48px",padding:"8px 28px", marginBottom:"4px",borderRadius:"8px"}}>
                     <div className="row">
                         <div className="col-2">

@@ -4,6 +4,7 @@ import { Products } from "./products.jsx";
 import { Categorias } from "./categorias.jsx";
 import { Restaurantes } from "./restaurantes.jsx";
 import { All_ordenes } from "./all_ordenes.jsx";
+import "../../styles/home.css";
 
 export const Home_admin = () => {
     const { store, actions } = useContext(Context)

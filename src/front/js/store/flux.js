@@ -280,10 +280,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				
 				const product = await getStore().products.find(product => product.id == id) 
 
-				if (product.url != obj.url){
-					const storageRef = ref( storage , `products/${obj.idu}`);
+				/*if (product.url_img != obj.url_img){
+					const storageRef = ref( storage , `products/${obj.idu_img}`);
 					await deleteObject(storageRef);
-				}
+				}*/
 				await getActions().getList()
 			},      
 
@@ -411,9 +411,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((data) => setStore({ order : data }))
 			},
 
-			putOrder : (updatedOrder , id) => {
+			putOrder : async (updatedOrder , id) => {
 				console.log(updatedOrder)
-				fetch(process.env.BACKEND_URL + 'api/order/'+ id, {
+				await fetch(process.env.BACKEND_URL + 'api/order/'+ id, {
 					method: 'PUT',
 					headers: {
 						'Content-Type': 'application/json'
@@ -422,12 +422,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then((response) => response.json())
 				.then((data) => console.log(data))
+				await getActions().getAllOrder(localStorage.getItem("token"))
 			},
 
-			postOrder: (order) => {
+			postOrder: async (order) => {
 				order.id = v4();
 				console.log(order);
-				fetch(process.env.BACKEND_URL + 'api/order', {
+				await fetch(process.env.BACKEND_URL + 'api/order', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -436,11 +437,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data))
+				await getActions().getOrder(localStorage.getItem("token"))
 				return order.id;
 			},
 
-			deleteOrder : (id) => {
-				fetch(process.env.BACKEND_URL + 'api/order/' + id, {
+			deleteOrder : async (id) => {
+				await fetch(process.env.BACKEND_URL + 'api/order/' + id, {
 					method: 'DELETE',
 					headers: {
 						'Content-Type': 'application/json'
@@ -448,6 +450,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 				.then( response => response.json())
 				.then( data => console.log(data));
+				await getActions().getAllOrder(localStorage.getItem("token"))
 			},
 
 			getLatLng: (address) => {
@@ -460,6 +463,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setSelectSucursale: (index) => {
 				setStore({ selectSucursale: index })
+				console.log(getStore().selectSucursale)
 			},
 		}
 	};
