@@ -22,15 +22,17 @@ export const Carrito = () => {
         }
     }, [store.carrito]);
 
-    function change (id , amount, id_Product , id_Restaurant, id_Order) {
-        const cart = {
-            amount: amount,
-            id_Product : id_Product,
-            id_Restaurant : id_Restaurant,
-            id_Order : id_Order
-        }
+    function change (operacion, id , amount, id_Product , id_Restaurant, id_Order) {
+        if (operacion == "sumar" || (operacion == "restar" && amount >= 0)){
+            const cart = {
+                amount: amount,
+                id_Product : id_Product,
+                id_Restaurant : id_Restaurant,
+                id_Order : id_Order
+            }
 
-        actions.putCart(cart,id)
+            actions.putCart(cart,id)
+        }
     }
 
     return(
@@ -82,9 +84,9 @@ export const Carrito = () => {
                     
                                     <div className="col-3 p-0">
                                         <div className="btn-group" role="group" aria-label="First group">
-                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount + 1, item.id_Product , item.id_Restaurant, item.id_Order)}>+</button>
+                                            <button type="button" className="btn btn-light" onClick={() => change("sumar", item.id, item.amount + 1, item.id_Product , item.id_Restaurant, item.id_Order)}>+</button>
                                             <div className="container d-flex align-items-center">{item.amount}</div>
-                                            <button type="button" className="btn btn-light" onClick={() => change(item.id, item.amount - 1, item.id_Product , item.id_Restaurant, item.id_Order)}>-</button>
+                                            <button type="button" className="btn btn-light" onClick={() => change("restar", item.id, item.amount - 1, item.id_Product , item.id_Restaurant, item.id_Order)}>-</button>
                                         </div>
                                     </div>
 
@@ -92,7 +94,7 @@ export const Carrito = () => {
                                         <div>
                                             <span className="fw-bold">{`$ ${(item.product_info.price-1) * item.amount}`}</span> 
                                         </div>
-                                        <div className="text-decoration-line-through text-muted small">{`$ ${item.product_info.price}`}</div>
+                                        <div className="text-decoration-line-through text-muted small">{`$ ${item.product_info.price * item.amount}`}</div>
                                     </div>
                                 </div>
                             </li> 
