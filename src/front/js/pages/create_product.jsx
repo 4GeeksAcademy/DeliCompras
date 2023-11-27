@@ -92,7 +92,7 @@ export const Create_productos = () => {
 
                     <div className="col-6 mb-3" >
                         <label htmlFor="description" className="form-label">Description</label>
-                        <textarea class="form-control" id="description" style={{height:"80%"}} onChange={(e) => setDesc(e.target.value)}></textarea>
+                        <textarea className="form-control" id="description" style={{height:"80%"}} onChange={(e) => setDesc(e.target.value)}></textarea>
                     </div>
                     
                     <div style={{display:"flex", justifyContent:"end", marginTop: "10px"}}>

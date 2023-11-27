@@ -31,10 +31,10 @@ export const Resumen = () => {
     return(
         <>
         { !store.auth ? <Navigate to="/" /> :
-            <div class="card-body" style={{padding:"5% 20%"}}>
-                <div class="table-responsive" style={{borderRadius:"8px"}}>
-                    <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
-                        <thead class="bg-light">
+            <div className="card-body" style={{padding:"5% 20%"}}>
+                <div className="table-responsive" style={{borderRadius:"8px"}}>
+                    <table className="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                        <thead className="bg-light">
                             <tr>
                                 <th></th>
                                 <th>Nombre</th>
@@ -70,7 +70,7 @@ export const Resumen = () => {
                         </div>
                     </div>
                     <Link className="d-flex justify-content-end" to="/select_sucursal" style={{padding:"20px", paddingBottom:"0px"}}>
-                        <button type="button" class="btn btn-success" style={{backgroundColor:"#0aad0a"}}>Continuar</button>
+                        <button type="button" className="btn btn-success" style={{backgroundColor:"#0aad0a"}}>Continuar</button>
                     </Link>
                 </div>
             </div>

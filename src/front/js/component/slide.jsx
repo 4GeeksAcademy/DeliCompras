@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import back1 from "../../img/back1.jpg"
 import back2 from "../../img/back2.jpg"
 
@@ -9,15 +10,17 @@ export const Slide = () => {
             <div className="carousel-inner">
 
                 <div className="carousel-item active" style={{backgroundImage: `url(${back1})`, backgroundSize: "cover", backgroundPosition: "center" , height:"540px", justifyContent:"start", alignItems:"center", borderRadius:"12px"}}>
-                    <div class="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center" style={{width:"400px", height:"320px" , marginLeft:"100px"}}>
+                    <div className="ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center" style={{width:"400px", height:"320px" , marginLeft:"100px"}}>
                         <span className="badge" style={{background:"#ffc107", color:"black"}}>Opening Sale Discount 50%</span>
 
-                        <h2 class="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
-                        <p class="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
-                        <a href="#!" class="btn btn-dark mt-3" tabindex="-1">
-                           Shop Now
-                           <i class="feather-icon icon-arrow-right ms-1"></i>
-                        </a>
+                        <h2 className="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
+                        <p className="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
+                        <Link to="/lista_por_categorias/1">
+                            <button href="#!" className="btn btn-dark mt-3" tabIndex="-1">
+                                Shop Now
+                                <i className="feather-icon icon-arrow-right ms-1"></i>
+                            </button>
+                        </Link>
                     </div>
                 </div>
 
@@ -27,10 +30,12 @@ export const Slide = () => {
 
                         <h2 className="text-dark display-5 fw-bold mt-4">SuperMarket For Fresh Grocery</h2>
                         <p className="lead">Introduced a new model for online grocery shopping and convenient home delivery.</p>
-                        <a href="#!" className="btn btn-dark mt-3" tabindex="0">
-                            Shop Now
-                            <i className="feather-icon icon-arrow-right ms-1"></i>
-                        </a>
+                        <Link to="/lista_por_categorias/1">
+                            <button href="#!" className="btn btn-dark mt-3" tabIndex="0">
+                                Shop Now
+                                <i className="feather-icon icon-arrow-right ms-1"></i>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

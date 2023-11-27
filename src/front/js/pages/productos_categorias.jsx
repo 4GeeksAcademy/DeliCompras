@@ -14,7 +14,7 @@ export const Products_Categorias = () => {
   return (
     <div className="container" style={{marginTop:"30px"}}> 
       <div>
-          <h3 class="mb-0"><b>Productos</b></h3>
+          <h3 className="mb-0"><b>Productos</b></h3>
       </div>
         <ul className="row row-cols-lg-5 list-unstyled">
           {store.products.filter(producto => producto.id_category == id_cat).map((item) => (

@@ -46,7 +46,7 @@ export const SelectSucursal = () => {
     { !store.auth ? <Navigate to="/"/> :
       <div className="container" style={{marginTop:"30px"}}>
         <div>
-          <h3 class="mb-0"><b>Sucursales</b></h3>
+          <h3 className="mb-0"><b>Sucursales</b></h3>
         </div>
         <ul className="row row-cols-lg-5 list-unstyled" style={{paddingTop:"30px", paddingBottom:"60px"}}>
           {store.sucursales.map((item) => (
