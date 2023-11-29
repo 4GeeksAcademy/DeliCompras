@@ -16,7 +16,7 @@ export const Slide = () => {
 
                             <h2 className="text-dark display-5 fw-bold mt-4">Abastecedora de Alimentos</h2>
                             <p className="lead">Compra tus Suministros con Seguridad y de forma Rapida.</p>
-                            <Link to="/lista_por_categorias/1">
+                            <Link to="/lista_por_categorias/19">
                                 <button href="#!" className="btn btn-dark mt-3" tabIndex="-1">
                                     Compra Ya
                                     <i className="feather-icon icon-arrow-right ms-1"></i>
@@ -31,7 +31,7 @@ export const Slide = () => {
 
                             <h2 className="text-dark display-5 fw-bold mt-4">Alimentos siempre frescos</h2>
                             <p className="lead">Descubre la nueva forma de comprar lo que necesitas para tu negocio!</p>
-                            <Link to="/lista_por_categorias/1">
+                            <Link to="/lista_por_categorias/20">
                                 <button href="#!" className="btn btn-dark mt-3" tabIndex="0">
                                     Compra Ya
                                     <i className="feather-icon icon-arrow-right ms-1"></i>

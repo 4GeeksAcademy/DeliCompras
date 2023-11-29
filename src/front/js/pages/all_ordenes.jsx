@@ -19,7 +19,6 @@ export const All_ordenes = () => {
             <thead className="bg-light">
               <tr>
                 <th style={{paddingLeft:"30px"}}>Id</th>
-                <th>Nombre</th>
                 <th>Estado</th>
                 <th>Fecha</th>
                 <th>Valor</th>
@@ -32,8 +31,7 @@ export const All_ordenes = () => {
               {store.order.map((item, index) => (
                 <tr style={{}}>
                   <td className="td" style={{paddingLeft:"30px"}}>{item.id.slice(-4)}</td>
-                  <td className="td"><b style={{color:"#0aad0a"}}>{item.name}</b></td>
-                  <td>{item.state}</td>
+                  <td className="td"><b style={{color:"#0aad0a"}}>{item.state}</b></td>
                   <td>{item.day_Date}/{item.month_Date}/{item.year_Date}</td>
                   <td>{item.value}</td>
                   <td>{item.restaurant_info.name}</td>

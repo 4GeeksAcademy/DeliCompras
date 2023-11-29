@@ -34,7 +34,26 @@ export const Ordenes = () => {
                         {store.order.map((item) => (
                                 <tr>
                                 <td style={{paddingLeft:"30px"}}>{item.id.slice(-4)}</td>
-                                <td><b style={{color:"#0aad0a"}}>{item.state}</b></td>
+
+                                {item.state == "Creada" ? 
+                                    <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+                                {item.state == "En Proceso" ? 
+                                    <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+                                {item.state == "En Camino" ? 
+                                    <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+                                {item.state == "Entregada" ? 
+                                    <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+                                {item.state == "Finalizada" ? 
+                                    <td><b style={{backgroundColor:"#7e7e7e", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+                                {item.state == "Cancelada" ? 
+                                    <td><b style={{backgroundColor:"#da4500", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
+                                : null}
+
                                 <td>{item.day_Date}/{item.month_Date}/{item.year_Date}</td>
                                 <td>{item.sucursale_info.name}</td>
                                 <td>$ {item.value}</td>

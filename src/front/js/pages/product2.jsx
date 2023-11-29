@@ -36,7 +36,7 @@ export const Products2 = () => {
           <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={()=> setAlertLoguin(false)}></button>
         </div> 
       : null }
-      <ul className="row row-cols-lg-5 list-unstyled">
+      <ul className="row row-cols-lg-4 list-unstyled">
         {store.products.map((item) => (
           <li key={item.id} className="col" style={{marginTop:"16px", paddingLeft:"8px", paddingRight:"8px", borderRadius:"12px"}}>
 
@@ -70,7 +70,7 @@ export const Products2 = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center" style={{maxHeight:"29.6", paddingTop:"12px"}}>
                     <div>
-                      <span className="text-dark">{item.price - 1}$</span>
+                      <span className="text-dark">{item.price - (item.price * 0.1)}$</span>
                       <span> </span>
                       <span> </span>
                       <span className="text-decoration-line-through text-muted">{item.price}$</span>

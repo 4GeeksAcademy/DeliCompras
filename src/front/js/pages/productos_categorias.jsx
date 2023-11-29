@@ -47,7 +47,7 @@ export const Products_Categorias = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center" style={{maxHeight:"29.6", paddingTop:"12px"}}>
                     <div>
-                      <span className="text-dark">{item.price - 1}$</span>
+                      <span className="text-dark">{item.price * 0.1}$</span>
                       <span> </span>
                       <span> </span>
                       <span className="text-decoration-line-through text-muted">{item.price}$</span>

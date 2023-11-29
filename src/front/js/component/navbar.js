@@ -24,59 +24,10 @@ export const Navbar = () => {
         alignItems: "center"
       }}>
         <header className="d-flex justify-content-between py-1" style={{ minWidth : "85%"}}>
-          <Link to="/">
+          <div>
             <img src={logo} id="logo"/>
             <img src={logo2} height={"70"} id="logo2"/>
-          </Link>
-  
-          <div className="d-flex justify-content-evenly align-items-center" id="lado" style={{ maxWidth : "130px"}}>
-            <div>
-            { !store.auth ?
-              <div>
-                <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user" color="#5c6c75">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                
-                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
-                  <div className="modal-dialog">
-                    <div className="modal-content" style={{borderRadius:"12px"}}>
-                      <div className="modal-body">
-                        <User_login/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            :
-              <div>
-                <div>{store.name}</div>
-                <img src={logout} width="20px" height="20px" color="#5c6c75" onClick={
-                  async() => {
-                    await actions.logout();
-                }}/>
-              </div>
-            }
-            </div>
           </div>
-        </header>
-      </div> 
-    );
-  }
-
-    return (
-      <div className="container border-bottom" style={{ 
-        maxWidth : "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent:"center",
-        alignItems: "center"
-      }}>
-        <header className="d-flex justify-content-between py-1" style={{ minWidth : "85%"}}>
-          <Link to="/">
-            <img src={logo} id="logo"/>
-            <img src={logo2} height={"70"} id="logo2"/>
-          </Link>
   
           <div className="d-flex justify-content-evenly align-items-center" id="lado" style={{ maxWidth : "130px"}}>
             <div>
@@ -102,6 +53,52 @@ export const Navbar = () => {
                 async() => {
                   await actions.logout();
               }}/>
+            }
+            </div>
+          </div>
+        </header>
+      </div> 
+    );
+  }
+
+    return (
+      <div className="container border-bottom" style={{ 
+        maxWidth : "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        alignItems: "center"
+      }}>
+        <header className="d-flex justify-content-between py-1" style={{ minWidth : "85%"}}>
+          <Link to="/">
+            <img src={logo} id="logo"/>
+            <img src={logo2} height={"70"} id="logo2"/>
+          </Link>
+  
+          <div className="d-flex justify-content-evenly align-items-center" id="lado" style={{minWidth:"220px"}}>
+            <div>
+            { !store.auth ?
+              <div>
+                <svg data-bs-toggle="modal" data-bs-target="#exampleModal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-user" color="#5c6c75">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                  <div className="modal-dialog">
+                    <div className="modal-content" style={{borderRadius:"12px"}}>
+                      <div className="modal-body">
+                        <User_login/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            :
+              <div className="d-flex mt-1 py-2" style={{border:"1px solid gray", borderRadius:"50px"}} onClick={() => actions.logout()}>
+                <div className="mx-3" style={{paddingTop :"3px"}}>Hola, {store.name}</div>
+                <img src={logout} width="20px" height="20px" style={{margin:"5px 10px 5px 0px"}} color="#5c6c75"/>
+              </div>
             }
             </div>
   

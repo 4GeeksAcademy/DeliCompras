@@ -33,11 +33,11 @@ export const Modificar_orden = () => {
                     <div className="col-5 row" >
                         <select className="form-select col" value={state} onChange={(e) => setState(e.target.value)} style={{height:"39px"}}>
                             <option value="Creada">Creada</option>
-                            <option value="Pagada">Pagada</option>
                             <option value="En Proceso">En Proceso</option>
                             <option value="En Camino">En Camino</option>
                             <option value="Entregada">Entregada</option>
                             <option value="Finalizada">Finalizada</option>
+                            <option value="Cancelada">Cancelada</option>
                         </select>
                         <Link to='/all_ordenes' className="col">
                             <button disabled={!isFormValid} onClick={() => modificar()} className="btn btn-success" style={{borderRadius:"8px" ,backgroundColor:"#0aad0a", height:"39px"}}> Modificar </button>
