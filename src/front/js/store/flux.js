@@ -106,6 +106,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				localStorage.removeItem("id")
 				setStore({user : "null"})
+				getActions().getCart()
 			},
 			postRegister: (user) => {
 				fetch(process.env.BACKEND_URL + "api/user", {

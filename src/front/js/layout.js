@@ -38,6 +38,7 @@ import { All_ordenes } from "./pages/all_ordenes.jsx";
 import { Modificar_orden } from "./pages/modificar_orden.jsx";
 import { Products_Categorias } from "./pages/productos_categorias.jsx";
 import { Products2 } from "./pages/product2.jsx";
+import { Icono } from "./component/icono.jsx";
 
 import { Home_admin } from "./pages/home_admin.jsx";
 import { Navbar_user } from "./component/navbar_admin.jsx";
@@ -94,6 +95,9 @@ const Layout = () => {
                                 <Route element={<Home_admin />} path="/home_user" />
                                 <Route element={<h1>Not found!</h1>} />
                             </Routes>
+                            {store.auth && store.user == "restaurant" ? 
+                                <Icono/>
+                            : null }
                         </div>
                     </div>
                     <Footer />

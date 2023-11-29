@@ -45,9 +45,6 @@ export const Products2 = () => {
                 <div className="card card-product" style={{borderRadius:"8px"}}>
                 <div className="card-body" style={{height:"343px", width:"216"}}>
                   <div className="text-center position-relative">
-                    <div className="position-absolute top-0 start-0">
-                      <span className="badge bg-danger">Promo</span>
-                    </div>
                     <a href="#!"><img src={item.url_img} alt="img product" className="img-fluid" style={{width:"184px",height:"184px", marginBottom:"12px"}}/></a>
 
                     <div className="card-product-action">

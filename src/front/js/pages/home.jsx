@@ -18,9 +18,6 @@ export const Home = () => {
 			<Prom/>
 			<Products_user/>
 			<Seccion/>
-			{store.auth && store.user == "restaurant" ? 
-				<Icono/>
-			: null }
 		</div>
 	);
 };

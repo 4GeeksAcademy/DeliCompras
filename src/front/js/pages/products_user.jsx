@@ -8,6 +8,8 @@ export const Products_user = () => {
   const { store, actions } = useContext(Context);
   const [ alertLoguin, setAlertLoguin ] = useState(false)
 
+  const first15Products = store.products.slice(0, 10);
+
   useEffect(() => {
     actions.getList();
     store.auth ? actions.getCart() : null;
@@ -39,7 +41,7 @@ export const Products_user = () => {
         </div> 
       : null }
       <ul className="row row-cols-lg-4 list-unstyled">
-        {store.products.map((item) => (
+        {first15Products.map((item) => (
           <li key={item.id} className="col" style={{marginTop:"16px", paddingLeft:"8px", paddingRight:"8px", borderRadius:"12px"}}>
 
             <div>
