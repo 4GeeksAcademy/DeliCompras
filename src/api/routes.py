@@ -70,7 +70,7 @@ def post_login_user():
         return jsonify({"msg": "Bad username or password"}), 401
  
     access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant"}) , 200
+    return jsonify({ "token": access_token, "user_id": user.id , "user":"restaurant", "name": user.name}) , 200 
 
 @api.route("/login_admin", methods=["POST"])
 def post_login_admin():
@@ -204,7 +204,7 @@ def delete_categories(id):
 def get_carts():
     id = get_jwt_identity()
 
-    all_items = Cart.query.filter_by(id_Restaurant = id).all()
+    all_items = Cart.query.filter_by(id_Restaurant=id, id_Order=None).all()
     items_serialize = [item.serialize() for item in all_items]
     cart_with_product_info = []
 
@@ -425,14 +425,6 @@ def get_order():
     restaurant_id = get_jwt_identity()
     
     all_order = Order.query.filter_by( id_Restaurant = restaurant_id ).all()
-
-    Order_seriallize = [item.serialize() for item in all_order]
-    return jsonify(Order_seriallize), 200
-
-@api.route('/all_order', methods=['GET'])
-@jwt_required()
-def get_all_order():
-    all_order = Order.query.all()
     order_seriallize = [item.serialize() for item in all_order]
     order_with_info = []
 
@@ -450,6 +442,37 @@ def get_all_order():
 
     return jsonify(order_with_info), 200
 
+@api.route('/all_order', methods=['GET'])
+@jwt_required()
+def get_all_order():
+    all_order = Order.query.all()
+    order_with_info = []
+
+    for item in all_order:
+        restaurant_id = item.id_Restaurant
+        sucursale_id = item.id_Sucursale
+        restaurant = Restaurant.query.get(restaurant_id)
+        sucursale = Sucursale.query.get(sucursale_id)
+        carts = Cart.query.filter_by(id_Order=item.id)
+        cart_with_product_info = []
+
+        for cart in carts:
+            product = Product.query.get(cart.id_Product)
+            cart_info = {
+                'product_info': product.serialize(),
+            }
+            cart_with_product_info.append(cart_info)
+
+        order_item = item.serialize()
+
+        order_item['restaurant_info'] = restaurant.serialize()
+        order_item['sucursale_info'] = sucursale.serialize()
+        order_item['products'] = cart_with_product_info
+        order_with_info.append(order_item)
+
+    return jsonify(order_with_info), 200
+
+
 @api.route('/order/<id>', methods=['PUT'])
 def put_order(id):
     order = Order.query.get(id)
@@ -462,6 +485,7 @@ def put_order(id):
     order.day_Date = body['day_Date']
     order.month_Date = body["month_Date"]
     order.year_Date = body["year_Date"]
+    order.value = body["value"]
     order.id_Restaurant = body['id_Restaurant']
     order.id_Sucursale = body['id_Sucursale']
     
@@ -477,6 +501,7 @@ def post_order():
         state= "Creada",
         day_Date=body["day_Date"],
         month_Date=body["month_Date"],
+        value=body["value"],
         year_Date=body["year_Date"],
         id_Restaurant=body["id_Restaurant"],
         id_Sucursale=body["id_Sucursale"],

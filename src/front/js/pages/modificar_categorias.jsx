@@ -42,33 +42,33 @@ export const Modificar_categorias = () => {
     return (
         <>
         { !store.auth ? <Navigate to="/categorias" /> :
-            <div>
-                <form>
-                    <img width="100" src={file ? URL.createObjectURL(file) : img} alt="Imagen Seleccionada" />
+            <div className="card" style={{margin:"5% 25%", padding:"40px", borderRadius: "12px"}}>
+            <div className="card-body">
+                <div className="pb-2"><h1>Nuevo Producto</h1></div>
+                <div className="mb-3" style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+                    <img style={{width:"200px", height:"200px"}} src={file ? URL.createObjectURL(file) : img} alt="Imagen Seleccionada" />
 
-                    <div className="mb-3">
-                        <label htmlFor="img" className="form-label">Imagen</label>
-                        <input
-                            id="img"
-                            type="file"
-                            accept="image/*"
-                            onChange={(e)=> {setFile(e.target.files[0])}}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
-                        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-                    
-                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                    <input
+                        id="img"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e)=> {setFile(e.target.files[0])}}
+                    />
+                </div>
+                
+                <div className="mb-3">
+                    <label htmlFor="name" className="form-label">Name</label>
+                    <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>     
+
+                <div className="pt-3" style={{display:"flex", justifyContent:"end"}}>
+                    <button className="btn btn-success" style={{borderRadius:"8px" ,backgroundColor:"#0aad0a"}} disabled={!isFormValid} onClick={guardar}><b>Guardar Cambios</b></button>
                     {create ? <Navigate to='/categorias' /> : null}
-                    
-                    <Link to="/categorias">
-                        <button> Atras </button>
-                    </Link>
-                </form>
+                </div>
             </div>
+        </div>
         }
         </>
     );
 };
+

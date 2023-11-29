@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 
 export const Crear_restaurantes = () => {
     const { store, actions } = useContext(Context);
-
+ 
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [tipo, setTipo] = useState("");
@@ -36,15 +36,16 @@ export const Crear_restaurantes = () => {
     }
 
     return (
-        <div className="card" style={{width: "18rem"}}>
+        <div className="card container mt-3" style={{width: "20rem"}}>
             <div className="card-body">
+                <h1><b>Registra tu Restaurante</b></h1>
                 <form>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="inputPassword1" className="form-label">Password</label>
+                        <label htmlFor="inputPassword1" className="form-label">Contraseña</label>
                         <input type="password" className="form-control" id="inputPassword1" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="mb-3">
@@ -69,7 +70,7 @@ export const Crear_restaurantes = () => {
                         <input type="text" className="form-control" id="num_contacto" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
                     
-                    <button disabled={!isFormValid} onClick={handleSubmit}>Guardar Cambios</button>
+                    <button disabled={!isFormValid} onClick={handleSubmit} className="btn btn-success my-2" style={{backgroundColor: "#0aad0a"}}>Guardar Cambios</button>
                     {create ? <Navigate to='/' /> : null}
                 </form>
             </div>

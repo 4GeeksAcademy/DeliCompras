@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext.js";
 import { Link, Navigate } from "react-router-dom";
 import estrellas from "../../img/estrellas.png"
@@ -6,6 +6,9 @@ import estrellas from "../../img/estrellas.png"
 
 export const Products_user = () => {
   const { store, actions } = useContext(Context);
+  const [ alertLoguin, setAlertLoguin ] = useState(false)
+
+  const first15Products = store.products.slice(0, 10);
 
   useEffect(() => {
     actions.getList();
@@ -13,13 +16,32 @@ export const Products_user = () => {
     console.log(store.carrito)
   }, []);
 
+  function agregar (id) {
+    if (store.auth && store.user == "restaurant") {
+      actions.postCart(1,id, localStorage.getItem("id"));
+      return;
+    }
+
+    setAlertLoguin(true)
+    
+  }
+
   return (
     <div className="container" style={{marginTop:"80px"}}> 
       <div>
-          <h3 class="mb-0"><b>Productos Populares</b></h3>
+          <h3 className="mb-0"><b>Productos Populares</b></h3>
       </div>
-      <ul className="row row-cols-lg-5 list-unstyled">
-        {store.products.map((item) => (
+      {alertLoguin ? 
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+          </svg>
+          <strong>  Ups, parece que olvidaste iniciar sesión,</strong> Inicia sesion para continuar,
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={()=> setAlertLoguin(false)}></button>
+        </div> 
+      : null }
+      <ul className="row row-cols-lg-4 list-unstyled">
+        {first15Products.map((item) => (
           <li key={item.id} className="col" style={{marginTop:"16px", paddingLeft:"8px", paddingRight:"8px", borderRadius:"12px"}}>
 
             <div>
@@ -52,21 +74,19 @@ export const Products_user = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center" style={{maxHeight:"29.6", paddingTop:"12px"}}>
                     <div>
-                      <span className="text-dark">{item.price - 1}$</span>
+                      <span className="text-dark">{item.price - (item.price * 0.1)}$</span>
                       <span> </span>
                       <span> </span>
                       <span className="text-decoration-line-through text-muted">{item.price}$</span>
                     </div>
                     <div>
-                      {!store.auth ? null :
-                        <button onClick={() => actions.postCart(1,item.id, localStorage.getItem("id"))} className="btn btn-success btn-sm" style={{backgroundColor: "#0aad0a"}}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                          </svg>
-                          <b>Agregar</b>
-                        </button>
-                      }
+                      <button onClick={() => agregar(item.id)} className="btn btn-success btn-sm" style={{backgroundColor: "#0aad0a"}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <b>Agregar</b>
+                      </button>
                     </div>
                   </div>
                 </div>

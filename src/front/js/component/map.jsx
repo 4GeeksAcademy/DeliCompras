@@ -13,7 +13,7 @@ export const Map = () => {
     <GoogleMaps
       apiKey={"AIzaSyCj5o1FRwG7gBoDGpjpRddscMfNZ6Z0_cI"}
       style={{ height: "400px", width: "400px" }}
-      zoom={10}
+      zoom={17}
       center={{
         lat: store.lat,
         lng: store.lng

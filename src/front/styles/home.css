@@ -1,5 +1,6 @@
 .divBorder {
-    border: 2px solid #ccc;
+    border: 2px solid #0aad0a;
+    background-color: #efffef;
 }
 
 .carousel-item.active.carousel-item-start {
@@ -40,3 +41,26 @@
 .nav-link:hover {
     color: #0aad0a;
 }
+
+
+.mi-boton {
+    background-color: transparent;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .mi-boton:hover {
+    background-color: #f0f3f2;
+  }
+  
+  .mi-boton.seleccionado {
+    background-color: #ceefce !important;
+  }
+
+  l{
+    color: #7e7e7e
+  }
+  

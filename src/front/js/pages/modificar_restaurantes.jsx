@@ -26,7 +26,7 @@ export const Modificar_restaurantes = () => {
                 description: description,
                 name_contact: name_contact,
                 num_contact: num_contact
-            };
+            }; 
             await actions.putRestaurants(theid, objeto);
             setCreate(true)
         } catch (error) {
@@ -37,36 +37,39 @@ export const Modificar_restaurantes = () => {
     return (
         <>
         { !store.auth ? <Navigate to="/"/> :
-            <div>
-                <form>
-                    <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
-                        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="tipo" className="form-label">Tipo</label>
-                        <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="description" className="form-label">Descripcion</label>
-                        <input type="text" className="form-control" id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>
-                        <input type="text" className="form-control" id="name_contact" value={name_contact} onChange={(e) => setNameContacto(e.target.value)} />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="num_contact" className="form-label">Numero de Contacto</label>
-                        <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
-                    </div>
-                    
-                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                    {create ? <Navigate to='/restaurantes' /> : null}
-
-                    <Link to="/restaurantes">
-                        <button onClick={() => actions.deleteRestaurants(theid)}>Delete </button>
-                    </Link>
-                </form>
+            <div className="card container" style={{width: "18rem"}}>
+                <div className="card-body">
+                    <form>
+                        <div className="mb-3">
+                            <label htmlFor="name" className="form-label">Name</label>
+                            <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="tipo" className="form-label">Tipo</label>
+                            <select id="tipo" className="form-select" value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                            <option selected>Open this select menu</option>
+                            <option value="Comida China">Comida China</option>
+                            <option value="Asadero">Asadero</option>
+                            <option value="Gourmet">Gourmet</option>
+                        </select>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="Descripcion" className="form-label">Descripcion</label>
+                            <input type="text" className="form-control" id="Descripcion" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="name_contacto" className="form-label">Nombre de Contacto</label>
+                            <input type="text" className="form-control" id="name_contacto" value={name_contact} onChange={(e) => setNameContacto(e.target.value)} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="num_contacto" className="form-label">Numeero de Contacto</label>
+                            <input type="text" className="form-control" id="num_contacto" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
+                        </div>
+                        
+                        <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                        {create ? <Navigate to='/restaurantes' /> : null}
+                    </form>
+                </div>
             </div>
         }
         </>

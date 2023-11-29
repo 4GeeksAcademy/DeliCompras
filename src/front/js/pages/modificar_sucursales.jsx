@@ -64,32 +64,13 @@ export const Modificar_sucursales = () => {
     return (
         <>
         { !store.auth ? <Navigate to="/"/> :
-            <div>
-                <div>
-                    <form>
-                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
-                        <div>{store.lat},{store.lng}</div>
-                        <div className="mb-3">
-                            <label htmlFor="dir" className="form-label">Address</label>
-                            <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
-                            <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="city" className="form-label">City</label>
-                            <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="country" className="form-label">Country</label>
-                            <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
-                        </div>
-                        <button onClick={handleGetLatLng}>Validar</button>
-                    </form>
-                </div>
-                <form>
-                    <img width="100" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
+            <div className="row">
+                <form className="col" style={{padding:"3% 5%"}}>
+                    <div style={{width:"280px", height:"280px", padding:"0%", margin:"20px auto"}}>
+                        <img width="100%" height="100%" src={file ? URL.createObjectURL(file) : image} alt="Imagen Seleccionada" />
+                    </div>
 
-                    <div className="mb-3">
-                        <label htmlFor="img" className="form-label">Imagen</label>
+                    <div className="mb-3 d-flex justify-content-center">
                         <input
                             id="img"
                             type="file"
@@ -98,12 +79,19 @@ export const Modificar_sucursales = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
+                        <label htmlFor="name" className="form-label">Nombre Sucursal</label>
                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="tipo" className="form-label">Tipo</label>
-                        <input type="text" className="form-control" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} />
+                        <select className="form-select col" id="tipo" value={tipo} onChange={(e) => setTipo(e.target.value)} style={{height:"39px"}}>
+                            <option value="Creada">Sede Principal</option>
+                            <option value="En Proceso">Sucursal</option>
+                            <option value="En Camino">Comida Rapida</option>
+                            <option value="Entregada">Servicio de Entrega a Domicilio</option>
+                            <option value="Finalizada">Bar</option>
+                            <option value="Cancelada">Otro</option>
+                        </select>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name_contact" className="form-label">Nombre de Contacto</label>
@@ -111,16 +99,46 @@ export const Modificar_sucursales = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="num_contact" className="form-label">Numero de Contacto</label>
-                        <input type="text" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
+                        <input type="number" className="form-control" id="num_contact" value={num_contact} onChange={(e) => setNumContacto(e.target.value)} />
                     </div>
-                    
-                    <button disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
-                    {create ? <Navigate to='/sucursales' /> : null}
-
-                    <Link to="/sucursales">
-                        <button onClick={() => actions.deleteSucursales(theid)}>Delete </button>
-                    </Link>
                 </form>
+
+                <form className="col" style={{padding:"3% 5%"}}>
+                    <div className="d-flex justify-content-center" style={{margin:"20px auto"}}>
+                        { store.lat && store.lng ? <Map key={mapKey}/> : null }
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="dir" className="form-label">Direccion</label>
+                        <input type="text" className="form-control" id="dir" value={dir} onChange={(e) => setDir(e.target.value)} />
+                        <p style={{"color":"red"}}>formato recomendado : cra100#10fsur-21 ---- cra 100 10 f sur 21</p>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="city" className="form-label">Ciudad</label>
+                        <input type="text" className="form-control" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="country" className="form-label">Pais</label>
+                        <input type="text" className="form-control" id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
+                    </div>
+
+                    <button className="btn btn-info" onClick={handleGetLatLng} style={{backgroundColor:"#ceefce"}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style={{marginBottom:"3px", paddingRight:"5px"}}>
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                        </svg>
+                        Validar Direccion
+                    </button>
+                </form>
+
+                <div className="d-flex justify-content-between">
+                    <Link to="/sucursales">
+                        <button className="btn btn-secondary">Atras</button>
+                    </Link>
+
+                    <div>
+                        <button className="btn btn-primary" style={{backgroundColor:"#0aad0a"}} disabled={!isFormValid} onClick={guardar}>Guardar Cambios</button>
+                        {create ? <Navigate to='/sucursales' /> : null}
+                    </div>
+                </div>
             </div>
         }
         </>

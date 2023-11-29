@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import frutas from "../../img/frutas.png"
 import pan from "../../img/pan.png"
 
@@ -22,7 +23,9 @@ export const Prom = () => {
                                 <span className="fw-bold"> 30% </span>
                                 de descuento
                             </p>
-                            <a href="#!" className="btn btn-dark">Comprar ahora</a>
+                            <Link to="/lista_por_categorias/19">
+                                <button href="#!" className="btn btn-dark">Comprar ahora</button>
+                            </Link>
                         </div>
                     </div>
                     </div>
@@ -43,7 +46,9 @@ export const Prom = () => {
                                 <span className="fw-bold"> 25% </span>
                                 de descuento
                             </p>
-                            <a href="#!" className="btn btn-dark">Comprar Ahora</a>
+                            <Link to="/lista_por_categorias/20">
+                                <button href="#!" className="btn btn-dark">Comprar ahora</button>
+                            </Link>                        
                         </div>
                     </div>
                     </div>
