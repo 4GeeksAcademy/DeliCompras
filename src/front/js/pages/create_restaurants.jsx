@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 
 export const Crear_restaurantes = () => {
     const { store, actions } = useContext(Context);
-
+ 
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [tipo, setTipo] = useState("");

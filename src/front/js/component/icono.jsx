@@ -5,6 +5,14 @@ import { Context } from "../store/appContext";
 export const Icono = () => {
     const { store, actions } = useContext(Context)
 
+    console.log("Auth:", store.auth);
+console.log("User:", store.user);
+
+console.log("Auth type:", typeof store.auth);
+console.log("User type:", typeof store.user);
+
+
+
     return (
         <div style={{
             position:"fixed",

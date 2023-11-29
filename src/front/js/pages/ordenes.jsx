@@ -35,13 +35,13 @@ export const Ordenes = () => {
                                 <tr>
                                 <td style={{paddingLeft:"30px"}}>{item.id.slice(-4)}</td>
 
-                                {item.state == "Creada" ? 
+{item.state == "Creada" ? 
                                     <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
                                 : null}
                                 {item.state == "En Proceso" ? 
                                     <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
                                 : null}
-                                {item.state == "En Camino" ? 
+                                {item.state                                 == "En Camino" ? 
                                     <td><b style={{backgroundColor:"#00da00", color:"white", fontSize:"12px", padding:"5px", borderRadius:"8px"}}>{item.state}</b></td>
                                 : null}
                                 {item.state == "Entregada" ? 
