@@ -16,8 +16,6 @@ export const Navbar_user = () => {
       
         // Agregar la clase 'seleccionado' al botón actual
         boton.classList.add('seleccionado');
-
-        actions.setSelectOpcion(opcion);
       }
       
     return (

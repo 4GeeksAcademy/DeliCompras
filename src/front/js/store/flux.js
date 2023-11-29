@@ -32,9 +32,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			creado: null,
 			priceOrder: null,
 			selectOpcion: null,
-			name: null
+			name: null,
+			errorLogin : false
 		},
 		actions: { 
+			setErrorLogin : (i) => {
+				setStore({errorLogin : i})
+			},
 			setSelectOpcion : (opcion) => {
 				setStore({selectOpcion : opcion})
 				console.log(opcion)
@@ -68,6 +72,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.status == 200){
 						setStore({ auth : true})
 					}
+					else{
+						setStore({ errorLogin : true })
+					}
 					return response.json()
 				})
 				.then((data)=> {
@@ -92,6 +99,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then((response)=> {
 					if (response.status == 200){
 						setStore({ auth : true})
+					}
+					else {
+						setStore({ errorLogin : true })
 					}
 					return response.json()
 				})
